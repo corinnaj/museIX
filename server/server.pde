@@ -40,7 +40,7 @@ void webSocketServerEvent(String msg){
   sx = x;
   sy = y;
   
-  float yoffset = map(x, 0, 3, 0, 1);
+  float yoffset = map(x, 0, 5, 0, 1);
   //Map mouseY logarithmically to 150 - 1150 to create a base frequency range
   float frequency = pow(1000, yoffset) + 150;
   //Use mouseX mapped from -0.5 to 0.5 as a detune argument
@@ -56,4 +56,3 @@ void webSocketServerEvent(String msg){
 void draw() {
   rect(sx * 100, sy * 100, 100, 100);
 }
-
