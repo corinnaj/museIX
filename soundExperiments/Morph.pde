@@ -28,6 +28,20 @@ abstract class Shape {
 	abstract float[] calculateBoundingBox(float x, float y);
 }
 
+class SVGShape extends RectangleShape {
+	PShape shape;
+
+	SVGShape(PShape shape) {
+		super(shape.width, shape.height);
+		this.shape = shape;
+	}
+
+	@Override
+	void draw(Style style) {
+		shape(shape);
+	}
+}
+
 class CircleShape extends Shape {
 	float radius;
 
@@ -53,7 +67,7 @@ class CircleShape extends Shape {
 
 	@Override
 	float[] calculateBoundingBox(float x, float y) {
-		return new float[] {x - radius, y - radius, x + radius * 2, y + radius * 2};
+		return new float[] {x - radius, y - radius, x + radius, y + radius};
 	}
 }
 
@@ -323,6 +337,13 @@ class Morph {
 	Morph addTo(Morph other) {
 		other.addMorph(this);
 		return this;
+	}
+
+	PVector center() {
+		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
+		return new PVector(
+				bbox[0] + (bbox[2] - bbox[0]) / 2,
+				bbox[1] + (bbox[3] - bbox[1]) / 2);
 	}
 }
 

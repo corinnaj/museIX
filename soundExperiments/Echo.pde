@@ -4,7 +4,7 @@ class EchoNode extends AudioNode {
 	Gain inputs;
 
 	EchoNode(AudioContext ac) {
-		super(new CircleShape(10), new Style());
+		super(new SVGShape(loadShape("icons/echo.svg")), new Style());
 		inputs = new Gain(ac, 2);
 
 		TapIn delayIn = new TapIn(ac, 2000);
@@ -21,9 +21,10 @@ class EchoNode extends AudioNode {
 	}
 
 	@Override
-	void addInput(AudioNode node) {
+	AudioNode addInput(AudioNode node) {
+		super.addInput(node);
 		inputs.addInput(node.getOutput());
-		node.connectTo(this);
+		return this;
 	}
 
 	@Override

@@ -23,7 +23,8 @@ class FrequencyChangerShape extends CircleShape {
 	void draw(Style style) {
 		super.draw(style);
 
-		if (showFrequency) {
+		// FIXME make a decision here
+		if (true || showFrequency) {
 			float width = (WIDTH_FREQUENCY + radius) * 2;
 			arc(0, 0, width, width, 0, map(logFrequency, MIN_LOG_FREQUENCY, MAX_LOG_FREQUENCY, 0, 2 * PI));
 		}
@@ -31,6 +32,8 @@ class FrequencyChangerShape extends CircleShape {
 }
 
 abstract class FrequencyChangerNode extends AudioNode {
+	static final color ACTIVE_COLOR = #55ddff;
+	static final color INACTIVE_COLOR = #00ccff;
 	boolean active = false;
 
 	PVector lastMousePos = new PVector();
@@ -41,6 +44,7 @@ abstract class FrequencyChangerNode extends AudioNode {
 		super(new FrequencyChangerShape(), new Style());
 
 		this.frequency = frequency;
+		updateColor();
 	}
 
 	@Override
@@ -52,7 +56,11 @@ abstract class FrequencyChangerNode extends AudioNode {
 		grabMouseFocus();
 		lastMousePos.set(event.x, event.y);
 		((FrequencyChangerShape) shape).showFrequency = true;
-		style.fillColor(#0000ff);
+		updateColor();
+	}
+
+	void updateColor() {
+		style.fillColor(active ? ACTIVE_COLOR : INACTIVE_COLOR);
 	}
 
 	@Override
@@ -76,34 +84,37 @@ abstract class FrequencyChangerNode extends AudioNode {
 		active = false;
 		releaseMouseFocus();
 		((FrequencyChangerShape) shape).showFrequency = false;
-		style.fillColor(#000099);
+		updateColor();
 	}
-}
-
-abstract class AudioNode extends Node {
-	AudioNode(Shape shape, Style style) {
-		super(shape, style, new Style());
-	}
-
-	abstract UGen getOutput();
-	abstract void addInput(AudioNode node);
 }
 
 class WaveGeneratorNode extends FrequencyChangerNode {
 	UGen wavePlayer;
+	Shape icon;
 
 	WaveGeneratorNode(AudioContext ac) {
 		super(new Glide(ac, 440));
 		wavePlayer = new WavePlayer(ac, frequency, Buffer.SINE);
+		icon = new SVGShape(loadShape("icons/sine-wave.svg"));
 	}
 
 	@Override
-	void addInput(AudioNode node) {
+	AudioNode addInput(AudioNode node) {
+		super.addInput(node);
 		// TODO
+		return this;
 	}
 
 	@Override
 	UGen getOutput() {
 		return wavePlayer;
+	}
+
+	@Override
+	void draw() {
+		super.draw();
+		shape.translateToCenterOfRotation(-1);
+		icon.draw(style);
+		shape.translateToCenterOfRotation(1);
 	}
 }

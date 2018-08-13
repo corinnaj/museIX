@@ -16,13 +16,17 @@ class Desktop extends App {
 
 		world.addMorph(new SequencerMorph(sequencer));
 
-		AudioNode wave = (AudioNode) new WaveGeneratorNode(ac).setPosition(700, 700).addTo(world);
-		AudioNode echo = (AudioNode )new EchoNode(ac).setPosition(600, 600).addTo(world);
+		AudioNode wave1 = (AudioNode) new WaveGeneratorNode(ac).setPosition(500, 700).addTo(world);
+		AudioNode wave2 = (AudioNode) new WaveGeneratorNode(ac).setPosition(700, 700).addTo(world);
+		AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(500, 500).addTo(world);
+		AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2).addTo(world);
 
-		echo.addInput(wave);
+		echo.addInput(wave1);
+		echo.addInput(wave2);
 		// echo.addInput(sequencer.out);
 
-		ac.out.addInput(echo.getOutput());
+		output.addInput(echo);
+
 		ac.start();
 
 		new Morph(new WaveformShape(ac.out, 400, 100), s).setPosition(100, 400).addTo(world);

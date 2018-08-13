@@ -43,7 +43,7 @@ abstract class App {
 }
 
 void setup() {
-	size(800, 800);
+	size(1600, 1000);
 
 	if (platformNames[platform] == "linux") {
 		app = new Desktop(this);
