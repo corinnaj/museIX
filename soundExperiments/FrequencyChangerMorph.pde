@@ -89,7 +89,7 @@ abstract class FrequencyChangerNode extends AudioNode {
 }
 
 class WaveGeneratorNode extends FrequencyChangerNode {
-	UGen wavePlayer;
+	WavePlayer wavePlayer;
 	Shape icon;
 
 	WaveGeneratorNode(AudioContext ac) {
@@ -99,10 +99,15 @@ class WaveGeneratorNode extends FrequencyChangerNode {
 	}
 
 	@Override
-	AudioNode addInput(AudioNode node) {
-		super.addInput(node);
-		// TODO
-		return this;
+	void addInput(AudioNode node) {
+		cutAllIncomingConnections();
+
+		wavePlayer.setFrequency(node.getOutput());
+	}
+
+	@Override
+	void removeInput(AudioNode node) {
+		wavePlayer.setFrequency(frequency);
 	}
 
 	@Override

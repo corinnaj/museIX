@@ -166,6 +166,11 @@ class RectangleShape extends Shape {
 	float[] calculateBoundingBox(float x, float y) {
 		return new float[] {x, y, x + width, y + height};
 	}
+
+	void setSize(float width, float height) {
+		this.width = width;
+		this.height = height;
+	}
 }
 
 class WorldShape extends Shape {
@@ -180,7 +185,7 @@ class WorldShape extends Shape {
 	@Override
 	float[] calculateBoundingBox(float x, float y) {
 		// FIXME not sure about this
-		return new float[]{0, 0, Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY};
+		return new float[]{0, 0, width, height};
 	}
 }
 
@@ -318,9 +323,19 @@ class Morph {
 		return this;
 	}
 
+	Morph removeMorph(Morph morph) {
+		submorphs.remove(morph);
+		morph.owner = null;
+		return this;
+	}
+
 	Morph setPosition(float x, float y) {
-		position.x = x;
-		position.y = y;
+		position.set(x, y);
+		return this;
+	}
+
+	Morph setPosition(PVector v) {
+		position.set(v);
 		return this;
 	}
 
@@ -344,6 +359,24 @@ class Morph {
 		return new PVector(
 				bbox[0] + (bbox[2] - bbox[0]) / 2,
 				bbox[1] + (bbox[3] - bbox[1]) / 2);
+	}
+
+	Morph resizeToSubmorphs() {
+		float x = position.x, y = position.y;
+		float width = 0, height = 0;
+
+		for (Morph m : submorphs) {
+			float[] bbox = m.shape.calculateBoundingBox(position.x, position.y);
+
+			if (bbox[0] < x) x = bbox[0];
+			if (bbox[1] < y) y = bbox[1];
+			if (bbox[2] > x + width) width = bbox[2] - x;
+			if (bbox[3] > y + height) height = bbox[2] - y;
+		}
+
+		position.sub(x, y);
+
+		return this;
 	}
 }
 
@@ -375,3 +408,20 @@ class WorldMorph extends Morph {
 	}
 }
 
+interface ButtonMorphListener {
+	void buttonPressed();
+}
+
+class ButtonMorph extends Morph {
+	ButtonMorphListener listener;
+
+	ButtonMorph(Shape shape, Style style, ButtonMorphListener listener) {
+		super(shape, style);
+		this.listener = listener;
+	}
+
+	@Override
+	void mousePress(MouseEvent event) {
+		listener.buttonPressed();
+	}
+}

@@ -3,8 +3,13 @@ class EchoNode extends AudioNode {
 	Gain output;
 	Gain inputs;
 
+	Shape icon;
+
 	EchoNode(AudioContext ac) {
-		super(new SVGShape(loadShape("icons/echo.svg")), new Style());
+		super(new CircleShape(64), new Style().fillColor(#ff5555));
+
+		icon = new SVGShape(loadShape("icons/echo.svg"));
+
 		inputs = new Gain(ac, 2);
 
 		TapIn delayIn = new TapIn(ac, 2000);
@@ -21,15 +26,26 @@ class EchoNode extends AudioNode {
 	}
 
 	@Override
-	AudioNode addInput(AudioNode node) {
-		super.addInput(node);
+	void addInput(AudioNode node) {
 		inputs.addInput(node.getOutput());
-		return this;
+	}
+
+	@Override
+	void removeInput(AudioNode node) {
+		inputs.removeAllConnections(node.getOutput());
 	}
 
 	@Override
 	UGen getOutput() {
 		return output;
+	}
+
+	@Override
+	void draw() {
+		super.draw();
+		shape.translateToCenterOfRotation(-1);
+		icon.draw(style);
+		shape.translateToCenterOfRotation(1);
 	}
 }
 

@@ -29,6 +29,67 @@ class SequencerTileMorph extends Morph {
 	}
 }
 
+class SequencerNode extends AudioNode {
+	final static int BEATS_PER_MINUTE = 60;
+	final static int TICKS_PER_BEAT = 4;
+
+	Function output;
+	Clock clock;
+	Shape icon;
+
+	boolean sequence[][] = {
+		{true, false, true, false},
+		{false, true, false, false},
+		{false, false, false, false},
+		{false, false, false, true}
+	};
+
+	int scale[] = {
+		440,
+		500,
+		660,
+		800
+	};
+
+	SequencerNode(AudioContext ac) {
+		super(new CircleShape(64), new Style().fillColor(#bcf500));
+
+		icon = new SVGShape(loadShape("icons/sequencer.svg"));
+
+		clock = new Clock(ac, BEATS_PER_MINUTE / 60 * 1000);
+		clock.setTicksPerBeat(TICKS_PER_BEAT);
+		ac.out.addDependent(clock);
+
+		// need to supply an input, even though we're not using it
+		output = new Function(new Static(ac, 0)) {
+			@Override float calculate() {
+				int tick = clock.getInt() % TICKS_PER_BEAT;
+				for (int i = 0; i < sequence.length; i++) {
+					if (sequence[i][tick])
+						return scale[i];
+				}
+				return 0;
+			}
+		};
+	}
+
+	@Override void addInput(AudioNode node) {}
+
+	@Override void removeInput(AudioNode node) {}
+
+	@Override UGen getOutput() {
+		return output;
+	}
+
+	@Override
+	void draw() {
+		super.draw();
+		shape.translateToCenterOfRotation(-1);
+		icon.draw(style);
+		shape.translateToCenterOfRotation(1);
+	}
+}
+
 class Sequencer {
 	Gain out;
 

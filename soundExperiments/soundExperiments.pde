@@ -11,8 +11,7 @@ abstract class App {
 	PVector lastMousePress = new PVector();
 
 	App() {
-		Style s = new Style().fillColor(0xff0000);
-		world = new WorldMorph(s);
+		world = instantiateWorld();
 	}
 
 	void draw() {
@@ -39,6 +38,10 @@ abstract class App {
 	}
 
 	void onRemoteMessage(String string) {
+	}
+
+	WorldMorph instantiateWorld() {
+		return new WorldMorph(new Style());
 	}
 }
 

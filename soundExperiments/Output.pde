@@ -1,21 +1,29 @@
 
 class OutputNode extends AudioNode {
-    AudioContext ac;
+	AudioContext ac;
 
-    OutputNode(AudioContext ac) {
-	super(new CircleShape(10), new Style().fillColor(#0044ff));
-	this.ac = ac;
-    }
+	OutputNode(AudioContext ac) {
+		super(new SVGShape(loadShape("icons/speaker.svg")), new Style().fillColor(#0044ff));
+		this.ac = ac;
+	}
 
-    @Override
-    AudioNode addInput(AudioNode node) {
-	super.addInput(node);
-	ac.out.addInput(node.getOutput());
-	return this;
-    }
+	@Override
+	void addInput(AudioNode node) {
+		ac.out.addInput(node.getOutput());
+	}
 
-    @Override
-    UGen getOutput() {
-	return null;
-    }
+	@Override
+	void removeInput(AudioNode node) {
+		ac.out.removeAllConnections(node.getOutput());
+	}
+
+	@Override
+	UGen getOutput() {
+		return null;
+	}
+
+	@Override
+	boolean wantsToConnect() {
+		return false;
+	}
 }

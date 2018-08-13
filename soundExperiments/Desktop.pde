@@ -12,24 +12,32 @@ class Desktop extends App {
 
 		ac = new AudioContext();
 
-		Sequencer sequencer = new Sequencer(ac);
+		// Sequencer sequencer = new Sequencer(ac);
+		// world.addMorph(new SequencerMorph(sequencer));
 
-		world.addMorph(new SequencerMorph(sequencer));
+		AudioNode wave = (AudioNode) new WaveGeneratorNode(ac).setPosition(500, 700);
+		AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(500, 500);
+		AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2);
+		AudioNode sequencer = (AudioNode) new SequencerNode(ac).setPosition(400, 700);
 
-		AudioNode wave1 = (AudioNode) new WaveGeneratorNode(ac).setPosition(500, 700).addTo(world);
-		AudioNode wave2 = (AudioNode) new WaveGeneratorNode(ac).setPosition(700, 700).addTo(world);
-		AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(500, 500).addTo(world);
-		AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2).addTo(world);
+		((NodeWorldMorph) world).addNode(wave);
+		((NodeWorldMorph) world).addNode(echo);
+		((NodeWorldMorph) world).addNode(output);
+		((NodeWorldMorph) world).addNode(sequencer);
 
-		echo.addInput(wave1);
-		echo.addInput(wave2);
-		// echo.addInput(sequencer.out);
-
-		output.addInput(echo);
+		sequencer.connectTo(wave);
+		wave.connectTo(echo);
+		echo.connectTo(output);
 
 		ac.start();
 
 		new Morph(new WaveformShape(ac.out, 400, 100), s).setPosition(100, 400).addTo(world);
+		new AddPanelMorph(ac).addTo(world);
+	}
+
+	@Override
+	WorldMorph instantiateWorld() {
+		return new NodeWorldMorph();
 	}
 }
 

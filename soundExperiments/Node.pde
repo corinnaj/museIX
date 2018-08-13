@@ -18,6 +18,10 @@ class Node extends Morph {
 		connected.add(node);
 	}
 
+	void disconnectFrom(Node node) {
+		connected.remove(node);
+	}
+
 	@Override
 	void fullDraw() {
 		lineStyle.apply();
@@ -34,6 +38,7 @@ class Node extends Morph {
 	void mousePress(MouseEvent event) {
 		dragging = true;
 		lastPosition.set(event.x, event.y);
+		grabMouseFocus();
 	}
 
 	@Override
@@ -41,8 +46,27 @@ class Node extends Morph {
 		if (dragging) {
 			position.add(event.x - lastPosition.x, event.y - lastPosition.y);
 			lastPosition.set(event.x, event.y);
-			grabMouseFocus();
+
+			if (!wantsToConnect())
+				return;
+
+			for (Node node : ((NodeWorldMorph) owner).nodes) {
+				if (node != this &&
+						node.acceptsIncomingConnection() &&
+						!this.isConnectedTo(node) &&
+						node.overlapsWith(this)) {
+					this.connectTo(node);
+				}
+			}
 		}
+	}
+
+	boolean acceptsIncomingConnection() {
+		return true;
+	}
+
+	boolean wantsToConnect() {
+		return true;
 	}
 
 	@Override
@@ -54,6 +78,31 @@ class Node extends Morph {
 		dragging = false;
 		releaseMouseFocus();
 	}
+
+	void cutAllConnections() {
+		for (Node n : new ArrayList<Node>(connected)) {
+			disconnectFrom(n);
+		}
+	}
+
+	void cutAllIncomingConnections() {
+		for (Node node : ((NodeWorldMorph) owner).nodes) {
+			if (node.isConnectedTo(this)) {
+				node.disconnectFrom(this);
+			}
+		}
+	}
+
+	boolean isConnectedTo(Node node) {
+		return connected.contains(node);
+	}
+
+	// FIXME we assume to always have circles here
+	static final float RADIUS = 64;
+	boolean overlapsWith(Node node) {
+		return (position.x - node.position.x) * (position.x - node.position.x) +
+			(position.y - node.position.y) * (position.y - node.position.y) <= (RADIUS * 2) * (RADIUS * 2);
+	}
 }
 
 abstract class AudioNode extends Node {
@@ -63,9 +112,24 @@ abstract class AudioNode extends Node {
 
 	abstract UGen getOutput();
 
-	AudioNode addInput(AudioNode node) {
-		node.connectTo(this);
-		return this;
+	protected abstract void addInput(AudioNode node);
+
+	protected abstract void removeInput(AudioNode node);
+
+	@Override
+	void connectTo(Node node) {
+		((AudioNode) node).addInput(this);
+		super.connectTo(node);
+	}
+
+	@Override
+	void disconnectFrom(Node node) {
+		super.disconnectFrom(node);
+		((AudioNode) node).removeInput(this);
+	}
+
+	boolean acceptsInputs() {
+		return true;
 	}
 }
 
