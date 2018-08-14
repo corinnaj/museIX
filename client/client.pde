@@ -25,6 +25,15 @@ void draw()
     "x: " + nfp(accelerometerX, 1, 3) + "\n" +
     "y: " + nfp(accelerometerY, 1, 3) + "\n" +
     "z: " + nfp(accelerometerZ, 1, 3), 0, 0, width, height);
+
+
+     if (accelerometerX < 1 && accelerometerX > -1.5 &&
+         accelerometerY < 2 && accelerometerY > -0.5 &&
+         accelerometerZ > 9 && accelerometerZ < 10.5) {
+       textSize(50);
+       background(#ff0000);
+       text("Violin", 0, 0, width, height);
+     }
 }
 
 void onAccelerometerEvent(float x, float y, float z)
@@ -38,4 +47,3 @@ void onAccelerometerEvent(float x, float y, float z)
     now = millis();
   }
 }
-
