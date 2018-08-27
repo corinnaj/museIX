@@ -122,4 +122,13 @@ class WaveGeneratorNode extends FrequencyChangerNode {
 		icon.draw(style);
 		shape.translateToCenterOfRotation(1);
 	}
+
+	@Override boolean acceptsIncomingConnection(Node node) {
+		return ((AudioNode) node).getOutputType() == AudioNodeOutputType.FREQUENCIES;
+	}
+
+	@Override
+	AudioNodeOutputType getOutputType() {
+		return AudioNodeOutputType.WAVES;
+	}
 }

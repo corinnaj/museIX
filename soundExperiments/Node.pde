@@ -52,7 +52,7 @@ class Node extends Morph {
 
 			for (Node node : ((NodeWorldMorph) owner).nodes) {
 				if (node != this &&
-						node.acceptsIncomingConnection() &&
+						node.acceptsIncomingConnection(this) &&
 						!this.isConnectedTo(node) &&
 						node.overlapsWith(this)) {
 					this.connectTo(node);
@@ -61,7 +61,7 @@ class Node extends Morph {
 		}
 	}
 
-	boolean acceptsIncomingConnection() {
+	boolean acceptsIncomingConnection(Node node) {
 		return true;
 	}
 
@@ -105,10 +105,18 @@ class Node extends Morph {
 	}
 }
 
+enum AudioNodeOutputType {
+	FREQUENCIES,
+	NOTES,
+	WAVES
+}
+
 abstract class AudioNode extends Node {
 	AudioNode(Shape shape, Style style) {
 		super(shape, style, new Style());
 	}
+
+	abstract AudioNodeOutputType getOutputType();
 
 	abstract UGen getOutput();
 

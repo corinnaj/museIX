@@ -77,6 +77,14 @@ class SequencerNode extends AudioNode {
 
 	@Override void removeInput(AudioNode node) {}
 
+	@Override AudioNodeOutputType getOutputType() {
+		return AudioNodeOutputType.FREQUENCIES;
+	}
+
+	@Override boolean acceptsIncomingConnection(Node node) {
+		return false;
+	}
+
 	@Override UGen getOutput() {
 		return output;
 	}

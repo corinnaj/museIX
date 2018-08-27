@@ -1,3 +1,4 @@
+import java.util.*;
 
 class EchoNode extends AudioNode {
 	Gain output;
@@ -23,6 +24,11 @@ class EchoNode extends AudioNode {
 		output = new Gain(ac, 1, 1);
 		output.addInput(delayGain);
 		output.addInput(inputs);
+	}
+
+	@Override
+	AudioNodeOutputType getOutputType() {
+		return connected.size() < 1 ? AudioNodeOutputType.WAVES : ((AudioNode) connected.get(0)).getOutputType();
 	}
 
 	@Override

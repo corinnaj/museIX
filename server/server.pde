@@ -1,58 +1,113 @@
 import websockets.*;
-import processing.sound.*;
+import beads.*;
 
-SinOsc[] sineWaves; // Array of sines
-float[] sineFreq; // Array of frequencies
-int numSines = 5; // Number of oscillators to use
-
+AudioContext ac;
 WebsocketServer ws;
-void setup() {
-  ws = new WebsocketServer(this,8025,"/john");
-  
-  size(1000, 1000);
-  
-  sineWaves = new SinOsc[numSines]; // Initialize the oscillators
-  sineFreq = new float[numSines]; // Initialize array for Frequencies
 
-  for (int i = 0; i < numSines; i++) {
-    // Calculate the amplitude for each oscillator
-    float sineVolume = (1.0 / numSines) / (i + 1);
-    // Create the oscillators
-    sineWaves[i] = new SinOsc(this);
-    // Start Oscillators
-    sineWaves[i].play();
-    // Set the amplitudes for all oscillators
-    sineWaves[i].amp(sineVolume);
+void setup() {
+  ws = new WebsocketServer(this, 8025, "/museIX");
+
+  ac = new AudioContext();
+  ac.start();
+}
+
+void webSocketServerEvent(String msg){
+  // 2 dev_id, 1 command, 2 note_id, 4 parameter, (4 parameter2)
+  println(msg);
+  assert(msg.length() == 13 || msg.length() == 9);
+
+  String deviceId = msg.substring(0, 1);
+  char command = msg.charAt(2);
+  String noteId = msg.substring(3, 4);
+  int parameter = Integer.valueOf(msg.substring(5, 9));
+  int parameter2 = 0;
+  if (msg.length() > 9) {
+    parameter2 = Integer.valueOf(msg.substring(10, 13));
+  }
+
+  switch (command) {
+    case 'n':
+      playNote(noteId, parameter, parameter2);
+      break;
+    case 'p':
+      changePitch(noteId, parameter);
+      break;
+    case 'f':
+      stopNote(noteId, parameter);
+      break;
   }
 }
 
-float sx;
-float sy;
+class Note {
+  static final float MIN_FREQUENCY = 80;
+  static final float MAX_FREQUENCY = 1024;
 
-void webSocketServerEvent(String msg){
-  int firstIndex = msg.indexOf(",");
-  float x = Float.valueOf(msg.substring(0, firstIndex));
-  
-  int secondIndex = msg.indexOf(",", firstIndex + 1);
-  float y = Float.valueOf(msg.substring(firstIndex + 1, secondIndex));
-  
-  float z = Float.valueOf(msg.substring(secondIndex + 1));
-  sx = x;
-  sy = y;
-  
-  float yoffset = map(x, 0, 5, 0, 1);
-  //Map mouseY logarithmically to 150 - 1150 to create a base frequency range
-  float frequency = pow(1000, yoffset) + 150;
-  //Use mouseX mapped from -0.5 to 0.5 as a detune argument
-  float detune = map(mouseX, 0, width, -0.5, 0.5);
+  Gain gain;
+  Envelope envelope;
+  Glide frequency;
+  float baseFrequency;
+  int baseVelocity;
+  WavePlayer wavePlayer;
 
-  for (int i = 0; i < numSines; i++) { 
-    sineFreq[i] = frequency * (i + 1 * detune);
-    // Set the frequencies for all oscillators
-    sineWaves[i].freq(sineFreq[i]);
+  Note(float frequency, int velocity) {
+    baseFrequency = frequency;
+    baseVelocity = velocity;
   }
+
+  void play(AudioContext ac, UGen out) {
+    envelope = new Envelope(ac, 0.0);
+    envelope.addSegment(0.5, baseVelocity);
+    gain = new Gain(ac, 1, envelope);
+    frequency = new Glide(ac, baseFrequency);
+    wavePlayer = new WavePlayer(ac, frequency, Buffer.SINE);
+
+    gain.addInput(wavePlayer);
+    out.addInput(gain);
+    println("START!");
+  }
+
+  void changePitch(float delta) {
+    frequency.setValue(baseFrequency + delta);
+  }
+
+  void stop(UGen out, int velocity) {
+    println("STOPPP!!");
+    envelope.addSegment(0.0, velocity, new KillTrigger(gain));
+    // TODO clean up
+    // out.removeAllConnections(wavePlayer);
+  }
+}
+
+HashMap<String,Note> notes = new HashMap<String,Note>();
+
+int mapVelocity(int velocityKey) {
+  return (int) map(velocityKey, 0, 999, 10, 1500);
+}
+
+void playNote(String id, int frequencyKey, int velocityKey) {
+  if (notes.containsKey(id))
+    return;
+
+  Note note = new Note(map(frequencyKey, 0, 999, Note.MIN_FREQUENCY, Note.MAX_FREQUENCY), mapVelocity(velocityKey));
+  notes.put(id, note);
+  note.play(ac, ac.out);
+}
+
+void stopNote(String id, int velocityKey) {
+  if (!notes.containsKey(id))
+    return;
+  Note note = notes.get(id);
+  note.stop(ac.out, mapVelocity(velocityKey));
+  notes.remove(id);
+}
+
+void changePitch(String id, int delta) {
+  if (!notes.containsKey(id))
+    return;
+  float change = map(delta, 0, 999, -100, 100);
+  Note note = notes.get(id);
+  note.changePitch(change);
 }
 
 void draw() {
-  rect(sx * 100, sy * 100, 100, 100);
 }

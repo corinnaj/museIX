@@ -21,8 +21,15 @@ class LowpassFilterNode extends FrequencyChangerNode {
 		return filter;
 	}
 
-	@Override
-	void draw() {
+	@Override AudioNodeOutputType getOutputType() {
+		return AudioNodeOutputType.WAVES;
+	}
+
+	@Override boolean acceptsIncomingConnection(Node node) {
+		return ((AudioNode) node).getOutputType() == AudioNodeOutputType.WAVES;
+	}
+
+	@Override void draw() {
 		super.draw();
 		shape.translateToCenterOfRotation(-1);
 		icon.draw(style);

@@ -1,49 +1,32 @@
-import websockets.*;
-import ketai.sensors.*;
-
-WebsocketClient wsc;
-int now;
+// import ketai.sensors.*;
 
 void setup() {
-  wsc = new WebsocketClient(this, "ws://10.42.0.1:8025/john");
-  now = millis();
-  
-  sensor = new KetaiSensor(this);
-  sensor.start();
-  orientation(LANDSCAPE);
-  textAlign(CENTER, CENTER);
-  textSize(36);
+  size(800, 800);
 }
 
-KetaiSensor sensor;
-float accelerometerX, accelerometerY, accelerometerZ;
+float currentBaseFrequencyKey = 0;
+int currentNote = -1;
 
-void draw()
-{
-  background(78, 93, 75);
-  text("Accelerometer: \n" + 
-    "x: " + nfp(accelerometerX, 1, 3) + "\n" +
-    "y: " + nfp(accelerometerY, 1, 3) + "\n" +
-    "z: " + nfp(accelerometerZ, 1, 3), 0, 0, width, height);
-
-
-     if (accelerometerX < 1 && accelerometerX > -1.5 &&
-         accelerometerY < 2 && accelerometerY > -0.5 &&
-         accelerometerZ > 9 && accelerometerZ < 10.5) {
-       textSize(50);
-       background(#ff0000);
-       text("Violin", 0, 0, width, height);
-     }
+int computeVelocity() {
+  return (int) map(mouseX, 0, width, 0, 999);
 }
 
-void onAccelerometerEvent(float x, float y, float z)
-{
-  accelerometerX = x;
-  accelerometerY = y;
-  accelerometerZ = z;
+void mousePressed() {
+  currentBaseFrequencyKey = mouseY;
+  currentNote = communication.noteOn((int) map(mouseY, 0, height, 0, 999), computeVelocity());
+}
 
-  if (millis() > now + 5){
-    wsc.sendMessage(Float.toString(x) + "," + Float.toString(y) + "," + Float.toString(z));
-    now = millis();
+void mouseReleased() {
+  communication.noteOff(currentNote, computeVelocity());
+  currentNote = -1;
+}
+
+void mouseDragged() {
+  if (currentNote >= 0) {
+    float delta = mouseY - currentBaseFrequencyKey;
+    communication.changePitch(currentNote, (int) constrain(map(delta, -30, 30, 0, 999), 0, 999));
   }
 }
+
+void draw() {}
+
