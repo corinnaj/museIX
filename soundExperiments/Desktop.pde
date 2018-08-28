@@ -30,7 +30,7 @@ class Desktop extends App {
 		communication.setListener(new CommunicationListener() {
 				@Override
 				InstrumentListener instrumentJoined(String id) {
-					InstrumentNode instrument = new SineInstrument(ac, communication, id);
+					InstrumentNode instrument = new DrumsInstrument(ac, communication, id);
 					instrument.setPosition(400, 400);
 					((NodeWorldMorph) world).addNode(instrument);
 					instrument.connectTo(output);
