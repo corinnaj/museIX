@@ -33,7 +33,7 @@ class OutputNode extends AudioNode {
 		return ((AudioNode) node).getOutputType() == AudioNodeOutputType.WAVES;
 	}
 
-	@Override boolean wantsToConnect() {
+	@Override boolean wantsToConnectTo(Node node) {
 		return false;
 	}
 }

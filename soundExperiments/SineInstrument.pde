@@ -37,8 +37,8 @@ class SineNote extends Note {
 }
 
 class SineInstrument extends InstrumentNode {
-	SineInstrument(AudioContext ac, Communication communication, String id) {
-		super(ac, communication, id);
+	SineInstrument(AudioContext ac) {
+		super(ac);
 	}
 
 	@Override Note createNote(AudioContext ac, int frequencyKey, int velocityKey) {

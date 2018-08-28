@@ -31,18 +31,19 @@ class EchoNode extends AudioNode {
 		return connected.size() < 1 ? AudioNodeOutputType.WAVES : ((AudioNode) connected.get(0)).getOutputType();
 	}
 
-	@Override
-	void addInput(AudioNode node) {
+	@Override void addInput(AudioNode node) {
 		inputs.addInput(node.getOutput());
 	}
 
-	@Override
-	void removeInput(AudioNode node) {
+	@Override void removeInput(AudioNode node) {
 		inputs.removeAllConnections(node.getOutput());
 	}
 
-	@Override
-	UGen getOutput() {
+	@Override boolean acceptsIncomingConnection(Node node) {
+		return ((AudioNode) node).getOutputType() == AudioNodeOutputType.WAVES;
+	}
+
+	@Override UGen getOutput() {
 		return output;
 	}
 
