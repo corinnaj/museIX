@@ -26,68 +26,26 @@ void draw() {
 
     instrument = new Violin();
   } else {
-    instrument = new NoInstrument();
+    instrument = new Guitar();
   }
   instrument.display();
 
 }
 
-abstract class Instrument {
-  abstract void display();
-}
-
-class Violin extends Instrument {
-  void display()  {
-    imageMode(CENTER);
-    PImage img = loadImage("violin.jpg");
-    pushMatrix();
-    translate(width/2 + 800, height/2);
-    rotate(-HALF_PI);
-    scale(4, 4);
-    image(img, 0, 0);
-    scale(0.25, 0.25);
-    rotate(HALF_PI);
-    translate(-width/2 - 200, -height/2);
-    popMatrix();
-    createLabels();
-  }
-  void createLabels() {
-    fill(255);
-    textSize(100);
-    pushMatrix();
-    translate(width/2, height/2);
-    rotate(-HALF_PI);
-    text("G", -width/8, 2 * height/3);
-    text("D", -width/16, 2 * height/3);
-    text("A", width/16, 2 * height/3);
-    text("E", width/8, 2 * height/3);
-    translate(-width/2, -height/2);
-    rotate(HALF_PI);
-    popMatrix();
-  }
-}
-
-class NoInstrument extends Instrument {
-  void display() {
-    background(78, 93, 75);
-    text("Accelerometer: \n" +
-        "x: " + nfp(accelerometerX, 1, 3) + "\n" +
-        "y: " + nfp(accelerometerY, 1, 3) + "\n" +
-        "z: " + nfp(accelerometerZ, 1, 3), 0, 0, width, height);
-  }
-}
-
 void mousePressed() {
+  instrument.mousePressed();
   currentBaseFrequencyKey = mouseY;
   currentNote = communication.noteOn((int) map(mouseY, 0, height, 0, 999), 200);
 }
 
 void mouseReleased() {
+  instrument.mouseReleased();
   communication.noteOff(currentNote, 200);
   currentNote = -1;
 }
 
 void mouseDragged() {
+  instrument.mouseDragged();
   if (currentNote >= 0) {
     float delta = mouseY - currentBaseFrequencyKey;
     communication.changePitch(currentNote, (int) constrain(map(delta, -30, 30, 0, 999), 0, 999));
