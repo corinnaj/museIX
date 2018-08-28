@@ -9,22 +9,10 @@ class Desktop extends App {
 
 		ac = new AudioContext();
 
-		// Sequencer sequencer = new Sequencer(ac);
-		// world.addMorph(new SequencerMorph(sequencer));
-		communication.setListener(new CommunicationListener() {
-				@Override
-				InstrumentListener instrumentJoined(String id) {
-					InstrumentNode instrument = new SineInstrument(ac, communication, id);
-					instrument.setPosition(400, 400);
-					((NodeWorldMorph) world).addNode(instrument);
-					return instrument.createListener();
-				}
-		});
-
-		AudioNode wave = (AudioNode) new WaveGeneratorNode(ac).setPosition(500, 700);
-		AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(500, 500);
-		AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2);
-		AudioNode sequencer = (AudioNode) new SequencerNode(ac).setPosition(400, 700);
+		final AudioNode wave = (AudioNode) new WaveGeneratorNode(ac).setPosition(500, 700);
+		final AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(500, 500);
+		final AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2);
+		final AudioNode sequencer = (AudioNode) new SequencerNode(ac).setPosition(400, 700);
 
 		((NodeWorldMorph) world).addNode(wave);
 		((NodeWorldMorph) world).addNode(echo);
@@ -33,9 +21,23 @@ class Desktop extends App {
 
 		sequencer.connectTo(wave);
 		wave.connectTo(echo);
-		echo.connectTo(output);
+		// echo.connectTo(output);
 
 		ac.start();
+
+		// Sequencer sequencer = new Sequencer(ac);
+		// world.addMorph(new SequencerMorph(sequencer));
+		communication.setListener(new CommunicationListener() {
+				@Override
+				InstrumentListener instrumentJoined(String id) {
+					InstrumentNode instrument = new SineInstrument(ac, communication, id);
+					instrument.setPosition(400, 400);
+					((NodeWorldMorph) world).addNode(instrument);
+					instrument.connectTo(output);
+
+					return instrument.createListener();
+				}
+		});
 
 		new Morph(new WaveformShape(ac.out, 400, 100), s).setPosition(100, 400).addTo(world);
 		new AddPanelMorph(ac).addTo(world);
