@@ -124,7 +124,7 @@ class Sequencer {
 
 		out = new Gain(ac, 1, 0.4);
 
-		try {  
+		try {
 			samplePlayers = new  SamplePlayer[samples.length];
 			for (int i = 0; i < samples.length; i++) {
 				samplePlayers[i] = new SamplePlayer(ac, new Sample(sketchPath("") + "OpenPathMusic44V1/" + samples[i] + ".wav"));

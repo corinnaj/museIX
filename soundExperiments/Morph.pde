@@ -245,7 +245,7 @@ class Morph {
 	void fullDraw() {
 		pushMatrix();
 		draw();
-		for (Morph m : submorphs) {
+		for (Morph m : new ArrayList<Morph>(submorphs)) {
 			m.fullDraw();
 		}
 		popMatrix();
