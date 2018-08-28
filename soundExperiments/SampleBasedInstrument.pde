@@ -26,8 +26,6 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 
 		try {
 			String[] sampleNames = getSampleNames();
-			if (sampleNames == null)
-				print("ASDASDASD");
 			samples = new Sample[sampleNames.length];
 			for (int i = 0; i < sampleNames.length; i++) {
 				print("Loading " + sampleNames[i]);
@@ -41,9 +39,8 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 	}
 
 	@Override Note createNote(AudioContext ac, int frequencyKey, int velocityKey) {
-		int index = (int) map(frequencyKey, 0, 999, 0, samples.length);
-		println(index);
-		return new SampleBasedNote(ac, samples[index]);
+		// int index = (int) map(frequencyKey, 0, 999, 0, samples.length) % samples.length;
+		return new SampleBasedNote(ac, samples[frequencyKey % samples.length]);
 	}
 
 	abstract String getBasePath();

@@ -30,8 +30,17 @@ class AddPanelMorph extends Morph {
 			new ButtonMorph(new SVGShape(loadShape("icons/filter.svg")), s, new ButtonMorphListener() {
 				void buttonPressed() { add(new LowpassFilterNode(ac)); }
 			}),
-			new ButtonMorph(new SVGShape(loadShape("icons/sequencer.svg")), s, new ButtonMorphListener() {
+			/*new ButtonMorph(new SVGShape(loadShape("icons/sequencer.svg")), s, new ButtonMorphListener() {
 				void buttonPressed() { add(new SequencerNode(ac)); }
+			}),*/
+			new ButtonMorph(new SVGShape(loadShape("icons/sequencer.svg")), s, new ButtonMorphListener() {
+				void buttonPressed() { add(new SequencerInstrumentInputNode(ac)); }
+			}),
+			new ButtonMorph(new SVGShape(loadShape("icons/instrument.svg")), s, new ButtonMorphListener() {
+				void buttonPressed() { add(new DrumsInstrument(ac)); }
+			}),
+			new ButtonMorph(new SVGShape(loadShape("icons/sine-wave.svg")), s, new ButtonMorphListener() {
+				void buttonPressed() { add(new SineInstrument(ac)); }
 			}),
 		};
 
