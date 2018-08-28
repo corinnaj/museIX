@@ -6,11 +6,16 @@ class Communication {
   int nextNoteId = 0;
 
   Communication(PApplet applet) {
-    // wsc = new WebsocketClient(applet, "ws://10.42.0.1:8025/museIX");
-    wsc = new WebsocketClient(applet, "ws://127.0.0.1:8025/museIX");
+    // wsc = new WebsocketClient(applet, "ws://10.42.0.1:8032/museIX");
+    wsc = new WebsocketClient(applet, "ws://127.0.0.1:8037/museIX");
 
     // FIXME not a desirable way to set an id
     id = String.format("%02d", (int) random(0, 99));
+    join();
+  }
+
+  void join() {
+    sendMessage('j', 0, 0);
   }
 
   int noteOn(int frequency, int velocity) {
@@ -19,12 +24,15 @@ class Communication {
     nextNoteId = nextNoteId + 1 % 100;
     return noteId;
   }
+
   void noteOff(int note, int velocity) {
     sendMessage('f', note, velocity);
   }
+
   void changePitch(int note, int change) {
     sendMessage('p', note, change);
   }
+
   String getId() {
     return id;
   }
@@ -32,11 +40,13 @@ class Communication {
   private void sendMessage(char command, int noteId, int parameter, int parameter2) {
     String msg = String.format("%s%c%02d%04d%04d", id, command, noteId, parameter, parameter2);
     assert(msg.length() == 13);
+    println(msg);
     wsc.sendMessage(msg);
   }
   private void sendMessage(char command, int noteId, int parameter) {
     String msg = String.format("%s%c%02d%04d", id, command, noteId, parameter);
     assert(msg.length() == 9);
+    println(msg);
     wsc.sendMessage(msg);
   }
 }

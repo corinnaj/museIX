@@ -1,6 +1,5 @@
 
 class Desktop extends App {
-	WebsocketServer ws;
 	AudioContext ac;
 
 	Desktop(PApplet applet) {
@@ -8,12 +7,19 @@ class Desktop extends App {
 
 		Style s = new Style();
 
-		ws = new WebsocketServer(applet, 8025, "/museix");
-
 		ac = new AudioContext();
 
 		// Sequencer sequencer = new Sequencer(ac);
 		// world.addMorph(new SequencerMorph(sequencer));
+		communication.setListener(new CommunicationListener() {
+				@Override
+				InstrumentListener instrumentJoined(String id) {
+					InstrumentNode instrument = new SineInstrument(ac, communication, id);
+					instrument.setPosition(400, 400);
+					((NodeWorldMorph) world).addNode(instrument);
+					return instrument.createListener();
+				}
+		});
 
 		AudioNode wave = (AudioNode) new WaveGeneratorNode(ac).setPosition(500, 700);
 		AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(500, 500);

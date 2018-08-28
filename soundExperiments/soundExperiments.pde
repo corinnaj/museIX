@@ -75,10 +75,3 @@ void mouseDragged() {
 	app.mouseMoved();
 }
 
-void webSocketServerEvent(String msg){
-	app.onRemoteMessage(msg);
-}
-
-void webSocketEvent(String msg){
-	app.onRemoteMessage(msg);
-}
