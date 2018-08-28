@@ -47,12 +47,10 @@ class Node extends Morph {
 			position.add(event.x - lastPosition.x, event.y - lastPosition.y);
 			lastPosition.set(event.x, event.y);
 
-			if (!wantsToConnect())
-				return;
-
 			for (Node node : ((NodeWorldMorph) owner).nodes) {
 				if (node != this &&
 						node.acceptsIncomingConnection(this) &&
+						this.wantsToConnectTo(node) &&
 						!this.isConnectedTo(node) &&
 						node.overlapsWith(this)) {
 					this.connectTo(node);
@@ -65,7 +63,7 @@ class Node extends Morph {
 		return true;
 	}
 
-	boolean wantsToConnect() {
+	boolean wantsToConnectTo(Node node) {
 		return true;
 	}
 
