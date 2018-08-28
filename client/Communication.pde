@@ -7,7 +7,7 @@ class Communication {
 
   Communication(PApplet applet) {
     // wsc = new WebsocketClient(applet, "ws://10.42.0.1:8032/museIX");
-    wsc = new WebsocketClient(applet, "ws://127.0.0.1:8037/museIX");
+   // wsc = new WebsocketClient(applet, "ws://127.0.0.1:8025/museIX");
 
     // FIXME not a desirable way to set an id
     id = String.format("%02d", (int) random(0, 99));
@@ -38,12 +38,14 @@ class Communication {
   }
 
   private void sendMessage(char command, int noteId, int parameter, int parameter2) {
+    if (wsc == null) { return; }
     String msg = String.format("%s%c%02d%04d%04d", id, command, noteId, parameter, parameter2);
     assert(msg.length() == 13);
     println(msg);
     wsc.sendMessage(msg);
   }
   private void sendMessage(char command, int noteId, int parameter) {
+    if (wsc == null) { return; }
     String msg = String.format("%s%c%02d%04d", id, command, noteId, parameter);
     assert(msg.length() == 9);
     println(msg);
