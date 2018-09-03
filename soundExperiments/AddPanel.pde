@@ -36,7 +36,7 @@ class AddPanelMorph extends Morph {
 			new ButtonMorph(new SVGShape(loadShape("icons/sequencer.svg")), s, new ButtonMorphListener() {
 				void buttonPressed() { add(new SequencerInstrumentInputNode(ac)); }
 			}),
-			new ButtonMorph(new SVGShape(loadShape("icons/instrument.svg")), s, new ButtonMorphListener() {
+			new ButtonMorph(new SVGShape(loadShape("icons/drums.svg")), s, new ButtonMorphListener() {
 				void buttonPressed() { add(new DrumsInstrument(ac)); }
 			}),
 			new ButtonMorph(new SVGShape(loadShape("icons/sine-wave.svg")), s, new ButtonMorphListener() {
@@ -54,7 +54,7 @@ class AddPanelMorph extends Morph {
 	void add(AudioNode node) {
 		NodeWorldMorph world = (NodeWorldMorph) getWorld();
 
-		node.setPosition(world.center());
+		node.setPosition(world.centerTop().add(new PVector(0, 200)));
 
 		world.addNode(node);
 	}

@@ -7,7 +7,7 @@ class EchoNode extends AudioNode {
 	Shape icon;
 
 	EchoNode(AudioContext ac) {
-		super(null, new Style().fillColor(#ff5555));
+		super(null, new Style().fillColor(#73DCFF));
 
 		shape = new WaveAudioNodeCircleShape(this, "echo");
 

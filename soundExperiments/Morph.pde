@@ -264,7 +264,8 @@ class Morph {
 
 	boolean bubbleEvent(MouseEvent event, float x, float y) {
 		if (containsPoint(x, y)) {
-			for (Morph m : submorphs) {
+			for (int i = submorphs.size() - 1; i >= 0; i--) {
+				Morph m = submorphs.get(i);
 				if (m.bubbleEvent(event, x - position.x, y - position.y)) {
 					return true;
 				}
@@ -365,6 +366,16 @@ class Morph {
 		return new PVector(
 				bbox[0] + (bbox[2] - bbox[0]) / 2,
 				bbox[1] + (bbox[3] - bbox[1]) / 2);
+	}
+
+	PVector centerTop() {
+		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
+		return new PVector(bbox[0] + (bbox[2] - bbox[0]) / 2, bbox[1]);
+	}
+
+	PVector centerBottom() {
+		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
+		return new PVector(bbox[0] + (bbox[2] - bbox[0]) / 2, bbox[2]);
 	}
 
 	Morph resizeToSubmorphs() {

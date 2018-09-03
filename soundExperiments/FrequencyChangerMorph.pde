@@ -32,8 +32,8 @@ class FrequencyChangerShape extends CircleShape {
 }
 
 abstract class FrequencyChangerNode extends AudioNode {
-	static final color ACTIVE_COLOR = #55ddff;
-	static final color INACTIVE_COLOR = #00ccff;
+	static final color ACTIVE_COLOR = #5D8C9C;
+	static final color INACTIVE_COLOR = #517F8F;
 	boolean active = false;
 
 	PVector lastMousePos = new PVector();

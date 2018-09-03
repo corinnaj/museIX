@@ -59,7 +59,7 @@ abstract class InstrumentInputNode extends AudioNode {
 class SequencerInstrumentInputNode extends InstrumentInputNode {
 	Shape icon;
 
-	boolean sequence[][] = {
+	public boolean sequence[][] = {
 		{true, false, false, false},
 		{false, false, false, false},
 		{false, true, true, false},
@@ -91,6 +91,7 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 			}
 		};
 		clock.addMessageListener(sequencer);
+		s = new Sequencer(ac);
 	}
 
 	@Override
@@ -99,6 +100,20 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 		shape.translateToCenterOfRotation(-1);
 		icon.draw(style);
 		shape.translateToCenterOfRotation(1);
+	}
+
+	int lastX;
+	int lastY;
+	Sequencer s;
+	@Override void mousePress(MouseEvent event) {
+		lastX = event.x;
+		lastY = event.y;
+	}
+	@Override void mouseRelease(MouseEvent event) {
+		if (lastX != event.x || lastY != event.y)
+			return;
+		println("OPEN!");
+		getWorld().addMorph(new SequencerMorph(s));
 	}
 }
 
