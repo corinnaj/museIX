@@ -115,7 +115,7 @@ enum AudioNodeOutputType {
 }
 
 class WaveAudioNodeCircleShape extends CircleShape {
-	static final float MAX_GROW_RADIUS = 30;
+	static final float MAX_GROW_RADIUS = 60;
 	static final float BASE_RADIUS = 64;
 	AudioNode node;
 	PShape icon;
@@ -131,7 +131,7 @@ class WaveAudioNodeCircleShape extends CircleShape {
 		float grow = Math.max(0, node.getOutput().getValue() * MAX_GROW_RADIUS);
 		float size = BASE_RADIUS * 2 + grow;
 		noStroke();
-		fill(#cccccc);
+		fill(#999999);
 		ellipse(0, 0, size, size);
 
 		style.apply();

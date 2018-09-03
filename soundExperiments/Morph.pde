@@ -331,8 +331,9 @@ class Morph {
 	}
 
 	Morph delete() {
-		if (owner != null)
+		if (owner != null) {
 			owner.removeMorph(this);
+		}
 		return this;
 	}
 

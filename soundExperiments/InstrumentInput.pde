@@ -83,6 +83,7 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 				int tick = ((Clock) message).getInt();
 				for (int i = 0; i < sequence.length; i++) {
 					if (sequence[i][tick % 4]) {
+						noteOff(Integer.toString(i), VELOCITY);
 						noteOn(Integer.toString(i), i, VELOCITY);
 					} else {
 						noteOff(Integer.toString(i), VELOCITY);
@@ -91,7 +92,6 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 			}
 		};
 		clock.addMessageListener(sequencer);
-		s = new Sequencer(ac);
 	}
 
 	@Override
@@ -104,16 +104,16 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 
 	int lastX;
 	int lastY;
-	Sequencer s;
 	@Override void mousePress(MouseEvent event) {
+		super.mousePress(event);
 		lastX = event.x;
 		lastY = event.y;
 	}
 	@Override void mouseRelease(MouseEvent event) {
+		super.mouseRelease(event);
 		if (lastX != event.x || lastY != event.y)
 			return;
-		println("OPEN!");
-		getWorld().addMorph(new SequencerMorph(s));
+		getWorld().addMorph(new SequencerMorph(this).setPosition(position));
 	}
 }
 

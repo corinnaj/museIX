@@ -50,7 +50,9 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 			return;
 		final Note note = createNote(ac, frequencyKey, velocityKey);
 		notes.put(id, note);
-		output.addInput(note.getOutput());
+		UGen ugen = note.getOutput();
+		output.addInput(ugen);
+		ugen.start();
 	}
 
 	void noteOff(String id, int velocityKey) {
