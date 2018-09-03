@@ -40,12 +40,12 @@ class Violin extends Instrument {
     } else if (mouseX > 11 * width/18 && mouseX <= 3 * width/4) {
       currentFrequency = eFrequency;
     }
+    currentNote = communication.noteOn((int) currentFrequency, 0);
   }
   void mouseReleased() {
-    println("VIOLIN! Release!");
+    communication.noteOff(currentNote, 0);
   }
   void mouseDragged() {
-    println(initialMouseX - mouseX);
-    println(initialMouseY - mouseY);
+    communication.changePitch(currentNote, initialMouseX - mouseX);
   }
 }

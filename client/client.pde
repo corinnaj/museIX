@@ -2,9 +2,17 @@ import ketai.sensors.*;
 
 float currentBaseFrequencyKey = 0;
 int currentNote = -1;
+String message;
 
 Instrument instrument;
 HashMap<String, Instrument> instruments = new HashMap<String, Instrument>();
+
+Communication communication = new Communication(new CommunicationListener() {
+    void onMessage(String m) {}
+    void onError(String e) {
+      message = e;
+    }
+});
 
 void setup() {
   sensor = new KetaiSensor(this);
@@ -35,22 +43,14 @@ void draw() {
 
 void mousePressed() {
   instrument.mousePressed();
-  currentBaseFrequencyKey = mouseY;
-  currentNote = communication.noteOn((int) map(mouseY, 0, height, 0, 999), 200);
 }
 
 void mouseReleased() {
   instrument.mouseReleased();
-  communication.noteOff(currentNote, 200);
-  currentNote = -1;
 }
 
 void mouseDragged() {
   instrument.mouseDragged();
-  if (currentNote >= 0) {
-    float delta = mouseY - currentBaseFrequencyKey;
-    communication.changePitch(currentNote, (int) constrain(map(delta, -30, 30, 0, 999), 0, 999));
-  }
 }
 
 void onAccelerometerEvent(float x, float y, float z)
