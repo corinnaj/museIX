@@ -90,11 +90,14 @@ abstract class FrequencyChangerNode extends AudioNode {
 
 class WaveGeneratorNode extends FrequencyChangerNode {
 	WavePlayer wavePlayer;
+	Gain gain;
 	Shape icon;
 
 	WaveGeneratorNode(AudioContext ac) {
 		super(new Glide(ac, 440));
 		wavePlayer = new WavePlayer(ac, frequency, Buffer.SINE);
+		gain = new Gain(ac, 1, 0.3);
+		gain.addInput(wavePlayer);
 		icon = new SVGShape(loadShape("icons/sine-wave.svg"));
 	}
 
@@ -112,7 +115,7 @@ class WaveGeneratorNode extends FrequencyChangerNode {
 
 	@Override
 	UGen getOutput() {
-		return wavePlayer;
+		return gain;
 	}
 
 	@Override

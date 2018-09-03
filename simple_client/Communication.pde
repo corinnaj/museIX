@@ -33,8 +33,8 @@ public class Communication {
       e.printStackTrace();
     }
 
-    final String url = "ws://127.0.0.1:8037/museIX";
-    // final String url = "ws://10.42.0.1:8037/museIX";
+    // final String url = "ws://127.0.0.1:8037/museIX";
+    final String url = "ws://10.42.0.1:8037/museIX";
     ClientUpgradeRequest request = new ClientUpgradeRequest();
     try {
       client.connect(this, new URI(url), request);
