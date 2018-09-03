@@ -4,6 +4,7 @@ float currentBaseFrequencyKey = 0;
 int currentNote = -1;
 
 Instrument instrument;
+HashMap<String, Instrument> instruments = new HashMap<String, Instrument>();
 
 void setup() {
   sensor = new KetaiSensor(this);
@@ -11,6 +12,10 @@ void setup() {
   orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
   textSize(36);
+
+  instruments.put("violin", new Violin());
+  instruments.put("guitar", new Guitar());
+
   instrument = new NoInstrument();
 }
 
@@ -21,15 +26,11 @@ void draw() {
   if (accelerometerX < 1 && accelerometerX > -1.5 &&
       accelerometerY < 2 && accelerometerY > -0.5 &&
       accelerometerZ > 9 && accelerometerZ < 10.5) {
-    textSize(50);
-    background(#ff0000);
-
-    instrument = new Violin();
+    instrument = instruments.get("violin");
   } else {
-    instrument = new Guitar();
+    instrument = instruments.get("guitar");
   }
   instrument.display();
-
 }
 
 void mousePressed() {
