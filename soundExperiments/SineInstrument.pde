@@ -41,6 +41,10 @@ class SineInstrument extends InstrumentNode {
 		super(ac);
 	}
 
+	@Override String getIconName() {
+		return "sine-wave";
+	}
+
 	@Override Note createNote(AudioContext ac, int frequencyKey, int velocityKey) {
 		return new SineNote(ac, frequencyKey, velocityKey);
 	}

@@ -104,10 +104,12 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 
 class RemoteInstrumentInputNode extends InstrumentInputNode {
 	Shape icon;
+	String id;
 
-	public RemoteInstrumentInputNode() {
+	public RemoteInstrumentInputNode(String id) {
 		super(new CircleShape(64), new Style().fillColor(#cc4444));
 
+		this.id = id;
 		icon = new SVGShape(loadShape("icons/input.svg"));
 	}
 

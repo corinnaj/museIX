@@ -28,9 +28,17 @@ class Desktop extends App {
 		// Sequencer sequencer = new Sequencer(ac);
 		// world.addMorph(new SequencerMorph(sequencer));
 		communication.setListener(new CommunicationListener() {
-				@Override
-				InstrumentListener instrumentJoined(String id) {
-					RemoteInstrumentInputNode instrumentInput = new RemoteInstrumentInputNode();
+				@Override void instrumentRemoved(String id) {
+					for (Morph morph : world.submorphs) {
+						if (morph instanceof RemoteInstrumentInputNode &&
+								((RemoteInstrumentInputNode) morph).id == id) {
+							morph.delete();
+						}
+					}
+				}
+
+				@Override InstrumentListener instrumentJoined(String id) {
+					RemoteInstrumentInputNode instrumentInput = new RemoteInstrumentInputNode(id);
 					instrumentInput.setPosition(600, 400);
 					((NodeWorldMorph) world).addNode(instrumentInput);
 

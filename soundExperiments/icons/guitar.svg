@@ -15,7 +15,7 @@
    version="1.1"
    id="svg8"
    inkscape:version="0.92+devel (unknown)"
-   sodipodi:docname="speaker.svg">
+   sodipodi:docname="guitar.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.8"
-     inkscape:cx="49.079987"
-     inkscape:cy="94.108397"
+     inkscape:cx="-3.7776439"
+     inkscape:cy="62.035012"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,9 +55,22 @@
      id="layer1"
      transform="translate(-103.96375,-103.33542)">
     <path
-       style="fill:#000000;stroke:none;stroke-width:2.28810692;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
-       d="m 128.01948,109.25761 -7.7354,5.42531 h -5.35604 c -0.63903,0 -1.15336,0.51471 -1.15336,1.15374 v 8.86455 c 0,0.63904 0.51433,1.15337 1.15336,1.15337 h 5.3553 l 7.73614,5.42531 z"
-       id="path1718"
-       inkscape:connector-curvature="0" />
+       style="fill:none;stroke:#000000;stroke-width:1.58749998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 120.8076,133.83066 c -7.93543,0.3754 -7.38709,-6.49929 -3.78501,-7.15732 0.26366,-3.30131 -2.20016,-7.70891 2.64408,-8.00223 0.0485,-2.75023 0.0525,-11.94129 0.0525,-11.94129 l 1.17427,-0.0368"
+       id="path1027"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path1029"
+       d="m 120.98656,133.83066 c 7.93543,0.3754 7.38709,-6.49929 3.78501,-7.15732 -0.26366,-3.30131 2.20016,-7.70891 -2.64408,-8.00223 -0.0485,-2.75023 -0.0525,-11.94129 -0.0525,-11.94129 l -1.17427,-0.0368"
+       style="fill:none;stroke:#000000;stroke-width:1.58749998;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:0.99896628;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path1032"
+       cx="120.80866"
+       cy="129.40033"
+       r="1.9967225" />
   </g>
 </svg>

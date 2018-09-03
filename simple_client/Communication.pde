@@ -33,8 +33,8 @@ public class Communication {
       e.printStackTrace();
     }
 
-    // final String url = "ws://127.0.0.1:8037/museIX";
-    final String url = "ws://10.42.0.1:8037/museIX";
+    final String url = "ws://127.0.0.1:8037/museIX";
+    // final String url = "ws://10.42.0.1:8037/museIX";
     ClientUpgradeRequest request = new ClientUpgradeRequest();
     try {
       client.connect(this, new URI(url), request);
@@ -93,14 +93,22 @@ public class Communication {
   }
 
   private void sendMessage(char command, int noteId, int parameter, int parameter2) {
-    String msg = String.format("%s%c%02d%04d%04d", id, command, noteId, parameter, parameter2);
+    String msg = String.format("%s%c%02d%04d%04d",
+        id,
+        command,
+        Math.min(noteId, 99),
+        Math.min(parameter, 9999),
+        Math.min(parameter2, 9999));
     assert(msg.length() == 13);
+
     println(msg);
     sendMessage(msg);
   }
+
   private void sendMessage(char command, int noteId, int parameter) {
-    String msg = String.format("%s%c%02d%04d", id, command, noteId, parameter);
+    String msg = String.format("%s%c%02d%04d", id, command, Math.min(noteId, 99), Math.min(parameter, 9999));
     assert(msg.length() == 9);
+
     println(msg);
     sendMessage(msg);
   }

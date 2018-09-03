@@ -329,6 +329,12 @@ class Morph {
 		return this;
 	}
 
+	Morph delete() {
+		if (owner != null)
+			owner.removeMorph(this);
+		return this;
+	}
+
 	Morph setPosition(float x, float y) {
 		position.set(x, y);
 		return this;

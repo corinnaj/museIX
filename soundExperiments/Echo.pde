@@ -7,9 +7,9 @@ class EchoNode extends AudioNode {
 	Shape icon;
 
 	EchoNode(AudioContext ac) {
-		super(new CircleShape(64), new Style().fillColor(#ff5555));
+		super(null, new Style().fillColor(#ff5555));
 
-		icon = new SVGShape(loadShape("icons/echo.svg"));
+		shape = new WaveAudioNodeCircleShape(this, "echo");
 
 		inputs = new Gain(ac, 2);
 
@@ -45,14 +45,6 @@ class EchoNode extends AudioNode {
 
 	@Override UGen getOutput() {
 		return output;
-	}
-
-	@Override
-	void draw() {
-		super.draw();
-		shape.translateToCenterOfRotation(-1);
-		icon.draw(style);
-		shape.translateToCenterOfRotation(1);
 	}
 }
 

@@ -67,9 +67,14 @@ class Node extends Morph {
 		return true;
 	}
 
-	@Override
-	void mouseRelease(MouseEvent event) {
+	@Override void mouseRelease(MouseEvent event) {
 		cancelMoving();
+	}
+
+	@Override Morph delete() {
+		cutAllConnections();
+		cutAllIncomingConnections();
+		return super.delete();
 	}
 
 	void cancelMoving() {
@@ -107,6 +112,36 @@ enum AudioNodeOutputType {
 	FREQUENCIES,
 	NOTES,
 	WAVES
+}
+
+class WaveAudioNodeCircleShape extends CircleShape {
+	static final float MAX_GROW_RADIUS = 30;
+	static final float BASE_RADIUS = 64;
+	AudioNode node;
+	PShape icon;
+	float baseRadius;
+
+	WaveAudioNodeCircleShape(AudioNode node, String icon) {
+		super(BASE_RADIUS);
+		this.node = node;
+		this.icon = loadShape("icons/" + icon + ".svg");
+	}
+
+	@Override void draw(Style style) {
+		float grow = Math.max(0, node.getOutput().getValue() * MAX_GROW_RADIUS);
+		float size = BASE_RADIUS * 2 + grow;
+		noStroke();
+		fill(#cccccc);
+		ellipse(0, 0, size, size);
+
+		style.apply();
+		ellipse(0, 0, radius * 2, radius * 2);
+
+		pushMatrix();
+		translate(-BASE_RADIUS, -BASE_RADIUS);
+		shape(icon);
+		popMatrix();
+	}
 }
 
 abstract class AudioNode extends Node {

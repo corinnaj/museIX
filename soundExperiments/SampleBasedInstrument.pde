@@ -28,7 +28,6 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 			String[] sampleNames = getSampleNames();
 			samples = new Sample[sampleNames.length];
 			for (int i = 0; i < sampleNames.length; i++) {
-				print("Loading " + sampleNames[i]);
 				samples[i] = new Sample(sketchPath("") + getBasePath() + sampleNames[i] + ".wav");
 			}
 		} catch(Exception e) {
@@ -55,6 +54,10 @@ class DrumsInstrument extends SampleBasedInstrument {
 
 	@Override String getBasePath() {
 		return "OpenPathMusic44V1/";
+	}
+
+	@Override String getIconName() {
+		return "drums";
 	}
 
 	@Override String[] getSampleNames() {

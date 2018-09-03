@@ -5,7 +5,8 @@ class OutputNode extends AudioNode {
 	Clip clip;
 
 	OutputNode(AudioContext ac) {
-		super(new SVGShape(loadShape("icons/speaker.svg")), new Style().fillColor(#0044ff));
+		super(null, new Style().fillColor(#777777));
+		shape = new WaveAudioNodeCircleShape(this, "speaker");
 
 		clip = new Clip(ac);
 		ac.out.addInput(clip);
@@ -26,7 +27,7 @@ class OutputNode extends AudioNode {
 	}
 
 	@Override UGen getOutput() {
-		return null;
+		return ac.out;
 	}
 
 	@Override boolean acceptsIncomingConnection(Node node) {

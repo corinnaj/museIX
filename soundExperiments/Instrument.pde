@@ -10,16 +10,17 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 	final AudioContext ac;
 	final HashMap<String,Note> notes;
 
-	Shape icon;
-
 	InstrumentNode(final AudioContext ac) {
-		super(new CircleShape(64), new Style().fillColor(#ff0000));
-
-		icon = new SVGShape(loadShape("icons/instrument.svg"));
+		super(null, new Style().fillColor(#ff0000));
+		shape = new WaveAudioNodeCircleShape(this, getIconName());
 
 		notes = new HashMap<String,Note>();
 		output = new Gain(ac, 1);
 		this.ac = ac;
+	}
+
+	String getIconName() {
+		return "instrument";
 	}
 
 	@Override void addInput(AudioNode node) {
@@ -65,14 +66,6 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 			return;
 		Note note = notes.get(id);
 		note.changePitch(frequencyKey);
-	}
-
-	@Override
-	void draw() {
-		super.draw();
-		shape.translateToCenterOfRotation(-1);
-		icon.draw(style);
-		shape.translateToCenterOfRotation(1);
 	}
 
 	abstract Note createNote(AudioContext ac, int frequencyKey, int velocityKey);
