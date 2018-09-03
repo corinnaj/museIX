@@ -28,7 +28,7 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 			String[] sampleNames = getSampleNames();
 			samples = new Sample[sampleNames.length];
 			for (int i = 0; i < sampleNames.length; i++) {
-				samples[i] = new Sample(sketchPath("") + getBasePath() + sampleNames[i] + ".wav");
+				samples[i] = new Sample(sketchPath("") + getBasePath() + sampleNames[i]);
 			}
 		} catch(Exception e) {
 			println("Exception while attempting to load sample!");
@@ -62,10 +62,10 @@ class DrumsInstrument extends SampleBasedInstrument {
 
 	@Override String[] getSampleNames() {
 		return new String[] {
-			"cowbell-large-closed",
-			"drum-bass-lo-1",
-			"drum-snare-rim",
-			"drum-tom-hi-brush",
+			"cowbell-large-closed.wav",
+			"drum-bass-lo-1.wav",
+			"drum-snare-rim.wav",
+			"drum-tom-hi-brush.wav",
 		};
 	}
 }
