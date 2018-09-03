@@ -1,5 +1,6 @@
 class Guitar extends Instrument {
   void display() {
+    orientation(LANDSCAPE);
     PImage image = loadImage("guitar.jpg");
     image(image, width/2, height/2, width, height);
   }

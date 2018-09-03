@@ -2,8 +2,17 @@ import ketai.sensors.*;
 
 float currentBaseFrequencyKey = 0;
 int currentNote = -1;
+String message;
 
 Instrument instrument;
+HashMap<String, Instrument> instruments = new HashMap<String, Instrument>();
+
+Communication communication = new Communication(new CommunicationListener() {
+    void onMessage(String m) {}
+    void onError(String e) {
+      message = e;
+    }
+});
 
 void setup() {
   sensor = new KetaiSensor(this);
@@ -11,6 +20,10 @@ void setup() {
   orientation(LANDSCAPE);
   textAlign(CENTER, CENTER);
   textSize(36);
+
+  instruments.put("violin", new Violin());
+  instruments.put("guitar", new Guitar());
+
   instrument = new NoInstrument();
 }
 
@@ -21,35 +34,23 @@ void draw() {
   if (accelerometerX < 1 && accelerometerX > -1.5 &&
       accelerometerY < 2 && accelerometerY > -0.5 &&
       accelerometerZ > 9 && accelerometerZ < 10.5) {
-    textSize(50);
-    background(#ff0000);
-
-    instrument = new Violin();
+    instrument = instruments.get("violin");
   } else {
-    instrument = new Guitar();
+    instrument = instruments.get("guitar");
   }
   instrument.display();
-
 }
 
 void mousePressed() {
   instrument.mousePressed();
-  currentBaseFrequencyKey = mouseY;
-  currentNote = communication.noteOn((int) map(mouseY, 0, height, 0, 999), 200);
 }
 
 void mouseReleased() {
   instrument.mouseReleased();
-  communication.noteOff(currentNote, 200);
-  currentNote = -1;
 }
 
 void mouseDragged() {
   instrument.mouseDragged();
-  if (currentNote >= 0) {
-    float delta = mouseY - currentBaseFrequencyKey;
-    communication.changePitch(currentNote, (int) constrain(map(delta, -30, 30, 0, 999), 0, 999));
-  }
 }
 
 void onAccelerometerEvent(float x, float y, float z)
