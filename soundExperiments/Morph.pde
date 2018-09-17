@@ -89,6 +89,7 @@ class TextShape extends Shape {
 	@Override
 	void draw(Style style) {
 		style.apply();
+		textSize(22);
 		text(contents, 0, height);
 	}
 
@@ -330,6 +331,14 @@ class Morph {
 		return this;
 	}
 
+	Morph removeAllMorphs() {
+		for (Morph m : submorphs) {
+			m.owner = null;
+		}
+		submorphs.clear();
+		return this;
+	}
+
 	Morph delete() {
 		if (owner != null) {
 			owner.removeMorph(this);
@@ -438,8 +447,7 @@ class ButtonMorph extends Morph {
 		this.listener = listener;
 	}
 
-	@Override
-	void mousePress(MouseEvent event) {
+	@Override void mousePress(MouseEvent event) {
 		listener.buttonPressed();
 	}
 }
