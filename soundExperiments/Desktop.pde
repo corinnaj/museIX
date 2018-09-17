@@ -13,9 +13,18 @@ class Desktop extends App {
 		final AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(500, 500);
 		final AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2);
 
+		final AudioNode drumsInput = (AudioNode) new ExtendedSequencerInstrumentInputNode(ac).setPosition(600, 300);
+		final AudioNode drums = (AudioNode) new ExtendedDrumsInstrument(ac).setPosition(800, 300);
+
 		((NodeWorldMorph) world).addNode(wave);
 		((NodeWorldMorph) world).addNode(echo);
 		((NodeWorldMorph) world).addNode(output);
+
+		((NodeWorldMorph) world).addNode(drumsInput);
+		((NodeWorldMorph) world).addNode(drums);
+
+		drumsInput.connectTo(drums);
+		drums.connectTo(output);
 
 		wave.connectTo(echo);
 		// echo.connectTo(output);
@@ -49,6 +58,8 @@ class Desktop extends App {
 
 		new Morph(new WaveformShape(ac.out, 400, 100), s).setPosition(100, 400).addTo(world);
 		new AddPanelMorph(ac).addTo(world);
+
+		// new DrumsSequencer().addTo(world);
 	}
 
 	@Override
