@@ -16,4 +16,8 @@ class ViolinInstrument extends SampleBasedInstrument {
 			"G5.mp3"
 		};
 	}
+
+	@Override String getIconName() {
+		return "violin";
+	}
 }
