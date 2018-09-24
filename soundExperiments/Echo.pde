@@ -47,4 +47,3 @@ class EchoNode extends AudioNode {
 		return output;
 	}
 }
-

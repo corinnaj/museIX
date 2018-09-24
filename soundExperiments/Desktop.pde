@@ -67,4 +67,3 @@ class Desktop extends App {
 		return new NodeWorldMorph();
 	}
 }
-

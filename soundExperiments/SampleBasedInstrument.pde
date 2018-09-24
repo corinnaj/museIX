@@ -69,4 +69,3 @@ class DrumsInstrument extends SampleBasedInstrument {
 		};
 	}
 }
-

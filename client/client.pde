@@ -16,8 +16,7 @@ Communication communication = new Communication(new CommunicationListener() {
 
 void setup() {
   sensor = new KetaiSensor(this);
-  sensor.start();
-  orientation(LANDSCAPE);
+  orientation(PORTRAIT);
   textAlign(CENTER, CENTER);
   textSize(36);
 
@@ -25,6 +24,7 @@ void setup() {
   instruments.put("guitar", new Guitar());
 
   instrument = new NoInstrument();
+  sensor.start();
 }
 
 KetaiSensor sensor;
@@ -35,8 +35,8 @@ void draw() {
       accelerometerY < 2 && accelerometerY > -0.5 &&
       accelerometerZ > 9 && accelerometerZ < 10.5) {
     instrument = instruments.get("violin");
-  } else {
-    instrument = instruments.get("guitar");
+  //} else {
+    //instrument = instruments.get("guitar");
   }
   instrument.display();
 }

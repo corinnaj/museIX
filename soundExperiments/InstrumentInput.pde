@@ -152,4 +152,3 @@ class RemoteInstrumentInputNode extends InstrumentInputNode {
 		shape.translateToCenterOfRotation(1);
 	}
 }
-

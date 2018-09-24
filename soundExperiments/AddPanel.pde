@@ -59,4 +59,3 @@ class AddPanelMorph extends Morph {
 		world.addNode(node);
 	}
 }
-

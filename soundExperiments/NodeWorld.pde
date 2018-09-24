@@ -65,4 +65,3 @@ class NodeWorldMorph extends WorldMorph {
 	    return s >= 0 && s <= 1 && t >= 0 && t <= 1;
 	}
 }
-

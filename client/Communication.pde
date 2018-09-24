@@ -76,7 +76,7 @@ public class Communication {
   int noteOn(int frequency, int velocity) {
     int noteId = nextNoteId;
     sendMessage('n', noteId, frequency, velocity);
-    nextNoteId = nextNoteId + 1 % 100;
+    nextNoteId = (nextNoteId + 1) % 100;
     return noteId;
   }
 
@@ -94,14 +94,21 @@ public class Communication {
 
   private void sendMessage(char command, int noteId, int parameter, int parameter2) {
     String msg = String.format("%s%c%02d%04d%04d", id, command, noteId, parameter, parameter2);
+    if (msg.length() != 13) {
+      println("Invalid length, skpping", msg, id, Integer.toString(noteId), Integer.toString(parameter), Integer.toString(parameter2));
+      return;
+    }
     assert(msg.length() == 13);
-    println(msg);
     sendMessage(msg);
   }
   private void sendMessage(char command, int noteId, int parameter) {
     String msg = String.format("%s%c%02d%04d", id, command, noteId, parameter);
+    if (msg.length() != 9) {
+      println("Invalid length, skpping", msg, id, Integer.toString(noteId), Integer.toString(parameter));
+      return;
+    }
+          
     assert(msg.length() == 9);
-    println(msg);
     sendMessage(msg);
   }
 

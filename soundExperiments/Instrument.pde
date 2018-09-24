@@ -72,4 +72,3 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 
 	abstract Note createNote(AudioContext ac, int frequencyKey, int velocityKey);
 }
-

@@ -74,4 +74,3 @@ void mouseReleased() {
 void mouseDragged() {
 	app.mouseMoved();
 }
-

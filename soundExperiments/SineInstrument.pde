@@ -49,4 +49,3 @@ class SineInstrument extends InstrumentNode {
 		return new SineNote(ac, frequencyKey, velocityKey);
 	}
 }
-

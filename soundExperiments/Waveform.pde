@@ -25,4 +25,3 @@ class WaveformShape extends RectangleShape {
 		popMatrix();
 	}
 }
-

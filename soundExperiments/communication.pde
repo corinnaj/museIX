@@ -39,7 +39,10 @@ class Communication {
     @OnWebSocketMessage
     public void handleMessage(String msg) {
       // 2 dev_id, 1 command, 2 note_id, 4 parameter, (4 parameter2)
-      assert(msg.length() == 13 || msg.length() == 9);
+      if (msg.length() != 13 && msg.length() != 9) {
+        println("Invalid package received, skipping (" + msg + ")");
+        return;
+      }
 
       String deviceId = msg.substring(0, 1);
       char command = msg.charAt(2);
@@ -131,4 +134,3 @@ class Communication {
 }
 
 Communication communication = new Communication(this);
-
