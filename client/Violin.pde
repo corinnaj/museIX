@@ -3,9 +3,9 @@ class Violin extends Instrument {
   static final float aFrequency = 440.0;
   static final float dFrequency = 293.7;
   static final float gFrequency = 196.0;
-  float currentFrequency = 0.0;
-  int initialMouseY = 0;
-  
+  int currentFrequency = 0;
+  int initialMouseY = -1;
+
   int prevMouseX = -1;
   int tutStep = -1;
   boolean isInTut = false;
@@ -35,7 +35,7 @@ class Violin extends Instrument {
       createTutorialButton();
     }
   }
-  
+
   void createLabels() {
     fill(255);
     textSize(100);
@@ -44,7 +44,7 @@ class Violin extends Instrument {
     text("A", 6 * width/10, height - 100);
     text("E", 26 * width/36, height - 100);
   }
-  
+
   void createTutorialButton() {
     noStroke();
     fill(125, 125);
@@ -58,24 +58,22 @@ class Violin extends Instrument {
   void playTutorial(int step) {
     isInTut = true;
     fill(255);
-    if (step < 0 || step > 3) {
+    if (step < 0 || step > 2) {
       tutStep = -1;
       isInTut = false;
     } else if (step == 0) {
-        text("Press any of the strings to play a sound", 0, 0, width, height);
+      text("Press any of the strings to play a sound", 0, 0, width, height);
     } else if (step == 1) {
-        text("Drag finger across the strings to keep playing", 0, 0, width, height);
+      text("Drag finger across the strings to keep playing", 0, 0, width, height);
     } else if (step == 2) {
-        text("Dragging more quickly will make the sound louder", 0, 0, width, height);
-    } else if (step == 3) {
-        text("Drag finger up or down to change the pitch", 0, 0, width, height);
+      text("Drag finger up or down to change the pitch", 0, 0, width, height);
     }
   }
-  
-   boolean isInTutButton() {
-     return mouseX > 40 && mouseX < 440 && mouseY > 40 && mouseY < 160;
-   }
-   
+
+  boolean isInTutButton() {
+    return mouseX > 40 && mouseX < 440 && mouseY > 40 && mouseY < 160;
+  }
+
   void mousePressed() {
     initialMouseY = mouseY;
     if (isInTut) {
@@ -87,18 +85,18 @@ class Violin extends Instrument {
       playTutorial(tutStep);
     }
     if (mouseX > width/4 && mouseX <= 7 * width/18) {
-      currentFrequency = gFrequency;
+      currentFrequency = 16;
     } else if (mouseX > 7 * width/18 && mouseX <= width/2) {
-      currentFrequency = dFrequency;
+      currentFrequency = 12;
     } else if (mouseX > width/2 && mouseX <= 11 * width/18) {
-      currentFrequency = aFrequency;
+      currentFrequency = 8;
     } else if (mouseX > 11 * width/18 && mouseX <= 3 * width/4) {
-      currentFrequency = eFrequency;
+      currentFrequency = 4;
     }
-    currentNote = communication.noteOn((int) currentFrequency, 0);
+    currentNote = communication.noteOn(currentFrequency, 0);
   }
 
-  int getMouseMovementSpeed() {
+  int getMouseMovementSpeedX() {
     int speedX;
     if (prevMouseX > 0) {
       speedX = abs(mouseX - prevMouseX);
@@ -109,15 +107,30 @@ class Violin extends Instrument {
     return speedX;
   }
 
+  int getMouseMovementSpeedY() {
+    int speedY;
+    if (initialMouseY > 0) {
+      speedY = Math.max(0, Math.min(4, abs(mouseY - initialMouseY) / 200));
+    } else {
+      speedY = 0;
+    }
+    return speedY;
+  }
+
   void mouseReleased() {
     communication.noteOff(currentNote, 0);
+    initialMouseY = -1;
+    prevMouseX = -1;
   }
 
   void mouseDragged() {
-      int speed = getMouseMovementSpeed();
-      if (speed > 0) {
-        currentNote = communication.noteOn((int) currentFrequency, speed);
-      }
-      communication.changePitch(currentNote, initialMouseY - mouseY);
+    int speedX = getMouseMovementSpeedX();
+    int speedY = getMouseMovementSpeedY();
+
+    communication.noteOff(currentNote, 0);      
+    if (speedX > 0) {
+      println(speedX + " " + speedY);
+      currentNote = communication.noteOn(currentFrequency - speedY, 0);
+    }
   }
 }
