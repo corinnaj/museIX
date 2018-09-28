@@ -11,11 +11,11 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="33.866665mm"
    height="33.866665mm"
-   viewBox="0 0 33.866665 33.866665"
+   viewBox="0 0 33.866664 33.866664"
    version="1.1"
    id="svg8"
    inkscape:version="0.92+devel (unknown)"
-   sodipodi:docname="sequencer.svg">
+   sodipodi:docname="remove.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="32.49703"
-     inkscape:cy="50.624864"
+     inkscape:zoom="1.979899"
+     inkscape:cx="41.898623"
+     inkscape:cy="108.89968"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -53,11 +53,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(60.3319,-91.434771)">
+     transform="translate(-103.96375,-103.33542)">
     <path
-       style="fill:#000000;stroke-width:12;stroke-linecap:round;stroke-linejoin:round"
-       d="M 17.248047 32.783203 L 17.248047 56.523438 L 17.248047 80.265625 L 40.990234 80.265625 L 40.990234 56.523438 L 40.990234 32.783203 L 17.248047 32.783203 z M 40.990234 80.265625 L 40.990234 104.00586 L 64.730469 104.00586 L 64.730469 80.265625 L 40.990234 80.265625 z M 64.730469 80.265625 L 88.470703 80.265625 L 88.470703 56.523438 L 64.730469 56.523438 L 64.730469 80.265625 z M 88.470703 56.523438 L 112.21094 56.523438 L 112.21094 32.783203 L 88.470703 32.783203 L 88.470703 56.523438 z M 88.470703 80.265625 L 88.470703 104.00586 L 112.21094 104.00586 L 112.21094 80.265625 L 88.470703 80.265625 z "
-       transform="matrix(0.26458333,0,0,0.26458333,-60.3319,91.434771)"
-       id="rect26" />
+       style="fill:#000000;stroke:#000000;stroke-width:0.3144252;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 110.83415,118.38019 h 20.12586 c 0.21004,0 0.37914,0.16909 0.37914,0.37913 v 3.01887 c 0,0.21004 -0.1691,0.37913 -0.37914,0.37913 h -20.12586 c -0.21004,0 -0.37913,-0.16909 -0.37913,-0.37913 v -3.01887 c 0,-0.21004 0.16909,-0.37913 0.37913,-0.37913 z"
+       id="rect932" />
   </g>
 </svg>

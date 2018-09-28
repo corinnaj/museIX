@@ -19,7 +19,8 @@ class AddPanelMorph extends Morph {
 	AddPanelMorph(final AudioContext ac) {
 		super(new RectangleShape(200, 200), new Style());
 
-		Style s = new Style();
+		Style s = new Style().hasStroke(false).fillColor(#000000);
+
 		Morph buttons[] = new Morph[]{
 			new ButtonMorph(new SVGShape(loadShape("icons/echo.svg")), s, new ButtonMorphListener() {
 				void buttonPressed() { add(new EchoNode(ac)); }

@@ -66,6 +66,7 @@ abstract class InstrumentInputNode extends AudioNode {
 
 class SequencerInstrumentInputNode extends InstrumentInputNode {
 	Shape icon;
+	Style iconStyle;
 
 	public boolean sequence[][] = {
 		{true, false, false, false},
@@ -84,6 +85,7 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 		ac.out.addDependent(clock);
 
 		icon = new SVGShape(loadShape("icons/sequencer.svg"));
+		iconStyle = new Style().hasStroke(false).fillColor(#000000);
 
 		Bead sequencer = new Bead () {
 			public void messageReceived(Bead message)
@@ -106,7 +108,7 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 	void draw() {
 		super.draw();
 		shape.translateToCenterOfRotation(-1);
-		icon.draw(style);
+		icon.draw(iconStyle);
 		shape.translateToCenterOfRotation(1);
 	}
 

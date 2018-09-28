@@ -73,7 +73,7 @@ class Communication {
     @OnWebSocketError
     public void handleError(Throwable error) {
       print("----- Websocket client error ------");
-      error.printStackTrace();    
+      error.printStackTrace();
     }
 
     @OnWebSocketClose

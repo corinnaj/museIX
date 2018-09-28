@@ -92,6 +92,7 @@ class WaveGeneratorNode extends FrequencyChangerNode {
 	WavePlayer wavePlayer;
 	Gain gain;
 	Shape icon;
+	Style iconStyle;
 
 	WaveGeneratorNode(AudioContext ac) {
 		super(new Glide(ac, 440));
@@ -99,6 +100,7 @@ class WaveGeneratorNode extends FrequencyChangerNode {
 		gain = new Gain(ac, 1, 0.3);
 		gain.addInput(wavePlayer);
 		icon = new SVGShape(loadShape("icons/sine-wave.svg"));
+		iconStyle = new Style().hasStroke(false).fillColor(#000000);
 	}
 
 	@Override
@@ -122,7 +124,7 @@ class WaveGeneratorNode extends FrequencyChangerNode {
 	void draw() {
 		super.draw();
 		shape.translateToCenterOfRotation(-1);
-		icon.draw(style);
+		icon.draw(iconStyle);
 		shape.translateToCenterOfRotation(1);
 	}
 

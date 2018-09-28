@@ -57,7 +57,7 @@ class DrumsSequencer extends Morph {
 	int measures = 4;
 
 	static final int TEXT_WIDTH = 100;
-	static final int BUTTON_HEIGHT = 48;
+	static final int BUTTON_HEIGHT = 64;
 
 	ExtendedSequencerInstrumentInputNode input;
 
@@ -86,28 +86,43 @@ class DrumsSequencer extends Morph {
 			}
 		}
 
-		addMorph(new ButtonMorph(
-			new CircleShape(BUTTON_HEIGHT / 2),
-			new Style().fillColor(#00ff00),
+		addMorph(new IconButtonMorph(
+			"add",
+			#00ff00,
 			new ButtonMorphListener() {
 				@Override public void buttonPressed() {
 					DrumsSequencer.this.addMeasure();
 				}
 			}).setPosition(BUTTON_HEIGHT, HEIGHT - BUTTON_HEIGHT / 2));
 
-		addMorph(new ButtonMorph(
-			new CircleShape(BUTTON_HEIGHT / 2),
-			new Style().fillColor(#ff0000),
+		addMorph(new IconButtonMorph(
+			"remove",
+			#ff0000,
+			new ButtonMorphListener() {
+				@Override public void buttonPressed() {
+					DrumsSequencer.this.removeMeasure();
+				}
+			}).setPosition(BUTTON_HEIGHT * 2, HEIGHT - BUTTON_HEIGHT / 2));
+
+		addMorph(new IconButtonMorph(
+			"close",
+			#ffffff,
 			new ButtonMorphListener() {
 				@Override public void buttonPressed() {
 					DrumsSequencer.this.delete();
 				}
-			}).setPosition(BUTTON_HEIGHT + BUTTON_HEIGHT * 2, HEIGHT - BUTTON_HEIGHT / 2));
+			}).setPosition(BUTTON_HEIGHT * 3, HEIGHT - BUTTON_HEIGHT / 2));
 	}
 
 	void addMeasure() {
 		measures++;
 		input.addMeasure();
+		constructPanel();
+	}
+
+	void removeMeasure() {
+		measures--;
+		input.removeMeasure();
 		constructPanel();
 	}
 
@@ -120,7 +135,7 @@ class DrumsSequencer extends Morph {
 		translate(position.x, position.y);
 		float incr = (WIDTH - TEXT_WIDTH) / (float) measures;
 		stroke(#cccccc);
-		strokeWeight(4);
+		strokeWeight(4.0);
 		for (float x = TEXT_WIDTH; x < WIDTH; x += incr) {
 			line(x, 0, x, line_height);
 		}
@@ -166,6 +181,7 @@ class ExtendedDrumsInstrument extends SampleBasedInstrument {
 
 class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 	Shape icon;
+	Style iconStyle;
 
 	static final int VELOCITY = 200;
 	static final float INTERVAL_MS = 1000;
@@ -185,6 +201,7 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 		ac.out.addDependent(clock);
 
 		icon = new SVGShape(loadShape("icons/sequencer.svg"));
+		iconStyle = new Style().hasStroke(false).fillColor(#000000);
 
 		int n_steps = TICKS_PER_BEAT * measures;
 		steps = new boolean[N_TRACKS][TICKS_PER_BEAT * measures];
@@ -218,10 +235,21 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 		steps = new_steps;
 	}
 
+	void removeMeasure() {
+		measures--;
+		boolean[][] new_steps = new boolean[N_TRACKS][TICKS_PER_BEAT * measures];
+		for (int row = 0; row < N_TRACKS; row++) {
+			for (int i = 0; i < TICKS_PER_BEAT * measures; i++) {
+				new_steps[row][i] = steps[row][i];
+			}
+		}
+		steps = new_steps;
+	}
+
 	@Override void draw() {
 		super.draw();
 		shape.translateToCenterOfRotation(-1);
-		icon.draw(style);
+		icon.draw(iconStyle);
 		shape.translateToCenterOfRotation(1);
 	}
 

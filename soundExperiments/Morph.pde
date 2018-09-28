@@ -31,13 +31,20 @@ abstract class Shape {
 class SVGShape extends RectangleShape {
 	PShape shape;
 
-	SVGShape(PShape shape) {
-		super(shape.width, shape.height);
+	SVGShape(PShape shape, float scale) {
+		super(shape.width * scale, shape.height * scale);
+		shape.scale(scale);
+		shape.disableStyle();
 		this.shape = shape;
+	}
+
+	SVGShape(PShape shape) {
+		this(shape, 1.0);
 	}
 
 	@Override
 	void draw(Style style) {
+		style.apply();
 		shape(shape);
 	}
 }
@@ -211,8 +218,8 @@ class Style {
 		if (!_hasStroke) {
 			noStroke();
 		} else {
-			stroke(_strokeColor);
 			strokeWeight(_strokeWeight);
+			stroke(_strokeColor);
 		}
 	}
 
@@ -221,7 +228,7 @@ class Style {
 	Style fillColor(color c) { _fillColor = c; return this; }
 	color fillColor() { return _fillColor; }
 	Style strokeColor(color c) { _strokeColor = c; return this; }
-	Style strokeWeight(float f) { _strokeWeight = f; return this; }
+	Style strokeSize(float f) { _strokeWeight = f; return this; }
 }
 
 class Morph {
@@ -476,19 +483,3 @@ class WorldMorph extends Morph {
 	}
 }
 
-interface ButtonMorphListener {
-	void buttonPressed();
-}
-
-class ButtonMorph extends Morph {
-	ButtonMorphListener listener;
-
-	ButtonMorph(Shape shape, Style style, ButtonMorphListener listener) {
-		super(shape, style);
-		this.listener = listener;
-	}
-
-	@Override void mousePress(MouseEvent event) {
-		listener.buttonPressed();
-	}
-}

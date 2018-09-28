@@ -119,9 +119,13 @@ enum AudioNodeOutputType {
 	NONE
 }
 
+
 class WaveAudioNodeCircleShape extends CircleShape {
 	static final float MAX_GROW_RADIUS = 100;
 	static final float BASE_RADIUS = 64;
+
+	final Style ICON_STYLE = new Style().hasStroke(false).fillColor(#000000);
+
 	AudioNode node;
 	PShape icon;
 	float baseRadius;
@@ -144,6 +148,7 @@ class WaveAudioNodeCircleShape extends CircleShape {
 
 		pushMatrix();
 		translate(-BASE_RADIUS, -BASE_RADIUS);
+		ICON_STYLE.apply();
 		shape(icon);
 		popMatrix();
 	}
