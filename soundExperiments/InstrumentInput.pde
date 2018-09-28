@@ -52,7 +52,7 @@ abstract class InstrumentInputNode extends AudioNode {
 
 	@Override boolean wantsToConnectTo(Node node) {
 		// FIXME might be too restrictive, but works for now
-		return node instanceof InstrumentNode;
+		return node instanceof InstrumentNode || node instanceof TrashNode;
 	}
 
 	@Override AudioNodeOutputType getOutputType() {

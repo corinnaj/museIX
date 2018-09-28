@@ -88,12 +88,21 @@ class DrumsSequencer extends Morph {
 
 		addMorph(new ButtonMorph(
 			new CircleShape(BUTTON_HEIGHT / 2),
-			new Style().fillColor(#ff0000),
+			new Style().fillColor(#00ff00),
 			new ButtonMorphListener() {
 				@Override public void buttonPressed() {
 					DrumsSequencer.this.addMeasure();
 				}
 			}).setPosition(BUTTON_HEIGHT, HEIGHT - BUTTON_HEIGHT / 2));
+
+		addMorph(new ButtonMorph(
+			new CircleShape(BUTTON_HEIGHT / 2),
+			new Style().fillColor(#ff0000),
+			new ButtonMorphListener() {
+				@Override public void buttonPressed() {
+					DrumsSequencer.this.delete();
+				}
+			}).setPosition(BUTTON_HEIGHT + BUTTON_HEIGHT * 2, HEIGHT - BUTTON_HEIGHT / 2));
 	}
 
 	void addMeasure() {

@@ -34,15 +34,18 @@ class Node extends Morph {
 		super.fullDraw();
 	}
 
-	@Override
-	void mousePress(MouseEvent event) {
+	@Override void mousePress(MouseEvent event) {
 		dragging = true;
 		lastPosition.set(event.x, event.y);
 		grabMouseFocus();
 	}
 
-	@Override
-	void mouseMove(MouseEvent event) {
+	@Override void mouseMove(MouseEvent event) {
+		if (owner == null) {
+			cancelMoving();
+			return;
+		}
+
 		if (dragging) {
 			position.add(event.x - lastPosition.x, event.y - lastPosition.y);
 			lastPosition.set(event.x, event.y);
@@ -74,6 +77,7 @@ class Node extends Morph {
 	@Override Morph delete() {
 		cutAllConnections();
 		cutAllIncomingConnections();
+		((NodeWorldMorph) getWorld()).removeNode(this);
 		return super.delete();
 	}
 
@@ -111,7 +115,8 @@ class Node extends Morph {
 enum AudioNodeOutputType {
 	FREQUENCIES,
 	NOTES,
-	WAVES
+	WAVES,
+	NONE
 }
 
 class WaveAudioNodeCircleShape extends CircleShape {

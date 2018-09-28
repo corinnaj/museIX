@@ -5,8 +5,6 @@ class Desktop extends App {
 	Desktop(PApplet applet) {
 		super();
 
-		Style s = new Style();
-
 		ac = new AudioContext();
 
 		final AudioNode wave = (AudioNode) new WaveGeneratorNode(ac).setPosition(500, 700);
@@ -56,7 +54,9 @@ class Desktop extends App {
 				}
 		});
 
-		new Morph(new WaveformShape(ac.out, 400, 100), s).setPosition(100, 400).addTo(world);
+
+		((NodeWorldMorph) world).addNode((Node) new TrashNode().topRight(world.topRight()));
+		new Morph(new WaveformShape(ac.out, 400, 100), new Style()).setPosition(100, 400).addTo(world);
 		new AddPanelMorph(ac).addTo(world);
 
 		// new DrumsSequencer().addTo(world);
