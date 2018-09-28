@@ -6,7 +6,7 @@ class WaveGeneratorNode extends RotatableNode {
 	Style iconStyle;
 
 	WaveGeneratorNode(AudioContext ac) {
-		super(ac, 440, "sine-wave", new Style().fillColor(#ff00ff));
+		super(ac, 440, "sine-wave", new Style().fillColor(Theme.GENERATOR_COLOR));
 		wavePlayer = new WavePlayer(ac, getGlide(), Buffer.SINE);
 		gain = new Gain(ac, 1, 0.3);
 		gain.addInput(wavePlayer);

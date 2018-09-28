@@ -1,11 +1,14 @@
 
 class RotationIndicatorShape extends CircleShape {
+	final Style ICON_STYLE = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
+
 	final float WIDTH = 10;
 
 	float min;
 	float max;
 
 	float value;
+	boolean active = false;
 
 	PShape icon;
 	boolean logMode;
@@ -13,6 +16,7 @@ class RotationIndicatorShape extends CircleShape {
 	RotationIndicatorShape(PShape icon, boolean logMode, float min, float max, float value) {
 		super(60);
 		this.icon = icon;
+		icon.disableStyle();
 		this.logMode = logMode;
 		if (logMode) {
 			this.min = log(min);
@@ -33,20 +37,33 @@ class RotationIndicatorShape extends CircleShape {
 		return value;
 	}
 
-	@Override
-	void draw(Style style) {
+	color brighten(color col) {
+		colorMode(HSB);
+		color newCol = color(hue(col), saturation(col), brightness(col) + 40);
+		colorMode(RGB);
+		return newCol;
+	}
+
+	@Override void draw(Style style) {
+		color originalColor = 0;
+		if (active) {
+			originalColor = style.fillColor();
+			style.fillColor(brighten(style.fillColor()));
+		}
 		super.draw(style);
+		if (active) {
+			style.fillColor(originalColor);
+		}
 
 		float width = (WIDTH + radius) * 2;
 		arc(0, 0, width, width, 0, map(value, min, max, 0, 2 * PI));
 
+		ICON_STYLE.apply();
 		shape(icon, -radius, -radius);
 	}
 }
 
 abstract class RotatableNode extends AudioNode {
-	final Style ICON_STYLE = new Style().hasStroke(false).fillColor(#000000);
-
 	Glide glide;
 
 	boolean active = false;
@@ -76,6 +93,7 @@ abstract class RotatableNode extends AudioNode {
 
 		cancelMoving();
 		active = true;
+		((RotationIndicatorShape) shape).active = true;
 		grabMouseFocus();
 		lastMousePos.set(event.x, event.y);
 	}
@@ -99,6 +117,7 @@ abstract class RotatableNode extends AudioNode {
 		super.mouseRelease(event);
 
 		active = false;
+		((RotationIndicatorShape) shape).active = false;
 		releaseMouseFocus();
 	}
 }

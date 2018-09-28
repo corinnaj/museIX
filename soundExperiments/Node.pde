@@ -12,6 +12,8 @@ class Node extends Morph {
 	Node(Shape shape, Style style, Style lineStyle) {
 		super(shape, style);
 		this.lineStyle = lineStyle;
+		// FIXME not good style
+		lineStyle.strokeColor(Theme.LINE_COLOR);
 	}
 
 	void connectTo(Node node) {
@@ -128,7 +130,7 @@ class WaveAudioNodeCircleShape extends CircleShape {
 	static final float MAX_GROW_RADIUS = 100;
 	static final float BASE_RADIUS = 64;
 
-	final Style ICON_STYLE = new Style().hasStroke(false).fillColor(#000000);
+	final Style ICON_STYLE = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
 
 	AudioNode node;
 	PShape icon;
@@ -138,13 +140,14 @@ class WaveAudioNodeCircleShape extends CircleShape {
 		super(BASE_RADIUS);
 		this.node = node;
 		this.icon = loadShape("icons/" + icon + ".svg");
+		this.icon.disableStyle();
 	}
 
 	@Override void draw(Style style) {
 		float grow = Math.max(0, node.getOutput().getValue() * MAX_GROW_RADIUS);
 		float size = BASE_RADIUS * 2 + grow;
 		noStroke();
-		fill(#999999);
+		fill(Theme.WAVES_COLOR);
 		ellipse(0, 0, size, size);
 
 		style.apply();

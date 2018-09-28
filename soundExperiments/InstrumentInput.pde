@@ -78,14 +78,14 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 	static final int VELOCITY = 200;
 
 	public SequencerInstrumentInputNode(AudioContext ac) {
-		super(new CircleShape(64), new Style().fillColor(#cc4444));
+		super(new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
 
 		Clock clock = new Clock(ac, 1000);
 		clock.setTicksPerBeat(4);
 		ac.out.addDependent(clock);
 
 		icon = new SVGShape(loadShape("icons/sequencer.svg"));
-		iconStyle = new Style().hasStroke(false).fillColor(#000000);
+		iconStyle = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
 
 		Bead sequencer = new Bead () {
 			public void messageReceived(Bead message)
@@ -129,13 +129,15 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 
 class RemoteInstrumentInputNode extends InstrumentInputNode {
 	Shape icon;
+	Style iconStyle;
 	String id;
 
 	public RemoteInstrumentInputNode(String id) {
-		super(new CircleShape(64), new Style().fillColor(#cc4444));
+		super(new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
 
 		this.id = id;
 		icon = new SVGShape(loadShape("icons/input.svg"));
+		iconStyle = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
 	}
 
 	InstrumentListener createListener() {
@@ -162,6 +164,7 @@ class RemoteInstrumentInputNode extends InstrumentInputNode {
 	void draw() {
 		super.draw();
 		shape.translateToCenterOfRotation(-1);
+		iconStyle.apply();
 		icon.draw(style);
 		shape.translateToCenterOfRotation(1);
 	}

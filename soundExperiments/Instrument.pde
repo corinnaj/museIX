@@ -11,7 +11,7 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 	final HashMap<String,Note> notes;
 
 	InstrumentNode(final AudioContext ac) {
-		super(null, new Style().fillColor(#ff0000));
+		super(null, new Style().fillColor(Theme.GENERATOR_COLOR));
 		shape = new WaveAudioNodeCircleShape(this, getIconName());
 
 		notes = new HashMap<String,Note>();

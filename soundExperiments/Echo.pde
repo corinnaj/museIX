@@ -9,7 +9,7 @@ class EchoNode extends RotatableNode {
 	Shape icon;
 
 	EchoNode(AudioContext ac) {
-		super(ac, false, 500, MIN_MS, MAX_MS, 2, "echo", new Style().fillColor(#73DCFF));
+		super(ac, false, 500, MIN_MS, MAX_MS, 2, "echo", new Style().fillColor(Theme.FILTER_COLOR));
 
 		inputs = new Gain(ac, 1);
 

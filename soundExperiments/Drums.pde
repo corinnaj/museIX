@@ -195,14 +195,14 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 	Clock clock;
 
 	public ExtendedSequencerInstrumentInputNode(AudioContext ac) {
-		super(new CircleShape(64), new Style().fillColor(#cc4444));
+		super(new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
 
 		clock = new Clock(ac, INTERVAL_MS);
 		clock.setTicksPerBeat(TICKS_PER_BEAT);
 		ac.out.addDependent(clock);
 
 		icon = new SVGShape(loadShape("icons/sequencer.svg"));
-		iconStyle = new Style().hasStroke(false).fillColor(#000000);
+		iconStyle = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
 
 		int n_steps = TICKS_PER_BEAT * measures;
 		steps = new boolean[N_TRACKS][TICKS_PER_BEAT * measures];

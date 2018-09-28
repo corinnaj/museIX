@@ -1,7 +1,7 @@
 
 class TrashNode extends AudioNode {
 	TrashNode() {
-		super(new SVGShape(loadShape("icons/trash.svg")), new Style().hasStroke(false).fillColor(#000000));
+		super(new SVGShape(loadShape("icons/trash.svg")), new Style().hasStroke(false).fillColor(#cccccc));
 	}
 
 	@Override void addInput(final AudioNode node) {
