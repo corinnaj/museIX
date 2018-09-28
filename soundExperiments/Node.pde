@@ -28,10 +28,14 @@ class Node extends Morph {
 		PVector myCenter = center();
 		for (Node other : connected) {
 			PVector otherCenter = other.center();
-			line(myCenter.x, myCenter.y, otherCenter.x, otherCenter.y);
+			drawConnection(myCenter, otherCenter);
 		}
 
 		super.fullDraw();
+	}
+	
+	void drawConnection(PVector start, PVector end) {
+		line(start.x, start.y, end.x, end.y);
 	}
 
 	@Override void mousePress(MouseEvent event) {
@@ -171,6 +175,10 @@ abstract class AudioNode extends Node {
 	void connectTo(Node node) {
 		((AudioNode) node).addInput(this);
 		super.connectTo(node);
+	}
+
+	@Override void drawConnection(PVector start, PVector end) {
+		drawWaveformLine(start, end, getOutput());
 	}
 
 	@Override

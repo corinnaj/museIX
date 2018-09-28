@@ -65,6 +65,7 @@ class DrumsSequencer extends Morph {
 		super(new RectangleShape(WIDTH, HEIGHT), new Style().fillColor(#333333));
 
 		this.input = input;
+		measures = input.steps[0].length / BEATS_PER_MEASURE;
 
 		constructPanel();
 	}
@@ -188,7 +189,7 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 	static final int TICKS_PER_BEAT = 4;
 	static final int N_TRACKS = 8;
 
-	int measures = 4;
+	int measures = 2;
 	boolean[][] steps;
 
 	Clock clock;
@@ -205,6 +206,10 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 
 		int n_steps = TICKS_PER_BEAT * measures;
 		steps = new boolean[N_TRACKS][TICKS_PER_BEAT * measures];
+		steps[3][1] = true;
+		steps[3][3] = true;
+		steps[3][5] = true;
+		steps[3][7] = true;
 
 		Bead sequencer = new Bead () {
 			public void messageReceived(Bead message)
