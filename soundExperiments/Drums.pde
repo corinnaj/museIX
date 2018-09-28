@@ -210,6 +210,7 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 		steps[3][3] = true;
 		steps[3][5] = true;
 		steps[3][7] = true;
+		steps[4][0] = true;
 
 		Bead sequencer = new Bead () {
 			public void messageReceived(Bead message)

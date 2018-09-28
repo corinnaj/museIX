@@ -5,6 +5,28 @@ abstract class Note {
 	abstract void changePitch(int deltaKey);
 }
 
+class RemoveConnectionTrigger extends Bead {
+	UGen from;
+	UGen subject;
+	WorldMorph world;
+
+	RemoveConnectionTrigger(UGen from, UGen subject, WorldMorph world) {
+		this.from = from;
+		this.subject = subject;
+		this.world = world;
+	}
+
+	public void messageReceived(Bead message) {
+		world.addPostFrameCallback(new Callback() {
+				@Override public void run() {
+					if (from != null && subject != null) {
+						from.removeAllConnections(subject);
+					}
+				}
+		});
+	}
+}
+
 abstract class InstrumentNode extends AudioNode implements InstrumentInputListener {
 	final Gain output;
 	final AudioContext ac;
@@ -21,6 +43,10 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 
 	String getIconName() {
 		return "instrument";
+	}
+
+	boolean ignoreNoteOff() {
+		return false;
 	}
 
 	@Override void addInput(AudioNode node) {
@@ -60,6 +86,9 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 			return;
 		Note note = notes.get(id);
 		note.stop(velocityKey, output);
+		if (!ignoreNoteOff()) {
+			output.removeAllConnections(note.getOutput());
+		}
 		notes.remove(id);
 	}
 
