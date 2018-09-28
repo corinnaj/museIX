@@ -34,7 +34,7 @@ public class Communication {
     }
 
     // final String url = "ws://127.0.0.1:8037/museIX";
-    final String url = "ws://10.42.0.1:8037/museIX";
+    final String url = "ws://127.0.0.1:8037/museIX";
     ClientUpgradeRequest request = new ClientUpgradeRequest();
     try {
       client.connect(this, new URI(url), request);
@@ -78,6 +78,10 @@ public class Communication {
     sendMessage('n', noteId, frequency, velocity);
     nextNoteId = nextNoteId + 1 % 100;
     return noteId;
+  }
+
+  void changeControl(int command, int parameter1, int parameter2) {
+    sendMessage('c', command, parameter1, parameter2);
   }
 
   void noteOff(int note, int velocity) {

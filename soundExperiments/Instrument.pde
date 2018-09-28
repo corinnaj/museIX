@@ -70,5 +70,9 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 		note.changePitch(frequencyKey);
 	}
 
+	// can be overriden if need be, otherwise ignores all control commands
+	void changeControl(int command, int parameter1, int parameter2) {
+	}
+
 	abstract Note createNote(AudioContext ac, int frequencyKey, int velocityKey);
 }

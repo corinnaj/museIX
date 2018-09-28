@@ -68,4 +68,9 @@ class DrumsInstrument extends SampleBasedInstrument {
 			"drum-tom-hi-brush.wav",
 		};
 	}
+
+	@Override void changeControl(int control, int parameter1, int parameter2) {
+		// just an example, actual impl todo
+		println("Change control ", control, parameter1, parameter2);
+	}
 }
