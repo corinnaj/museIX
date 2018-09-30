@@ -5,7 +5,7 @@ class Violin extends Instrument {
   static final float gFrequency = 196.0;
   float currentFrequency = 0.0;
   int initialMouseY = 0;
-  
+
   int prevMouseX = -1;
   int tutStep = -1;
   boolean isInTut = false;
@@ -35,7 +35,7 @@ class Violin extends Instrument {
       createTutorialButton();
     }
   }
-  
+
   void createLabels() {
     fill(255);
     textSize(100);
@@ -44,7 +44,7 @@ class Violin extends Instrument {
     text("A", 6 * width/10, height - 100);
     text("E", 26 * width/36, height - 100);
   }
-  
+
   void createTutorialButton() {
     noStroke();
     fill(125, 125);
@@ -71,11 +71,11 @@ class Violin extends Instrument {
         text("Drag finger up or down to change the pitch", 0, 0, width, height);
     }
   }
-  
+
    boolean isInTutButton() {
      return mouseX > 40 && mouseX < 440 && mouseY > 40 && mouseY < 160;
    }
-   
+
   void mousePressed() {
     initialMouseY = mouseY;
     if (isInTut) {

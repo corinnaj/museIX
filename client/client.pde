@@ -22,6 +22,7 @@ void setup() {
 
   instruments.put("violin", new Violin());
   instruments.put("guitar", new Guitar());
+  instruments.put("synth", new Synth());
 
   instrument = new NoInstrument();
   sensor.start();
@@ -34,10 +35,11 @@ void draw() {
   if (accelerometerX < 1 && accelerometerX > -1.5 &&
       accelerometerY < 2 && accelerometerY > -0.5 &&
       accelerometerZ > 9 && accelerometerZ < 10.5) {
-    instrument = instruments.get("violin");
+    //instrument = instruments.get("violin");
   //} else {
     //instrument = instruments.get("guitar");
   }
+  instrument = instruments.get("synth");
   instrument.display();
 }
 

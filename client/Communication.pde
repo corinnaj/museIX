@@ -34,7 +34,7 @@ public class Communication {
     }
 
     // final String url = "ws://127.0.0.1:8037/museIX";
-    final String url = "ws://10.42.0.1:8037/museIX";
+    final String url = "ws://192.168.43.184:8037/museIX";
     ClientUpgradeRequest request = new ClientUpgradeRequest();
     try {
       client.connect(this, new URI(url), request);
@@ -107,7 +107,7 @@ public class Communication {
       println("Invalid length, skpping", msg, id, Integer.toString(noteId), Integer.toString(parameter));
       return;
     }
-          
+
     assert(msg.length() == 9);
     sendMessage(msg);
   }
@@ -124,7 +124,7 @@ public class Communication {
         }
       }
     });
-    thread.start(); 
+    thread.start();
   }
 }
 
