@@ -19,11 +19,19 @@ void draw() {
 }
 
 void mousePressed() {
+  // test for control messages
+  if (mouseButton == RIGHT) {
+    communication.changeControl(3, 4, 5);
+    return;
+  }
   currentBaseFrequencyKey = mouseY;
   currentNote = communication.noteOn((int) map(mouseY, 0, height, 0, 999), 200);
 }
 
 void mouseReleased() {
+  if (mouseButton == RIGHT)
+    return;
+    
   communication.noteOff(currentNote, 200);
   currentNote = -1;
 }

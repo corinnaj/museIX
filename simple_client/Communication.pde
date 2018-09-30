@@ -80,6 +80,10 @@ public class Communication {
     return noteId;
   }
 
+  void changeControl(int command, int parameter1, int parameter2) {
+      sendMessage('c', command, parameter1, parameter2);
+    }
+
   void noteOff(int note, int velocity) {
     sendMessage('f', note, velocity);
   }
@@ -125,7 +129,7 @@ public class Communication {
         }
       }
     });
-    thread.start(); 
+    thread.start();
   }
 }
 

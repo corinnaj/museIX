@@ -218,6 +218,11 @@ class Synth extends Instrument {
         stroke(200, 150, 100);
         rect(firstBlackBoxPosX + (boxSideLength * 3) + 9, boxPosY, boxSideLength / 1.6, blackKeyLength);
         stroke(0);
+
+        // Keyboard area
+        stroke(3);
+        rect(firstBlackBoxPosX + (boxSideLength * 3) + 9, boxPosY, boxSideLength / 1.6, blackKeyLength);
+        stroke(0);
     }
 
 //--Key positions used in mousedPressed methods---------------------------------
@@ -242,110 +247,117 @@ class Synth extends Instrument {
          println("mouseX: " + mouseX);
          println("mouseY: " + mouseY);
 
+//------ Checks if mouse is pressed within keyboardarea ------------------------
+        if (mouseX > 35 && mouseX <= 1881 && mouseY > 230 && mouseY <= 975) {
+
 //------Click on BlackPianoKeys-------------------------------------------------
-        float blackKeyPosY2 = boxPosY + blackKeyLength;
-        // black key one
-        if (mouseX > firstBlackBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
-            && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-            currentFrequency = 138.6;
-        }
-        // black key two
-        if (mouseX > blackKeyMousePressedX1(1) && mouseX <= blackKeyMousePressedX2(1)
-            && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-            currentFrequency = 155.6;
-        }
-        // black key three
-        if (mouseX > blackKeyMousePressedX1(3) && mouseX <= blackKeyMousePressedX2(3)
-            && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-            currentFrequency = 185.0;
-        }
-        // black key fire
-        if (mouseX > blackKeyMousePressedX1(4) && mouseX <= blackKeyMousePressedX2(4)
-            && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-            currentFrequency = 207.6;
-        }
-        // black key fem
-        if (mouseX > blackKeyMousePressedX1(5) && mouseX <= blackKeyMousePressedX2(5)
-            && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-            currentFrequency = 233.0;
-        }
-        // black key six
-        if (mouseX > blackKeyMousePressedX1(7) && mouseX <= blackKeyMousePressedX2(7)
-            && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-            println("Black key 6 er trykket på");
-            currentFrequency = 277.2;
-        }
-        // black key seven
-        if (mouseX > blackKeyMousePressedX1(8) && mouseX <= blackKeyMousePressedX2(8)
-            && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-            println("Black key 7 er trykket på");
-            currentFrequency = 311.1;
-        }
+            float blackKeyPosY2 = boxPosY + blackKeyLength;
+            // black key one
+            if (mouseX > firstBlackBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
+                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
+                currentFrequency = 138.6;
+            }
+            // black key two
+            if (mouseX > blackKeyMousePressedX1(1) && mouseX <= blackKeyMousePressedX2(1)
+                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
+                currentFrequency = 155.6;
+            }
+            // black key three
+            if (mouseX > blackKeyMousePressedX1(3) && mouseX <= blackKeyMousePressedX2(3)
+                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
+                currentFrequency = 185.0;
+            }
+            // black key fire
+            if (mouseX > blackKeyMousePressedX1(4) && mouseX <= blackKeyMousePressedX2(4)
+                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
+                currentFrequency = 207.6;
+            }
+            // black key fem
+            if (mouseX > blackKeyMousePressedX1(5) && mouseX <= blackKeyMousePressedX2(5)
+                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
+                currentFrequency = 233.0;
+            }
+            // black key six
+            if (mouseX > blackKeyMousePressedX1(7) && mouseX <= blackKeyMousePressedX2(7)
+                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
+                println("Black key 6 er trykket på");
+                currentFrequency = 277.2;
+            }
+            // black key seven
+            if (mouseX > blackKeyMousePressedX1(8) && mouseX <= blackKeyMousePressedX2(8)
+                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
+                println("Black key 7 er trykket på");
+                currentFrequency = 311.1;
+            }
 
 //------CLICK ON WHITE PIANO KEYS --------------------------------------
-        float whiteKeyPosY2 = whiteboxesPosY + whiteKeysLength;
-        // first key (0)
-        if (mouseX > firstBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
-            && mouseY > whiteBoxMousePressedPosY && mouseY <= whiteKeyPosY2) {
-            println("Første key er trykket på");
-            currentFrequency = 130.8;
-        }
-        // seccond key (1)
-        if (mouseX > whiteKeyMousePressedX1(1) && mouseX <= whiteKeyMousePressedX2(1)
-            && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-            println("Andre key er trykket på");
-            currentFrequency = 146.6;
-        }
-        // third key (2)
-        if (mouseX > whiteKeyMousePressedX1(2) && mouseX <= whiteKeyMousePressedX2(2)
-            && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-            println("Tredje key er trykket på");
-            currentFrequency = 164.8;
-        }
-        // fourth key (3)
-        if (mouseX > whiteKeyMousePressedX1(3) && mouseX <= whiteKeyMousePressedX2(3)
-            && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-            println("Fjerde key er trykket på");
-            currentFrequency = 174.6;
+            float whiteKeyPosY2 = whiteboxesPosY + whiteKeysLength;
+            // first key (0)
+            if (mouseX > firstBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
+                && mouseY > whiteBoxMousePressedPosY && mouseY <= whiteKeyPosY2) {
+                println("Første key er trykket på");
+                currentFrequency = 130.8;
+            }
+            // seccond key (1)
+            if (mouseX > whiteKeyMousePressedX1(1) && mouseX <= whiteKeyMousePressedX2(1)
+                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
+                println("Andre key er trykket på");
+                currentFrequency = 146.6;
+            }
+            // third key (2)
+            if (mouseX > whiteKeyMousePressedX1(2) && mouseX <= whiteKeyMousePressedX2(2)
+                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
+                println("Tredje key er trykket på");
+                currentFrequency = 164.8;
+            }
+            // fourth key (3)
+            if (mouseX > whiteKeyMousePressedX1(3) && mouseX <= whiteKeyMousePressedX2(3)
+                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
+                println("Fjerde key er trykket på");
+                currentFrequency = 174.6;
 
-        }
-        // fifth key (4)
-        if (mouseX > whiteKeyMousePressedX1(4) && mouseX <= whiteKeyMousePressedX2(4)
-            && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-            println("Femte key er trykket på");
-            currentFrequency = 196.0;
-        }
-        // sixth key (5)
-        if (mouseX > whiteKeyMousePressedX1(5) && mouseX <= whiteKeyMousePressedX2(5)
-            && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-            println("Sjette key er trykket på");
-            currentFrequency = 220.00;
-        }
-        //  seventh key (6)
-        if (mouseX > whiteKeyMousePressedX1(6) && mouseX <= whiteKeyMousePressedX2(6)
-            && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-            println("Sjuende key er trykket på");
-            currentFrequency = 247.0;
-        }
-        //  eight key (7)
-        if (mouseX > whiteKeyMousePressedX1(7) && mouseX <= whiteKeyMousePressedX2(7)
-            && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-            println("Åttende key er trykket på");
-            currentFrequency = 261.6;
-        }
-        // ninth key (8)
-        if (mouseX > whiteKeyMousePressedX1(8) && mouseX <= whiteKeyMousePressedX2(8)
-            && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-            println("Niende key er trykket på");
-            currentFrequency = 293.7;
-        }
-        // tenth key (9)
-        if (mouseX > whiteKeyMousePressedX1(9) && mouseX <= whiteKeyMousePressedX2(9)
-            && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-            println("Tiende key er trykket på");
-            currentFrequency = 329.6;
-        }
-        currentNote = communication.noteOn((int) currentFrequency, 2);
+            }
+            // fifth key (4)
+            if (mouseX > whiteKeyMousePressedX1(4) && mouseX <= whiteKeyMousePressedX2(4)
+                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
+                println("Femte key er trykket på");
+                currentFrequency = 196.0;
+            }
+            // sixth key (5)
+            if (mouseX > whiteKeyMousePressedX1(5) && mouseX <= whiteKeyMousePressedX2(5)
+                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
+                println("Sjette key er trykket på");
+                currentFrequency = 220.00;
+            }
+            //  seventh key (6)
+            if (mouseX > whiteKeyMousePressedX1(6) && mouseX <= whiteKeyMousePressedX2(6)
+                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
+                println("Sjuende key er trykket på");
+                currentFrequency = 247.0;
+            }
+            //  eight key (7)
+            if (mouseX > whiteKeyMousePressedX1(7) && mouseX <= whiteKeyMousePressedX2(7)
+                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
+                println("Åttende key er trykket på");
+                currentFrequency = 261.6;
+            }
+            // ninth key (8)
+            if (mouseX > whiteKeyMousePressedX1(8) && mouseX <= whiteKeyMousePressedX2(8)
+                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
+                println("Niende key er trykket på");
+                currentFrequency = 293.7;
+            }
+            // tenth key (9)
+            if (mouseX > whiteKeyMousePressedX1(9) && mouseX <= whiteKeyMousePressedX2(9)
+                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
+                println("Tiende key er trykket på");
+                currentFrequency = 329.6;
+            }
+            currentNote = communication.noteOn((int) currentFrequency, 2);
+        } else {
+            communication.noteOff(currentNote, 0);
+            }
+
 
 //------ ADSR controllers -----------------------------------------------------
         if (dist(mouseX, mouseY, firstCircPosX, circlePosY) < circleRadius) {
@@ -372,6 +384,10 @@ class Synth extends Instrument {
         if (currentOscillatorType > 5) { currentOscillatorType = SINE_OSC; }
         return currentOscillatorType++;
     }
+
+    //void changeOscillatorType() {
+    //    communication.changeControl()
+    //}
 
     void mouseReleased() {
         communication.noteOff(currentNote, 0);

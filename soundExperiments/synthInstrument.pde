@@ -8,10 +8,10 @@ class SynthNote extends Note {
     float baseFrequency;
 
     SynthNote(AudioContext ac, int frequencyKey, int velocityKey) {
-        baseFrequency = map(frequencyKey, 0, 999, 50, 2000);
+        baseFrequency = frequencyKey;
 
         envelope = new Envelope(ac, 0.0);
-        envelope.addSegment(0.5, map(velocityKey, 0, 999, 100, 1000));
+        envelope.addSegment(0.5, velocityKey);
 
         gain = new Gain(ac, 1, envelope);
         frequency = new Glide(ac, baseFrequency);
@@ -25,16 +25,15 @@ class SynthNote extends Note {
 	}
 
 	@Override void changePitch(int deltaKey) {
-		float delta = map(deltaKey, 0, 999, -100, 100);
+		float delta = deltaKey;
 		frequency.setValue(baseFrequency + delta);
 	}
 
 	@Override void stop(int velocityKey, UGen disconnectFrom) {
-		float velocity = map(velocityKey, 0, 999, 100, 1000);
+		float velocity = velocityKey;
 		envelope.addSegment(0.0, velocity, new KillTrigger(gain));
 		// TODO remove connection to parent by using a KillAndDisconnectTrigger(parent, gain)
 	}
-
 }
 
 class SynthInstrument extends InstrumentNode {
@@ -46,7 +45,6 @@ class SynthInstrument extends InstrumentNode {
         return "synth";
     }
 
-    // This is how you get the sound out
     @Override Note createNote(AudioContext ac, int frequencyKey, int velocityKey) {
         return new SynthNote(ac, frequencyKey, velocityKey);
     }

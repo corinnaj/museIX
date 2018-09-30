@@ -88,6 +88,10 @@ public class Communication {
     sendMessage('p', note, change);
   }
 
+  void changeControl(int command, int parameter1, int parameter2) {
+    sendMessage('c', command, parameter1, parameter2);
+  }
+
   String getId() {
     return id;
   }

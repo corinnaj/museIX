@@ -3,6 +3,7 @@ interface InstrumentInputListener {
 	void noteOn(final String id, final int frequencyKey, final int velocityKey);
 	void noteOff(String id, int velocityKey);
 	void changePitch(String id, int frequencyKey);
+    void changeControl(int command, int parameter1, int parameter2);
 }
 
 abstract class InstrumentInputNode extends AudioNode {
@@ -38,7 +39,14 @@ abstract class InstrumentInputNode extends AudioNode {
 		}
 	}
 
-	@Override boolean acceptsIncomingConnection(Node node) {
+    void changeControl(String command, int parameter1, int parameter2) {
+		int intCommand = Integer.valueOf(command);
+		for (InstrumentInputListener l : listeners) {
+			l.changeControl(intCommand, parameter1, parameter2);
+		}
+	}
+
+    @Override boolean acceptsIncomingConnection(Node node) {
 		return false;
 	}
 
@@ -140,6 +148,10 @@ class RemoteInstrumentInputNode extends InstrumentInputNode {
 
 			public void changePitch(String id, int deltaKey) {
 				RemoteInstrumentInputNode.this.changePitch(id, deltaKey);
+			}
+
+            public void control(String command, int parameter1, int parameter2) {
+				RemoteInstrumentInputNode.this.changeControl(command, parameter1, parameter2);
 			}
 		};
 	}
