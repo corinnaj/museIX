@@ -3,7 +3,6 @@ interface InstrumentInputListener {
 	void noteOn(final String id, final int frequencyKey, final int velocityKey);
 	void noteOff(String id, int velocityKey);
 	void changePitch(String id, int frequencyKey);
-	void changeControl(int command, int parameter1, int parameter2);
 }
 
 abstract class InstrumentInputNode extends AudioNode {
@@ -39,20 +38,13 @@ abstract class InstrumentInputNode extends AudioNode {
 		}
 	}
 
-	void changeControl(String command, int parameter1, int parameter2) {
-		int intCommand = Integer.valueOf(command);
-		for (InstrumentInputListener l : listeners) {
-			l.changeControl(intCommand, parameter1, parameter2);
-		}
-	}
-
 	@Override boolean acceptsIncomingConnection(Node node) {
 		return false;
 	}
 
 	@Override boolean wantsToConnectTo(Node node) {
 		// FIXME might be too restrictive, but works for now
-		return node instanceof InstrumentNode || node instanceof TrashNode;
+		return node instanceof InstrumentNode;
 	}
 
 	@Override AudioNodeOutputType getOutputType() {
@@ -66,7 +58,6 @@ abstract class InstrumentInputNode extends AudioNode {
 
 class SequencerInstrumentInputNode extends InstrumentInputNode {
 	Shape icon;
-	Style iconStyle;
 
 	public boolean sequence[][] = {
 		{true, false, false, false},
@@ -78,14 +69,13 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 	static final int VELOCITY = 200;
 
 	public SequencerInstrumentInputNode(AudioContext ac) {
-		super(new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
+		super(new CircleShape(64), new Style().fillColor(#cc4444));
 
 		Clock clock = new Clock(ac, 1000);
 		clock.setTicksPerBeat(4);
 		ac.out.addDependent(clock);
 
 		icon = new SVGShape(loadShape("icons/sequencer.svg"));
-		iconStyle = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
 
 		Bead sequencer = new Bead () {
 			public void messageReceived(Bead message)
@@ -108,7 +98,7 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 	void draw() {
 		super.draw();
 		shape.translateToCenterOfRotation(-1);
-		icon.draw(iconStyle);
+		icon.draw(style);
 		shape.translateToCenterOfRotation(1);
 	}
 
@@ -129,15 +119,13 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 
 class RemoteInstrumentInputNode extends InstrumentInputNode {
 	Shape icon;
-	Style iconStyle;
 	String id;
 
 	public RemoteInstrumentInputNode(String id) {
-		super(new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
+		super(new CircleShape(64), new Style().fillColor(#cc4444));
 
 		this.id = id;
 		icon = new SVGShape(loadShape("icons/input.svg"));
-		iconStyle = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
 	}
 
 	InstrumentListener createListener() {
@@ -153,10 +141,6 @@ class RemoteInstrumentInputNode extends InstrumentInputNode {
 			public void changePitch(String id, int deltaKey) {
 				RemoteInstrumentInputNode.this.changePitch(id, deltaKey);
 			}
-
-			public void control(String command, int parameter1, int parameter2) {
-				RemoteInstrumentInputNode.this.changeControl(command, parameter1, parameter2);
-			}
 		};
 	}
 
@@ -164,7 +148,6 @@ class RemoteInstrumentInputNode extends InstrumentInputNode {
 	void draw() {
 		super.draw();
 		shape.translateToCenterOfRotation(-1);
-		iconStyle.apply();
 		icon.draw(style);
 		shape.translateToCenterOfRotation(1);
 	}

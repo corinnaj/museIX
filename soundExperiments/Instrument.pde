@@ -5,35 +5,13 @@ abstract class Note {
 	abstract void changePitch(int deltaKey);
 }
 
-class RemoveConnectionTrigger extends Bead {
-	UGen from;
-	UGen subject;
-	WorldMorph world;
-
-	RemoveConnectionTrigger(UGen from, UGen subject, WorldMorph world) {
-		this.from = from;
-		this.subject = subject;
-		this.world = world;
-	}
-
-	public void messageReceived(Bead message) {
-		world.addPostFrameCallback(new Callback() {
-				@Override public void run() {
-					if (from != null && subject != null) {
-						from.removeAllConnections(subject);
-					}
-				}
-		});
-	}
-}
-
 abstract class InstrumentNode extends AudioNode implements InstrumentInputListener {
 	final Gain output;
 	final AudioContext ac;
 	final HashMap<String,Note> notes;
 
 	InstrumentNode(final AudioContext ac) {
-		super(null, new Style().fillColor(Theme.GENERATOR_COLOR));
+		super(null, new Style().fillColor(#ff0000));
 		shape = new WaveAudioNodeCircleShape(this, getIconName());
 
 		notes = new HashMap<String,Note>();
@@ -43,10 +21,6 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 
 	String getIconName() {
 		return "instrument";
-	}
-
-	boolean ignoreNoteOff() {
-		return false;
 	}
 
 	@Override void addInput(AudioNode node) {
@@ -86,9 +60,6 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 			return;
 		Note note = notes.get(id);
 		note.stop(velocityKey, output);
-		if (!ignoreNoteOff()) {
-			output.removeAllConnections(note.getOutput());
-		}
 		notes.remove(id);
 	}
 
@@ -97,10 +68,6 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 			return;
 		Note note = notes.get(id);
 		note.changePitch(frequencyKey);
-	}
-
-	// can be overriden if need be, otherwise ignores all control commands
-	void changeControl(int command, int parameter1, int parameter2) {
 	}
 
 	abstract Note createNote(AudioContext ac, int frequencyKey, int velocityKey);

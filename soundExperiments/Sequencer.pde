@@ -45,9 +45,9 @@ class SequencerMorph extends Morph {
 			}
 		}
 
-		addMorph(new IconButtonMorph(
-			"close",
-			#ff0000,
+		addMorph(new ButtonMorph(
+			new CircleShape(24),
+			new Style().fillColor(#ff0000),
 			new ButtonMorphListener() {
 				@Override void buttonPressed() {
 					SequencerMorph.this.delete();

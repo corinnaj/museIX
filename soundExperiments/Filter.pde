@@ -1,11 +1,12 @@
 
-class LowpassFilterNode extends RotatableNode {
+class LowpassFilterNode extends FrequencyChangerNode {
 	BiquadFilter filter;
 	Shape icon;
 
 	LowpassFilterNode(AudioContext ac) {
-		super(ac, 500, "filter", new Style().fillColor(#00ffff));
-		filter = new BiquadFilter(ac, BiquadFilter.Type.LP, getGlide(), 0.5);
+		super(new Glide(ac, 500));
+		filter = new BiquadFilter(ac, BiquadFilter.Type.LP, frequency, 0.5);
+		icon = new SVGShape(loadShape("icons/filter.svg"));
 	}
 
 	@Override void addInput(AudioNode node) {
@@ -26,5 +27,12 @@ class LowpassFilterNode extends RotatableNode {
 
 	@Override boolean acceptsIncomingConnection(Node node) {
 		return ((AudioNode) node).getOutputType() == AudioNodeOutputType.WAVES;
+	}
+
+	@Override void draw() {
+		super.draw();
+		shape.translateToCenterOfRotation(-1);
+		icon.draw(style);
+		shape.translateToCenterOfRotation(1);
 	}
 }

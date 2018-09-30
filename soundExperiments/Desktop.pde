@@ -5,34 +5,29 @@ class Desktop extends App {
 	Desktop(PApplet applet) {
 		super();
 
+		Style s = new Style();
+
 		ac = new AudioContext();
 
-		final AudioNode wave = (AudioNode) new WaveGeneratorNode(ac, 200).setPosition(500, 700);
-		final AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(300, 500);
-		final AudioNode gain = (AudioNode) new GainNode(ac, 0.2).setPosition(600, 550);
-
-		final AudioNode drumsInput = (AudioNode) new ExtendedSequencerInstrumentInputNode(ac).setPosition(600, 230);
-		final AudioNode drums = (AudioNode) new ExtendedDrumsInstrument(ac).setPosition(800, 230);
-		final AudioNode echo2 = (AudioNode) new EchoNode(ac).setPosition(1000, 300);
-
+		final AudioNode wave = (AudioNode) new WaveGeneratorNode(ac).setPosition(500, 700);
+		final AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(500, 500);
 		final AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2);
+
+		final AudioNode drumsInput = (AudioNode) new ExtendedSequencerInstrumentInputNode(ac).setPosition(600, 300);
+		final AudioNode drums = (AudioNode) new ExtendedDrumsInstrument(ac).setPosition(800, 300);
 
 		((NodeWorldMorph) world).addNode(wave);
 		((NodeWorldMorph) world).addNode(echo);
-		((NodeWorldMorph) world).addNode(gain);
 		((NodeWorldMorph) world).addNode(output);
 
 		((NodeWorldMorph) world).addNode(drumsInput);
 		((NodeWorldMorph) world).addNode(drums);
-		((NodeWorldMorph) world).addNode(echo2);
 
 		drumsInput.connectTo(drums);
-		drums.connectTo(echo2);
-		echo2.connectTo(output);
+		drums.connectTo(output);
 
 		wave.connectTo(echo);
-		echo.connectTo(gain);
-		gain.connectTo(output);
+		// echo.connectTo(output);
 
 		ac.start();
 
@@ -61,10 +56,10 @@ class Desktop extends App {
 				}
 		});
 
-
-		((NodeWorldMorph) world).addNode((Node) new TrashNode().topRight(world.topRight()));
-		// new Morph(new WaveformShape(ac.out, 400, 100), new Style()).setPosition(100, 400).addTo(world);
+		new Morph(new WaveformShape(ac.out, 400, 100), s).setPosition(100, 400).addTo(world);
 		new AddPanelMorph(ac).addTo(world);
+
+		// new DrumsSequencer().addTo(world);
 	}
 
 	@Override

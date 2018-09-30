@@ -54,10 +54,53 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(60.3319,-91.434771)">
-    <path
-       style="fill:#000000;stroke-width:12;stroke-linecap:round;stroke-linejoin:round"
-       d="M 17.248047 32.783203 L 17.248047 56.523438 L 17.248047 80.265625 L 40.990234 80.265625 L 40.990234 56.523438 L 40.990234 32.783203 L 17.248047 32.783203 z M 40.990234 80.265625 L 40.990234 104.00586 L 64.730469 104.00586 L 64.730469 80.265625 L 40.990234 80.265625 z M 64.730469 80.265625 L 88.470703 80.265625 L 88.470703 56.523438 L 64.730469 56.523438 L 64.730469 80.265625 z M 88.470703 56.523438 L 112.21094 56.523438 L 112.21094 32.783203 L 88.470703 32.783203 L 88.470703 56.523438 z M 88.470703 80.265625 L 88.470703 104.00586 L 112.21094 104.00586 L 112.21094 80.265625 L 88.470703 80.265625 z "
-       transform="matrix(0.26458333,0,0,0.26458333,-60.3319,91.434771)"
-       id="rect26" />
+    <rect
+       style="fill:#000000;stroke-width:3.17499995;stroke-linecap:round;stroke-linejoin:round"
+       id="rect26"
+       width="6.2813835"
+       height="6.2813835"
+       x="-55.768208"
+       y="100.10879"
+       ry="0" />
+    <rect
+       style="fill:#000000;stroke-width:3.17499995;stroke-linecap:round;stroke-linejoin:round"
+       id="rect30"
+       width="6.2813835"
+       height="6.2813835"
+       x="-43.205441"
+       y="106.39017"
+       ry="0" />
+    <rect
+       ry="0"
+       y="112.67156"
+       x="-49.486824"
+       height="6.2813835"
+       width="6.2813835"
+       id="rect32"
+       style="fill:#000000;stroke-width:3.17499995;stroke-linecap:round;stroke-linejoin:round" />
+    <rect
+       style="fill:#000000;stroke-width:3.17499995;stroke-linecap:round;stroke-linejoin:round"
+       id="rect34"
+       width="6.2813835"
+       height="6.2813835"
+       x="-36.924057"
+       y="100.10879"
+       ry="0" />
+    <rect
+       ry="0"
+       y="112.67156"
+       x="-36.924057"
+       height="6.2813835"
+       width="6.2813835"
+       id="rect36"
+       style="fill:#000000;stroke-width:3.17499995;stroke-linecap:round;stroke-linejoin:round" />
+    <rect
+       ry="0"
+       y="106.39017"
+       x="-55.768208"
+       height="6.2813835"
+       width="6.2813835"
+       id="rect38"
+       style="fill:#000000;stroke-width:3.17499995;stroke-linecap:round;stroke-linejoin:round" />
   </g>
 </svg>

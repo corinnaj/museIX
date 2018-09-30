@@ -1,22 +1,21 @@
 import java.util.*;
 
-class EchoNode extends RotatableNode {
-	static final float MAX_MS = 2000;
-	static final float MIN_MS = 10;
+class EchoNode extends AudioNode {
 	Gain output;
 	Gain inputs;
 
 	Shape icon;
 
 	EchoNode(AudioContext ac) {
-		super(ac, false, 300, MIN_MS, MAX_MS, 2, "echo", new Style().fillColor(Theme.FILTER_COLOR));
+		super(null, new Style().fillColor(#73DCFF));
 
-		inputs = new Gain(ac, 1);
+		shape = new WaveAudioNodeCircleShape(this, "echo");
 
-		TapIn delayIn = new TapIn(ac, MAX_MS + 100);
+		inputs = new Gain(ac, 2);
+
+		TapIn delayIn = new TapIn(ac, 2000);
 		delayIn.addInput(inputs);
-		TapOut delayOut = new TapOut(ac, delayIn, getGlide());
-		delayOut.setMode(TapOut.InterpolationType.LINEAR);
+		TapOut delayOut = new TapOut(ac, delayIn, new Static(ac, 500.0));
 
 		Gain delayGain = new Gain(ac, 1, 0.50);
 		delayGain.addInput(delayOut);

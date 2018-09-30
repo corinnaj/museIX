@@ -56,9 +56,15 @@
      transform="translate(-103.96375,-103.33542)">
     <path
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:7.69171381;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-       d="M 36.714844 29.048828 A 3.8462415 3.8462415 0 0 0 32.869141 32.896484 L 32.869141 75.230469 L 21.023438 75.230469 L 26.962891 68.763672 A 3.8456693 3.8456693 0 0 0 26.734375 63.324219 A 3.8456693 3.8456693 0 0 0 23.914062 62.320312 A 3.8456693 3.8456693 0 0 0 21.300781 63.560547 L 9.4375 76.470703 A 3.846054 3.846054 0 0 0 9.5117188 81.755859 L 21.720703 94.275391 A 3.8456693 3.8456693 0 0 0 27.154297 94.349609 A 3.8456693 3.8456693 0 0 0 27.228516 88.910156 L 21.392578 82.921875 L 65.708984 82.921875 C 67.735858 92.064953 75.922355 98.949251 85.65625 98.949219 C 95.365268 98.949219 103.35572 92.040814 105.375 82.921875 L 115.17578 82.921875 A 3.8458568 3.8458568 0 0 0 119.02148 79.076172 A 3.8458568 3.8458568 0 0 0 115.17578 75.230469 L 105.60156 75.230469 C 104.28578 67.204657 98.367033 60.716057 90.617188 58.734375 L 90.617188 32.896484 A 3.8462415 3.8462415 0 0 0 86.771484 29.048828 L 36.714844 29.048828 z M 40.560547 36.742188 L 82.925781 36.742188 L 82.925781 58.279297 C 74.041282 59.476714 66.929791 66.422905 65.492188 75.230469 L 40.560547 75.230469 L 40.560547 36.742188 z M 85.65625 64.335938 C 93.524848 64.335938 99.835938 70.647027 99.835938 78.515625 C 99.8359 86.384186 93.524848 92.697266 85.65625 92.697266 C 77.787689 92.697266 71.476562 86.384186 71.476562 78.515625 C 71.476562 70.647027 77.787652 64.335938 85.65625 64.335938 z "
+       d="M 36.714844 29.048828 A 3.8462415 3.8462415 0 0 0 32.869141 32.896484 L 32.869141 75.230469 L 20.039062 75.230469 A 3.8458568 3.8458568 0 0 0 16.193359 79.076172 A 3.8458568 3.8458568 0 0 0 20.039062 82.921875 L 68.931641 82.921875 A 17.305078 17.305078 0 0 1 68.351562 78.517578 A 17.305078 17.305078 0 0 1 68.673828 75.230469 L 40.560547 75.230469 L 40.560547 36.742188 L 82.925781 36.742188 L 82.925781 61.439453 A 17.305078 17.305078 0 0 1 85.65625 61.212891 A 17.305078 17.305078 0 0 1 90.617188 61.947266 L 90.617188 32.896484 A 3.8462415 3.8462415 0 0 0 86.771484 29.048828 L 36.714844 29.048828 z M 102.63086 75.230469 A 17.305078 17.305078 0 0 1 102.96094 78.517578 A 17.305078 17.305078 0 0 1 102.37109 82.921875 L 115.17578 82.921875 A 3.8458568 3.8458568 0 0 0 119.02148 79.076172 A 3.8458568 3.8458568 0 0 0 115.17578 75.230469 L 102.63086 75.230469 z "
        transform="matrix(0.26458333,0,0,0.26458333,103.96375,103.33542)"
        id="path4012" />
+    <circle
+       style="fill:none;stroke:#000000;stroke-width:1.6535182;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="path817"
+       cx="126.62704"
+       cy="124.10992"
+       r="4.5786352" />
     <g
        aria-label="+"
        transform="matrix(0.204438,0,0,0.20654774,105.8083,-9.3513474)"
@@ -69,5 +75,11 @@
          style="font-style:normal;font-variant:normal;font-weight:800;font-stretch:normal;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Ultra-Bold'"
          id="path4004" />
     </g>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:2.03500009;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 110.34865,120.84004 -3.1387,3.41724 3.22876,3.31221"
+       id="path829"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc" />
   </g>
 </svg>

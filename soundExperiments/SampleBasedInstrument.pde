@@ -1,11 +1,8 @@
 
 class SampleBasedNote extends Note {
 	SamplePlayer samplePlayer;
-	SampleBasedNote(AudioContext ac, Sample sample, UGen output, WorldMorph world) {
+	SampleBasedNote(AudioContext ac, Sample sample) {
 		samplePlayer = new SamplePlayer(ac, sample);
-		samplePlayer.setKillOnEnd(true);
-		samplePlayer.setKillListener(new RemoveConnectionTrigger(output, samplePlayer, world));
-		samplePlayer.start();
 	}
 
 	@Override UGen getOutput() {
@@ -40,13 +37,9 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 		}
 	}
 
-	@Override boolean ignoreNoteOff() {
-		return true;
-	}
-
 	@Override Note createNote(AudioContext ac, int frequencyKey, int velocityKey) {
 		// int index = (int) map(frequencyKey, 0, 999, 0, samples.length) % samples.length;
-		return new SampleBasedNote(ac, samples[frequencyKey % samples.length], output, getWorld());
+		return new SampleBasedNote(ac, samples[frequencyKey % samples.length]);
 	}
 
 	abstract String getBasePath();
@@ -74,10 +67,5 @@ class DrumsInstrument extends SampleBasedInstrument {
 			"drum-snare-rim.wav",
 			"drum-tom-hi-brush.wav",
 		};
-	}
-
-	@Override void changeControl(int control, int parameter1, int parameter2) {
-		// just an example, actual impl todo
-		println("Change control ", control, parameter1, parameter2);
 	}
 }

@@ -6,7 +6,7 @@ class NodeWorldMorph extends WorldMorph {
 	ArrayList<Node> nodes = new ArrayList();
 
 	NodeWorldMorph() {
-		super(new Style().fillColor(Theme.BACKGROUND_COLOR));
+		super(new Style());
 	}
 
 	void addNode(Node node) {

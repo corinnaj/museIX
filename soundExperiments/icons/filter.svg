@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,8 +55,10 @@
      id="layer1"
      transform="translate(39.527956,-100.5064)">
     <path
-       style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.17499995;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter-blend-mode:normal;filter-gaussianBlur-deviation:0;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;opacity:1"
-       d="M -22.132812 102.65234 C -22.716055 102.63778 -23.303615 102.87079 -23.703125 103.18164 C -24.102635 103.49249 -24.361595 103.85195 -24.574219 104.2168 C -24.999466 104.9465 -25.260867 105.75329 -25.525391 106.67383 C -26.054439 108.5149 -26.526698 110.79944 -27.230469 113.02539 C -27.93424 115.25134 -28.874575 117.3842 -30.154297 118.85156 C -31.434019 120.31892 -32.93745 121.19224 -35.34375 121.17188 A 1.5875 1.5875 0 0 0 -36.945312 122.74609 A 1.5875 1.5875 0 0 0 -35.371094 124.34766 C -32.094858 124.37539 -29.513742 122.94641 -27.761719 120.9375 C -26.009695 118.92859 -24.970267 116.40881 -24.203125 113.98242 C -23.435983 111.55603 -22.945598 109.18981 -22.474609 107.55078 C -22.387934 107.24915 -22.321263 107.15584 -22.236328 106.91211 C -22.167353 107.1487 -22.110596 107.23637 -22.042969 107.52539 C -21.66034 109.16064 -21.297767 111.51455 -20.664062 113.92773 C -20.030358 116.34092 -19.133217 118.85114 -17.488281 120.87305 C -15.843345 122.89495 -13.32537 124.34357 -10.080078 124.34766 A 1.5875 1.5875 0 0 0 -8.4902344 122.76172 A 1.5875 1.5875 0 0 0 -10.076172 121.17188 C -12.454397 121.16888 -13.854311 120.30859 -15.025391 118.86914 C -16.19647 117.42969 -17.01272 115.32625 -17.591797 113.12109 C -18.170874 110.91594 -18.519985 108.64551 -18.951172 106.80273 C -19.166765 105.88135 -19.386944 105.06996 -19.775391 104.32422 C -20.163838 103.57848 -20.973548 102.68127 -22.132812 102.65234 z "
-       id="path5467" />
+       style="fill:none;stroke:#000000;stroke-width:3.17499995;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m -35.357005,122.75946 c 11.365072,0.0962 9.947068,-18.60168 13.185305,-18.52083 3.238237,0.0808 0.846728,18.50667 12.093763,18.52083"
+       id="path850"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="czc" />
   </g>
 </svg>
