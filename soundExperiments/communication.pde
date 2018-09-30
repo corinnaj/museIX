@@ -21,6 +21,7 @@ interface InstrumentListener {
   public void noteOn(String id, int frequencyKey, int velocityKey);
   public void noteOff(String id, int velocityKey);
   public void changePitch(String id, int frequencyKey);
+  public void control(String command, int parameter1, int parameter2);
 }
 
 @WebSocket
@@ -44,18 +45,21 @@ class Communication {
         return;
       }
 
-      String deviceId = msg.substring(0, 1);
+      String deviceId = msg.substring(0, 2);
       char command = msg.charAt(2);
-      String noteId = msg.substring(3, 4);
+      String noteId = msg.substring(3, 5);
       int parameter = Integer.valueOf(msg.substring(5, 9));
       int parameter2 = 0;
       if (msg.length() > 9) {
-	parameter2 = Integer.valueOf(msg.substring(10, 13));
+	parameter2 = Integer.valueOf(msg.substring(9, 13));
       }
 
       switch (command) {
 	case 'n':
 	  listener.noteOn(noteId, parameter, parameter2);
+	  break;
+	case 'c':
+	  listener.control(noteId, parameter, parameter2);
 	  break;
 	case 'p':
 	  listener.changePitch(noteId, parameter);
@@ -69,7 +73,7 @@ class Communication {
     @OnWebSocketError
     public void handleError(Throwable error) {
       print("----- Websocket client error ------");
-      error.printStackTrace();    
+      error.printStackTrace();
     }
 
     @OnWebSocketClose

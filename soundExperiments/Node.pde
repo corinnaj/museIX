@@ -12,6 +12,8 @@ class Node extends Morph {
 	Node(Shape shape, Style style, Style lineStyle) {
 		super(shape, style);
 		this.lineStyle = lineStyle;
+		// FIXME not good style
+		lineStyle.strokeColor(Theme.LINE_COLOR);
 	}
 
 	void connectTo(Node node) {
@@ -28,21 +30,28 @@ class Node extends Morph {
 		PVector myCenter = center();
 		for (Node other : connected) {
 			PVector otherCenter = other.center();
-			line(myCenter.x, myCenter.y, otherCenter.x, otherCenter.y);
+			drawConnection(myCenter, otherCenter);
 		}
 
 		super.fullDraw();
 	}
+	
+	void drawConnection(PVector start, PVector end) {
+		line(start.x, start.y, end.x, end.y);
+	}
 
-	@Override
-	void mousePress(MouseEvent event) {
+	@Override void mousePress(MouseEvent event) {
 		dragging = true;
 		lastPosition.set(event.x, event.y);
 		grabMouseFocus();
 	}
 
-	@Override
-	void mouseMove(MouseEvent event) {
+	@Override void mouseMove(MouseEvent event) {
+		if (owner == null) {
+			cancelMoving();
+			return;
+		}
+
 		if (dragging) {
 			position.add(event.x - lastPosition.x, event.y - lastPosition.y);
 			lastPosition.set(event.x, event.y);
@@ -74,6 +83,7 @@ class Node extends Morph {
 	@Override Morph delete() {
 		cutAllConnections();
 		cutAllIncomingConnections();
+		((NodeWorldMorph) getWorld()).removeNode(this);
 		return super.delete();
 	}
 
@@ -111,12 +121,17 @@ class Node extends Morph {
 enum AudioNodeOutputType {
 	FREQUENCIES,
 	NOTES,
-	WAVES
+	WAVES,
+	NONE
 }
+
 
 class WaveAudioNodeCircleShape extends CircleShape {
 	static final float MAX_GROW_RADIUS = 100;
 	static final float BASE_RADIUS = 64;
+
+	final Style ICON_STYLE = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
+
 	AudioNode node;
 	PShape icon;
 	float baseRadius;
@@ -125,13 +140,14 @@ class WaveAudioNodeCircleShape extends CircleShape {
 		super(BASE_RADIUS);
 		this.node = node;
 		this.icon = loadShape("icons/" + icon + ".svg");
+		this.icon.disableStyle();
 	}
 
 	@Override void draw(Style style) {
 		float grow = Math.max(0, node.getOutput().getValue() * MAX_GROW_RADIUS);
 		float size = BASE_RADIUS * 2 + grow;
 		noStroke();
-		fill(#999999);
+		fill(Theme.WAVES_COLOR);
 		ellipse(0, 0, size, size);
 
 		style.apply();
@@ -139,6 +155,7 @@ class WaveAudioNodeCircleShape extends CircleShape {
 
 		pushMatrix();
 		translate(-BASE_RADIUS, -BASE_RADIUS);
+		ICON_STYLE.apply();
 		shape(icon);
 		popMatrix();
 	}
@@ -161,6 +178,10 @@ abstract class AudioNode extends Node {
 	void connectTo(Node node) {
 		((AudioNode) node).addInput(this);
 		super.connectTo(node);
+	}
+
+	@Override void drawConnection(PVector start, PVector end) {
+		drawWaveformLine(start, end, getOutput());
 	}
 
 	@Override

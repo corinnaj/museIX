@@ -31,13 +31,20 @@ abstract class Shape {
 class SVGShape extends RectangleShape {
 	PShape shape;
 
-	SVGShape(PShape shape) {
-		super(shape.width, shape.height);
+	SVGShape(PShape shape, float scale) {
+		super(shape.width * scale, shape.height * scale);
+		shape.scale(scale);
+		shape.disableStyle();
 		this.shape = shape;
+	}
+
+	SVGShape(PShape shape) {
+		this(shape, 1.0);
 	}
 
 	@Override
 	void draw(Style style) {
+		style.apply();
 		shape(shape);
 	}
 }
@@ -211,8 +218,8 @@ class Style {
 		if (!_hasStroke) {
 			noStroke();
 		} else {
-			stroke(_strokeColor);
 			strokeWeight(_strokeWeight);
+			stroke(_strokeColor);
 		}
 	}
 
@@ -221,7 +228,7 @@ class Style {
 	Style fillColor(color c) { _fillColor = c; return this; }
 	color fillColor() { return _fillColor; }
 	Style strokeColor(color c) { _strokeColor = c; return this; }
-	Style strokeWeight(float f) { _strokeWeight = f; return this; }
+	Style strokeSize(float f) { _strokeWeight = f; return this; }
 }
 
 class Morph {
@@ -316,7 +323,7 @@ class Morph {
 
 	// PUBLIC API
 	WorldMorph getWorld() {
-		return owner.getWorld();
+		return owner == null ? null : owner.getWorld();
 	}
 
 	Morph addMorph(Morph morph) {
@@ -361,7 +368,7 @@ class Morph {
 	}
 
 	void releaseMouseFocus() {
-		if (getWorld().getMouseFocusMorph() == this) {
+		if (owner != null && getWorld().getMouseFocusMorph() == this) {
 			getWorld().setMouseFocusMorph(null);
 		}
 	}
@@ -385,7 +392,27 @@ class Morph {
 
 	PVector centerBottom() {
 		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
-		return new PVector(bbox[0] + (bbox[2] - bbox[0]) / 2, bbox[2]);
+		return new PVector(bbox[0] + (bbox[2] - bbox[0]) / 2, bbox[3]);
+	}
+
+	PVector topRight() {
+		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
+		return new PVector(bbox[2], bbox[1]);
+	}
+
+	PVector topLeft() {
+		return position;
+	}
+
+	Morph topRight(PVector vector) {
+		float[] bbox = shape.calculateBoundingBox(0, 0);
+		topLeft(vector.sub(bbox[2], 0));
+		return this;
+	}
+
+	Morph topLeft(PVector vector) {
+		setPosition(vector);
+		return this;
 	}
 
 	Morph resizeToSubmorphs() {
@@ -407,8 +434,14 @@ class Morph {
 	}
 }
 
+interface Callback {
+	public void run();
+}
+
 class WorldMorph extends Morph {
 	private Morph mouseFocusMorph = null;
+
+	private ArrayList<Callback> postFrameCallbacks = new ArrayList<Callback>();
 
 	WorldMorph(Style style) {
 		super(new WorldShape(), style);
@@ -416,6 +449,10 @@ class WorldMorph extends Morph {
 
 	WorldMorph getWorld() {
 		return this;
+	}
+
+	void addPostFrameCallback(Callback c) {
+		postFrameCallbacks.add(c);
 	}
 
 	Morph getMouseFocusMorph() {
@@ -427,27 +464,22 @@ class WorldMorph extends Morph {
 	}
 
 	void startBubbleEvent(MouseEvent event, float x, float y) {
+		if (mouseFocusMorph != null && mouseFocusMorph.owner == null)
+			mouseFocusMorph = null;
+
 		if (mouseFocusMorph == null)
 			bubbleEvent(event, x, y);
 		else
 			// TODO apply transforms
 			mouseFocusMorph.takeEvent(event);
 	}
-}
 
-interface ButtonMorphListener {
-	void buttonPressed();
-}
+	@Override void fullDraw() {
+		super.fullDraw();
 
-class ButtonMorph extends Morph {
-	ButtonMorphListener listener;
-
-	ButtonMorph(Shape shape, Style style, ButtonMorphListener listener) {
-		super(shape, style);
-		this.listener = listener;
-	}
-
-	@Override void mousePress(MouseEvent event) {
-		listener.buttonPressed();
+		for (Callback c : postFrameCallbacks)
+			c.run();
+		postFrameCallbacks.clear();
 	}
 }
+

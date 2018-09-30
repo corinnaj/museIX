@@ -11,11 +11,11 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="33.866665mm"
    height="33.866665mm"
-   viewBox="0 0 33.866665 33.866665"
+   viewBox="0 0 33.866664 33.866664"
    version="1.1"
    id="svg8"
    inkscape:version="0.92+devel (unknown)"
-   sodipodi:docname="sequencer.svg">
+   sodipodi:docname="add.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="32.49703"
-     inkscape:cy="50.624864"
+     inkscape:zoom="1.979899"
+     inkscape:cx="41.898623"
+     inkscape:cy="108.89968"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -53,11 +53,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(60.3319,-91.434771)">
+     transform="translate(-103.96375,-103.33542)">
     <path
-       style="fill:#000000;stroke-width:12;stroke-linecap:round;stroke-linejoin:round"
-       d="M 17.248047 32.783203 L 17.248047 56.523438 L 17.248047 80.265625 L 40.990234 80.265625 L 40.990234 56.523438 L 40.990234 32.783203 L 17.248047 32.783203 z M 40.990234 80.265625 L 40.990234 104.00586 L 64.730469 104.00586 L 64.730469 80.265625 L 40.990234 80.265625 z M 64.730469 80.265625 L 88.470703 80.265625 L 88.470703 56.523438 L 64.730469 56.523438 L 64.730469 80.265625 z M 88.470703 56.523438 L 112.21094 56.523438 L 112.21094 32.783203 L 88.470703 32.783203 L 88.470703 56.523438 z M 88.470703 80.265625 L 88.470703 104.00586 L 112.21094 104.00586 L 112.21094 80.265625 L 88.470703 80.265625 z "
-       transform="matrix(0.26458333,0,0,0.26458333,-60.3319,91.434771)"
-       id="rect26" />
+       style="fill:#000000;stroke:#000000;stroke-width:1.18837869;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       d="M 58.294922 24.533203 C 57.50107 24.533203 56.861328 25.172907 56.861328 25.966797 L 56.861328 56.861328 L 25.966797 56.861328 C 25.172945 56.861328 24.533203 57.50107 24.533203 58.294922 L 24.533203 69.705078 C 24.533203 70.49893 25.172945 71.138672 25.966797 71.138672 L 56.861328 71.138672 L 56.861328 102.0332 C 56.861328 102.82706 57.50107 103.4668 58.294922 103.4668 L 69.705078 103.4668 C 70.49893 103.4668 71.138672 102.82706 71.138672 102.0332 L 71.138672 71.138672 L 102.0332 71.138672 C 102.82706 71.138672 103.4668 70.49893 103.4668 69.705078 L 103.4668 58.294922 C 103.4668 57.50107 102.82706 56.861328 102.0332 56.861328 L 71.138672 56.861328 L 71.138672 25.966797 C 71.138672 25.172907 70.49893 24.533203 69.705078 24.533203 L 58.294922 24.533203 z "
+       transform="matrix(0.26458333,0,0,0.26458333,103.96375,103.33542)"
+       id="rect932" />
   </g>
 </svg>
