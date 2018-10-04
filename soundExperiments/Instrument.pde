@@ -7,16 +7,14 @@ abstract class Note {
 
 abstract class InstrumentNode extends AudioNode implements InstrumentInputListener {
 	final Gain output;
-	final AudioContext ac;
 	final HashMap<String,Note> notes;
 
 	InstrumentNode(final AudioContext ac) {
-		super(null, new Style().fillColor(Theme.GENERATOR_COLOR));
+		super(ac, null, new Style().fillColor(Theme.GENERATOR_COLOR));
 		shape = new WaveAudioNodeCircleShape(this, getIconName());
 
 		notes = new HashMap<String,Note>();
 		output = new Gain(ac, 1);
-		this.ac = ac;
 	}
 
 	String getIconName() {

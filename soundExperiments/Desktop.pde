@@ -59,7 +59,7 @@ class Desktop extends App {
 				}
 
 				@Override InstrumentListener instrumentJoined(String id) {
-					RemoteInstrumentInputNode instrumentInput = new RemoteInstrumentInputNode(id);
+					RemoteInstrumentInputNode instrumentInput = new RemoteInstrumentInputNode(ac, id);
 					instrumentInput.setPosition(600, 400);
 					((NodeWorldMorph) world).addNode(instrumentInput);
 
@@ -74,7 +74,7 @@ class Desktop extends App {
 		});
 
 
-		((NodeWorldMorph) world).addNode((Node) new TrashNode().topRight(world.topRight()));
+		((NodeWorldMorph) world).addNode((Node) new TrashNode(ac).topRight(world.topRight()));
 		// new Morph(new WaveformShape(ac.out, 400, 100), new Style()).setPosition(100, 400).addTo(world);
 		new AddPanelMorph(ac).addTo(world);
 	}

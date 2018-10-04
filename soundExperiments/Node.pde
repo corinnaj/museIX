@@ -162,8 +162,11 @@ class WaveAudioNodeCircleShape extends CircleShape {
 }
 
 abstract class AudioNode extends Node {
-	AudioNode(Shape shape, Style style) {
+	AudioContext ac;
+
+	AudioNode(AudioContext ac, Shape shape, Style style) {
 		super(shape, style, new Style());
+		this.ac = ac;
 	}
 
 	abstract AudioNodeOutputType getOutputType();

@@ -194,7 +194,7 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 	Clock clock;
 
 	public ExtendedSequencerInstrumentInputNode(AudioContext ac, UGen interval) {
-		super(new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
+		super(ac, new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
 
 		clock = new Clock(ac, interval);
 		clock.setTicksPerBeat(TICKS_PER_BEAT);

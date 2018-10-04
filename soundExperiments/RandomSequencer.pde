@@ -8,12 +8,12 @@ class RandomSequencer extends InstrumentInputNode {
 	int lastId = 0;
 
 	RandomSequencer(AudioContext ac, UGen interval) {
-		super(new CircleShape(64), new  Style().fillColor(Theme.CONTROLLER_COLOR));
+		super(ac, new CircleShape(64), new  Style().fillColor(Theme.CONTROLLER_COLOR));
 		clock = new Clock(ac, interval);
 		clock.setTicksPerBeat(TICKS_PER_BEAT);
 		ac.out.addDependent(clock);
 
-		final int[] scale = bebopMinorScaleBasedOn("C", 4);
+		final int[] scale = minorScaleBasedOn("C", 4);
 
 		Bead sequencer = new Bead () {
 			public void messageReceived(Bead message)

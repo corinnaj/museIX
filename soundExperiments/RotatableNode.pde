@@ -77,7 +77,7 @@ abstract class RotatableNode extends AudioNode {
 	}
 
 	public RotatableNode(AudioContext ac, boolean logMode, float current, float min, float max, float incrementFactor, String icon, Style style) {
-		super(new RotationIndicatorShape(loadShape("icons/" + icon + ".svg"), logMode, min, max, current), style);
+		super(ac, new RotationIndicatorShape(loadShape("icons/" + icon + ".svg"), logMode, min, max, current), style);
 		this.glide = new Glide(ac, current);
 		this.logMode = logMode;
 		this.incrementFactor = incrementFactor;
