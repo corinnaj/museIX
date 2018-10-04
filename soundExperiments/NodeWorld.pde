@@ -5,16 +5,27 @@ class NodeWorldMorph extends WorldMorph {
 
 	ArrayList<Node> nodes = new ArrayList();
 
+	public AudioContext ac;
+
 	NodeWorldMorph() {
 		super(new Style().fillColor(Theme.BACKGROUND_COLOR));
 	}
 
 	void addNode(Node node) {
+		UGen o = ((AudioNode) node).getOutput();
+		// ensure that we're always updated
+		if (o != null) {
+			ac.out.addDependent(o);
+		}
 		addMorph(node);
 		nodes.add(node);
 	}
 
 	void removeNode(Node node) {
+		UGen o = ((AudioNode) node).getOutput();
+		if (o != null) {
+			ac.out.removeDependent(o);
+		}
 		removeMorph(node);
 		nodes.remove(node);
 	}

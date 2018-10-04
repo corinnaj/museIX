@@ -185,7 +185,6 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 	Style iconStyle;
 
 	static final int VELOCITY = 200;
-	static final float INTERVAL_MS = 1000;
 	static final int TICKS_PER_BEAT = 4;
 	static final int N_TRACKS = 8;
 
@@ -194,10 +193,10 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 
 	Clock clock;
 
-	public ExtendedSequencerInstrumentInputNode(AudioContext ac) {
+	public ExtendedSequencerInstrumentInputNode(AudioContext ac, UGen interval) {
 		super(new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
 
-		clock = new Clock(ac, INTERVAL_MS);
+		clock = new Clock(ac, interval);
 		clock.setTicksPerBeat(TICKS_PER_BEAT);
 		ac.out.addDependent(clock);
 

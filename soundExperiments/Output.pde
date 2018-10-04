@@ -5,7 +5,7 @@ class OutputNode extends AudioNode {
 	Clip clip;
 
 	OutputNode(AudioContext ac) {
-		super(null, new Style().fillColor(#777777));
+		super(null, new Style().fillColor(Theme.GLOBAL_COLOR));
 		shape = new WaveAudioNodeCircleShape(this, "speaker");
 
 		clip = new Clip(ac);

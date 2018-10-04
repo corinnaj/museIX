@@ -1,10 +1,10 @@
 
 class SampleBasedNote extends Note {
 	SamplePlayer samplePlayer;
-	SampleBasedNote(AudioContext ac, Sample sample, UGen output, WorldMorph world) {
+	SampleBasedNote(AudioContext ac, Sample sample, UGen output) {
 		samplePlayer = new SamplePlayer(ac, sample);
 		samplePlayer.setKillOnEnd(true);
-		samplePlayer.setKillListener(new RemoveConnectionTrigger(output, samplePlayer, world));
+		samplePlayer.setKillListener(new KillTrigger(samplePlayer));
 		samplePlayer.start();
 	}
 
@@ -40,13 +40,9 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 		}
 	}
 
-	@Override boolean ignoreNoteOff() {
-		return true;
-	}
-
 	@Override Note createNote(AudioContext ac, int frequencyKey, int velocityKey) {
 		// int index = (int) map(frequencyKey, 0, 999, 0, samples.length) % samples.length;
-		return new SampleBasedNote(ac, samples[frequencyKey % samples.length], output, getWorld());
+		return new SampleBasedNote(ac, samples[frequencyKey % samples.length], output);
 	}
 
 	abstract String getBasePath();

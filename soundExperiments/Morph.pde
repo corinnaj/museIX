@@ -390,6 +390,11 @@ class Morph {
 		return new PVector(bbox[0] + (bbox[2] - bbox[0]) / 2, bbox[1]);
 	}
 
+	PVector bottomRight() {
+		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
+		return new PVector(bbox[2], bbox[3]);
+	}
+
 	PVector centerBottom() {
 		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
 		return new PVector(bbox[0] + (bbox[2] - bbox[0]) / 2, bbox[3]);
@@ -407,6 +412,12 @@ class Morph {
 	Morph topRight(PVector vector) {
 		float[] bbox = shape.calculateBoundingBox(0, 0);
 		topLeft(vector.sub(bbox[2], 0));
+		return this;
+	}
+
+	Morph bottomRight(PVector vector) {
+		float[] bbox = shape.calculateBoundingBox(0, 0);
+		topLeft(vector.sub(bbox[2], bbox[3]));
 		return this;
 	}
 
