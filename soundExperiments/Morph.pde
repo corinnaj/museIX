@@ -395,6 +395,11 @@ class Morph {
 		return new PVector(bbox[2], bbox[3]);
 	}
 
+	PVector rightCenter() {
+		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
+		return new PVector(bbox[2], bbox[1] + (bbox[3] - bbox[1]) / 2);
+	}
+
 	PVector centerBottom() {
 		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
 		return new PVector(bbox[0] + (bbox[2] - bbox[0]) / 2, bbox[3]);
@@ -411,19 +416,21 @@ class Morph {
 
 	Morph topRight(PVector vector) {
 		float[] bbox = shape.calculateBoundingBox(0, 0);
-		topLeft(vector.sub(bbox[2], 0));
-		return this;
+		return topLeft(vector.sub(bbox[2], 0));
 	}
 
 	Morph bottomRight(PVector vector) {
 		float[] bbox = shape.calculateBoundingBox(0, 0);
-		topLeft(vector.sub(bbox[2], bbox[3]));
-		return this;
+		return topLeft(vector.sub(bbox[2], bbox[3]));
 	}
 
 	Morph topLeft(PVector vector) {
-		setPosition(vector);
-		return this;
+		return setPosition(vector);
+	}
+
+	Morph rightCenter(PVector vector) {
+		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
+		return setPosition(vector.x - bbox[2], vector.y / 2 - (bbox[3] - bbox[1] / 2));
 	}
 
 	Morph resizeToSubmorphs() {
@@ -455,7 +462,11 @@ class WorldMorph extends Morph {
 	private ArrayList<Callback> postFrameCallbacks = new ArrayList<Callback>();
 
 	WorldMorph(Style style) {
-		super(new WorldShape(), style);
+		this(new WorldShape(), style);
+	}
+
+	WorldMorph(Shape shape, Style style) {
+		super(shape, style);
 	}
 
 	WorldMorph getWorld() {

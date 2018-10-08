@@ -1,6 +1,7 @@
 
 class Desktop extends App {
 	AudioContext ac;
+	BeatWavesShape beatWavesShape;
 
 	Desktop(PApplet applet) {
 		super();
@@ -9,6 +10,8 @@ class Desktop extends App {
 		((NodeWorldMorph) world).ac = ac;
 
 		final Metronome metronome = (Metronome) new Metronome(ac).bottomRight(world.bottomRight().sub(30, 30));
+
+		beatWavesShape.setClock(metronome.getClock());
 
 		// final AudioNode wave = (AudioNode) new WaveGeneratorNode(ac, 200).setPosition(500, 700);
 		// final AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(300, 500);
@@ -81,6 +84,7 @@ class Desktop extends App {
 
 	@Override
 	WorldMorph instantiateWorld() {
-		return new NodeWorldMorph();
+		beatWavesShape = new BeatWavesShape();
+		return new NodeWorldMorph(beatWavesShape);
 	}
 }

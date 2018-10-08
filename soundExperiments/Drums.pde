@@ -203,10 +203,10 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 
 		int n_steps = TICKS_PER_BEAT * measures;
 		steps = new boolean[N_TRACKS][TICKS_PER_BEAT * measures];
-		steps[3][1] = true;
-		steps[3][3] = true;
-		steps[3][5] = true;
-		steps[3][7] = true;
+		steps[3][0] = true;
+		steps[3][2] = true;
+		steps[3][4] = true;
+		steps[3][6] = true;
 		steps[4][0] = true;
 
 		Bead sequencer = new Bead () {

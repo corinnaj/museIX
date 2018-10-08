@@ -42,7 +42,7 @@ class AddPanelMorph extends Morph {
 	void add(AudioNode node) {
 		NodeWorldMorph world = (NodeWorldMorph) getWorld();
 
-		node.setPosition(world.centerTop().add(new PVector(0, 200)));
+		node.rightCenter(world.rightCenter().sub(new PVector(80, 0)));
 
 		world.addNode(node);
 	}
