@@ -13,10 +13,10 @@ class Desktop extends App {
 		// final AudioNode wave = (AudioNode) new WaveGeneratorNode(ac, 200).setPosition(500, 700);
 		// final AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(300, 500);
 		// final AudioNode gain = (AudioNode) new GainNode(ac, 0.2).setPosition(600, 550);
-		final AudioNode random = (AudioNode) new RandomSequencer(ac, metronome.getGlide()).setPosition(300, 500);
+		final AudioNode random = (AudioNode) new RandomSequencer(ac, metronome.getClock()).setPosition(300, 500);
 		final AudioNode sine = (AudioNode) new SineInstrument(ac).setPosition(500, 700);
 
-		final AudioNode drumsInput = (AudioNode) new ExtendedSequencerInstrumentInputNode(ac, metronome.getGlide()).setPosition(600, 230);
+		final AudioNode drumsInput = (AudioNode) new ExtendedSequencerInstrumentInputNode(ac, metronome.getClock()).setPosition(600, 230);
 		final AudioNode drums = (AudioNode) new DrumsInstrument(ac).setPosition(800, 230);
 		final AudioNode echo2 = (AudioNode) new EchoNode(ac).setPosition(1000, 300);
 

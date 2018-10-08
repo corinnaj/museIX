@@ -2,16 +2,12 @@
 class RandomSequencer extends InstrumentInputNode {
 	static final float INTERVAL_MS = 1000;
 	static final int VELOCITY = 50;
-	static final int TICKS_PER_BEAT = 4;
 
 	Clock clock;
 	int lastId = 0;
 
-	RandomSequencer(AudioContext ac, UGen interval) {
+	RandomSequencer(AudioContext ac, Clock clock) {
 		super(ac, new CircleShape(64), new  Style().fillColor(Theme.CONTROLLER_COLOR));
-		clock = new Clock(ac, interval);
-		clock.setTicksPerBeat(TICKS_PER_BEAT);
-		ac.out.addDependent(clock);
 
 		final int[] scale = minorScaleBasedOn("C", 4);
 

@@ -193,12 +193,10 @@ class ExtendedSequencerInstrumentInputNode extends InstrumentInputNode {
 
 	Clock clock;
 
-	public ExtendedSequencerInstrumentInputNode(AudioContext ac, UGen interval) {
+	public ExtendedSequencerInstrumentInputNode(AudioContext ac, Clock clock) {
 		super(ac, new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
 
-		clock = new Clock(ac, interval);
-		clock.setTicksPerBeat(TICKS_PER_BEAT);
-		ac.out.addDependent(clock);
+		this.clock = clock;
 
 		icon = new SVGShape(loadShape("icons/sequencer.svg"));
 		iconStyle = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
