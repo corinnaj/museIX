@@ -39,10 +39,10 @@ class Desktop extends App {
 		((NodeWorldMorph) world).addNode(metronome);
 
 		random.connectTo(sine);
-		sine.connectTo(output);
+		// sine.connectTo(output);
 
 		drumsInput.connectTo(drums);
-		drums.connectTo(output);
+		// drums.connectTo(output);
 		// echo2.connectTo(output);
 
 		// wave.connectTo(echo);
@@ -66,7 +66,7 @@ class Desktop extends App {
 					instrumentInput.setPosition(600, 400);
 					((NodeWorldMorph) world).addNode(instrumentInput);
 
-					DrumsInstrument instrument = new DrumsInstrument(ac);
+					GuitarInstrument instrument = new GuitarInstrument(ac);
 					instrument.setPosition(800, 400);
 					((NodeWorldMorph) world).addNode(instrument);
 

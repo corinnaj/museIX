@@ -1,7 +1,7 @@
 
 abstract class Note {
 	abstract UGen getOutput();
-	abstract void stop(int velocityKey, UGen disconnectFrom);
+	abstract void stop(int velocityKey);
 	abstract void changePitch(int deltaKey);
 }
 
@@ -47,6 +47,8 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 		if (notes.containsKey(id))
 			return;
 		final Note note = createNote(ac, frequencyKey, velocityKey);
+		if (note == null)
+			return;
 		notes.put(id, note);
 		UGen ugen = note.getOutput();
 		output.addInput(ugen);
@@ -57,7 +59,7 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 		if (!notes.containsKey(id))
 			return;
 		Note note = notes.get(id);
-		note.stop(velocityKey, output);
+		note.stop(velocityKey);
 		notes.remove(id);
 	}
 

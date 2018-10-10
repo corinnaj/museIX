@@ -30,7 +30,7 @@ class SineNote extends Note {
 		frequency.setValue(baseFrequency + delta);
 	}
 
-	@Override void stop(int velocityKey, UGen disconnectFrom) {
+	@Override void stop(int velocityKey) {
 		float velocity = map(velocityKey, 0, 999, 100, 1000);
 		envelope.addSegment(0.0, velocity, new KillTrigger(gain));
 	}

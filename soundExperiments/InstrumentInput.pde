@@ -253,16 +253,18 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 }
 
 class RemoteInstrumentInputNode extends InstrumentInputNode {
-	Shape icon;
-	Style iconStyle;
+	static final float BASE_RADIUS = 64;
 	String id;
 
+	PShape icon;
+	final Style ICON_STYLE = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
+
 	public RemoteInstrumentInputNode(AudioContext ac, String id) {
-		super(ac, new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
+		super(ac, new CircleShape(BASE_RADIUS), new Style().fillColor(Theme.CONTROLLER_COLOR));
 
 		this.id = id;
-		icon = new SVGShape(loadShape("icons/input.svg"));
-		iconStyle = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
+		icon = loadShape("icons/input.svg");
+		icon.disableStyle();
 	}
 
 	InstrumentListener createListener() {
@@ -288,9 +290,11 @@ class RemoteInstrumentInputNode extends InstrumentInputNode {
 	@Override
 	void draw() {
 		super.draw();
-		shape.translateToCenterOfRotation(-1);
-		iconStyle.apply();
-		icon.draw(style);
-		shape.translateToCenterOfRotation(1);
+
+		pushMatrix();
+		translate(-BASE_RADIUS, -BASE_RADIUS);
+		ICON_STYLE.apply();
+		shape(icon);
+		popMatrix();
 	}
 }
