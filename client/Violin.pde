@@ -128,8 +128,7 @@ class Violin extends Instrument {
     int speedY = getMouseMovementSpeedY();
 
     communication.noteOff(currentNote, 0);      
-    if (speedX > 0) {
-      println(speedX + " " + speedY);
+    if (speedX > 10) {
       currentNote = communication.noteOn(currentFrequency - speedY, 0);
     }
   }
