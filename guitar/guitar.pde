@@ -74,9 +74,9 @@ void draw() {
 
   textSize(CHORD_TEXT_SIZE);
   text("Amaj", 0, CHORD_TEXT_SIZE * 2);
-  text("Dmaj", 0, CHORD_TEXT_SIZE * 4);
+  text("Amin", 0, CHORD_TEXT_SIZE * 4);
   text("Emaj", 0, CHORD_TEXT_SIZE * 6);
-  text("Amin", 0, CHORD_TEXT_SIZE * 8);
+  text("Emin", 0, CHORD_TEXT_SIZE * 8);
 
   if (activeChord >= 0 && millis() - activeChordStartTime > CHORD_DURATION) {
     activeChordOff();
@@ -98,9 +98,9 @@ int[] STRING_TONE_OFFSET = {
 
 int[][] CHORDS = {
   {0, 0, 2, 2, 2, 0}, // a major
-  {0, 0, 0, 2, 3, 2}, // d major
-  {0, 2, 2, 1, 0, 0}, // e major
   {0, 0, 2, 2, 1, 0}, // a minor
+  {0, 2, 2, 1, 0, 0}, // e major
+  {0, 2, 2, 0, 0, 0}, // e minor
 };
 
 void activeChordOff() {
