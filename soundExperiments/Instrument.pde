@@ -7,16 +7,14 @@ abstract class Note {
 
 abstract class InstrumentNode extends AudioNode implements InstrumentInputListener {
 	final Gain output;
-	final AudioContext ac;
 	final HashMap<String,Note> notes;
 
 	InstrumentNode(final AudioContext ac) {
-		super(null, new Style().fillColor(#ff0000));
+		super(ac, null, new Style().fillColor(Theme.GENERATOR_COLOR));
 		shape = new WaveAudioNodeCircleShape(this, getIconName());
 
 		notes = new HashMap<String,Note>();
 		output = new Gain(ac, 1);
-		this.ac = ac;
 	}
 
 	String getIconName() {
@@ -68,6 +66,10 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 			return;
 		Note note = notes.get(id);
 		note.changePitch(frequencyKey);
+	}
+
+	// can be overriden if need be, otherwise ignores all control commands
+	void changeControl(int command, int parameter1, int parameter2) {
 	}
 
 	abstract Note createNote(AudioContext ac, int frequencyKey, int velocityKey);

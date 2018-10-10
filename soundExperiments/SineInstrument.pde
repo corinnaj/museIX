@@ -8,7 +8,8 @@ class SineNote extends Note {
 	float baseFrequency;
 
 	SineNote(AudioContext ac, int frequencyKey, int velocityKey) {
-		baseFrequency = map(frequencyKey, 0, 999, 50, 2000);
+		// baseFrequency = map(frequencyKey, 0, 999, 50, 2000);
+		baseFrequency = noteIndexToFrequency(frequencyKey);
 
 		envelope = new Envelope(ac, 0.0);
 		envelope.addSegment(0.5, map(velocityKey, 0, 999, 100, 1000));
@@ -32,7 +33,6 @@ class SineNote extends Note {
 	@Override void stop(int velocityKey, UGen disconnectFrom) {
 		float velocity = map(velocityKey, 0, 999, 100, 1000);
 		envelope.addSegment(0.0, velocity, new KillTrigger(gain));
-		// TODO remove connection to parent by using a KillAndDisconnectTrigger(parent, gain)
 	}
 }
 

@@ -1,33 +1,53 @@
 
 class Desktop extends App {
 	AudioContext ac;
+	BeatWavesShape beatWavesShape;
 
 	Desktop(PApplet applet) {
 		super();
 
-		Style s = new Style();
-
 		ac = new AudioContext();
+		((NodeWorldMorph) world).ac = ac;
 
-		final AudioNode wave = (AudioNode) new WaveGeneratorNode(ac).setPosition(500, 700);
-		final AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(500, 500);
+		final Metronome metronome = (Metronome) new Metronome(ac).bottomRight(world.bottomRight().sub(30, 30));
+
+		beatWavesShape.setClock(metronome.getClock());
+
+		// final AudioNode wave = (AudioNode) new WaveGeneratorNode(ac, 200).setPosition(500, 700);
+		// final AudioNode echo = (AudioNode) new EchoNode(ac).setPosition(300, 500);
+		// final AudioNode gain = (AudioNode) new GainNode(ac, 0.2).setPosition(600, 550);
+		final AudioNode random = (AudioNode) new RandomSequencer(ac, metronome.getClock()).setPosition(300, 500);
+		final AudioNode sine = (AudioNode) new SineInstrument(ac).setPosition(500, 700);
+
+		final AudioNode drumsInput = (AudioNode) new ExtendedSequencerInstrumentInputNode(ac, metronome.getClock()).setPosition(600, 230);
+		final AudioNode drums = (AudioNode) new DrumsInstrument(ac).setPosition(800, 230);
+		final AudioNode echo2 = (AudioNode) new EchoNode(ac).setPosition(1000, 300);
+
 		final AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2);
 
-		final AudioNode drumsInput = (AudioNode) new ExtendedSequencerInstrumentInputNode(ac).setPosition(600, 300);
-		final AudioNode drums = (AudioNode) new ExtendedDrumsInstrument(ac).setPosition(800, 300);
-
-		((NodeWorldMorph) world).addNode(wave);
-		((NodeWorldMorph) world).addNode(echo);
-		((NodeWorldMorph) world).addNode(output);
+		// ((NodeWorldMorph) world).addNode(wave);
+		// ((NodeWorldMorph) world).addNode(echo);
+		// ((NodeWorldMorph) world).addNode(gain);
+		((NodeWorldMorph) world).addNode(random);
+		((NodeWorldMorph) world).addNode(sine);
 
 		((NodeWorldMorph) world).addNode(drumsInput);
 		((NodeWorldMorph) world).addNode(drums);
+		((NodeWorldMorph) world).addNode(echo2);
+
+		((NodeWorldMorph) world).addNode(output);
+		((NodeWorldMorph) world).addNode(metronome);
+
+		random.connectTo(sine);
+		sine.connectTo(output);
 
 		drumsInput.connectTo(drums);
 		drums.connectTo(output);
+		// echo2.connectTo(output);
 
-		wave.connectTo(echo);
-		// echo.connectTo(output);
+		// wave.connectTo(echo);
+		// echo.connectTo(gain);
+		// gain.connectTo(output);
 
 		ac.start();
 
@@ -42,7 +62,7 @@ class Desktop extends App {
 				}
 
 				@Override InstrumentListener instrumentJoined(String id) {
-					RemoteInstrumentInputNode instrumentInput = new RemoteInstrumentInputNode(id);
+					RemoteInstrumentInputNode instrumentInput = new RemoteInstrumentInputNode(ac, id);
 					instrumentInput.setPosition(600, 400);
 					((NodeWorldMorph) world).addNode(instrumentInput);
 
@@ -56,14 +76,15 @@ class Desktop extends App {
 				}
 		});
 
-		new Morph(new WaveformShape(ac.out, 400, 100), s).setPosition(100, 400).addTo(world);
-		new AddPanelMorph(ac).addTo(world);
 
-		// new DrumsSequencer().addTo(world);
+		((NodeWorldMorph) world).addNode((Node) new TrashNode(ac).topRight(world.topRight()));
+		// new Morph(new WaveformShape(ac.out, 400, 100), new Style()).setPosition(100, 400).addTo(world);
+		new AddPanelMorph(ac).addTo(world);
 	}
 
 	@Override
 	WorldMorph instantiateWorld() {
-		return new NodeWorldMorph();
+		beatWavesShape = new BeatWavesShape();
+		return new NodeWorldMorph(beatWavesShape);
 	}
 }

@@ -5,16 +5,31 @@ class NodeWorldMorph extends WorldMorph {
 
 	ArrayList<Node> nodes = new ArrayList();
 
+	public AudioContext ac;
+
 	NodeWorldMorph() {
-		super(new Style());
+		super(new Style().fillColor(Theme.BACKGROUND_COLOR));
+	}
+
+	NodeWorldMorph(Shape shape) {
+		super(shape, new Style().fillColor(Theme.BACKGROUND_COLOR));
 	}
 
 	void addNode(Node node) {
+		UGen o = ((AudioNode) node).getOutput();
+		// ensure that we're always updated
+		if (o != null) {
+			ac.out.addDependent(o);
+		}
 		addMorph(node);
 		nodes.add(node);
 	}
 
 	void removeNode(Node node) {
+		UGen o = ((AudioNode) node).getOutput();
+		if (o != null) {
+			ac.out.removeDependent(o);
+		}
 		removeMorph(node);
 		nodes.remove(node);
 	}
@@ -63,5 +78,36 @@ class NodeWorldMorph extends WorldMorph {
 	    t = ( s2_x * (p0_y - p2_y) - s2_y * (p0_x - p2_x)) / (-s2_x * s1_y + s1_x * s2_y);
 
 	    return s >= 0 && s <= 1 && t >= 0 && t <= 1;
+	}
+}
+
+class BeatWavesShape extends WorldShape {
+	Clock clock;
+	double lastTick;
+
+	void setClock(Clock clock) {
+		this.clock = clock;
+		Bead ticker = new Bead() {
+			public void messageReceived(Bead message) {
+				if (((Clock) message).isBeat())
+					lastTick = ((Clock) message).getSubTickNow();
+			}
+		};
+		clock.addMessageListener(ticker);
+	}
+
+	@Override void draw(Style style) {
+		background(style.fillColor());
+
+		int maxOpacity = 80;
+		float beatLength = clock.getIntervalEnvelope().getValue() / 1000.0 * clock.getTicksPerBeat();
+		float progress = (float) (clock.getSubTickNow() - lastTick);
+		float scale = map(progress, 0, beatLength, 0, 1);
+		float diameter = Math.max(width, height) * (float) Math.sqrt(2) * scale;
+
+		noFill();
+		stroke(color(150, maxOpacity - scale * maxOpacity));
+		strokeWeight(map(scale, 0, 1, 80.0, 1.0));
+		ellipse(width / 2, height / 2, diameter, diameter);
 	}
 }
