@@ -53,11 +53,7 @@ abstract class App {
 void setup() {
 	size(1600, 1000);
 
-	if (platformNames[platform] == "linux") {
-		app = new Desktop(this);
-	} else {
-		app = new Android(this);
-	}
+	app = new Desktop(this);
 }
 
 void draw() {
