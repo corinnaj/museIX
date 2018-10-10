@@ -59,7 +59,6 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 	}
 
 	@Override Note createNote(AudioContext ac, int frequencyKey, int velocityKey) {
-		// int index = (int) map(frequencyKey, 0, 999, 0, samples.length) % samples.length;
 		int index = frequencyKey - baseNoteIndex();
 		if (index >= 0 && index < samples.length && samples[index] != null) {
 			return new SampleBasedNote(ac, samples[index], output);

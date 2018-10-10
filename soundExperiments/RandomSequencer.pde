@@ -9,7 +9,7 @@ class RandomSequencer extends InstrumentInputNode {
 	RandomSequencer(AudioContext ac, Clock clock) {
 		super(ac, new CircleShape(64), new  Style().fillColor(Theme.CONTROLLER_COLOR));
 
-		final int[] scale = minorScaleBasedOn("C", 3);
+		final int[] scale = minorScaleBasedOn("C", 2);
 
 		Bead sequencer = new Bead () {
 			public void messageReceived(Bead message)

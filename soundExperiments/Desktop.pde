@@ -19,7 +19,7 @@ class Desktop extends App {
 		final AudioNode random = (AudioNode) new RandomSequencer(ac, metronome.getClock()).setPosition(300, 500);
 		final AudioNode sine = (AudioNode) new SineInstrument(ac).setPosition(500, 700);
 
-		final AudioNode drumsInput = (AudioNode) new ExtendedSequencerInstrumentInputNode(ac, metronome.getClock()).setPosition(600, 230);
+		final AudioNode drumsInput = (AudioNode) new SequencerInstrumentInputNode(ac, metronome.getClock()).setPosition(600, 230);
 		final AudioNode drums = (AudioNode) new DrumsInstrument(ac).setPosition(800, 230);
 		final AudioNode echo2 = (AudioNode) new EchoNode(ac).setPosition(1000, 300);
 
@@ -79,7 +79,7 @@ class Desktop extends App {
 
 		((NodeWorldMorph) world).addNode((Node) new TrashNode(ac).topRight(world.topRight()));
 		// new Morph(new WaveformShape(ac.out, 400, 100), new Style()).setPosition(100, 400).addTo(world);
-		new AddPanelMorph(ac).addTo(world);
+		new AddPanelMorph(ac, metronome.getClock()).addTo(world);
 	}
 
 	@Override

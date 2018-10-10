@@ -189,69 +189,6 @@ abstract class InstrumentInputNode extends AudioNode {
 	}
 }
 
-class SequencerInstrumentInputNode extends InstrumentInputNode {
-	Shape icon;
-	Style iconStyle;
-
-	public boolean sequence[][] = {
-		{true, false, false, false},
-		{false, false, false, false},
-		{false, true, true, false},
-		{true, false, false, true}
-	};
-
-	static final int VELOCITY = 200;
-
-	public SequencerInstrumentInputNode(AudioContext ac) {
-		super(ac, new CircleShape(64), new Style().fillColor(Theme.CONTROLLER_COLOR));
-
-		Clock clock = new Clock(ac, 1000);
-		clock.setTicksPerBeat(4);
-		ac.out.addDependent(clock);
-
-		icon = new SVGShape(loadShape("icons/sequencer.svg"));
-		iconStyle = new Style().hasStroke(false).fillColor(Theme.ICON_COLOR);
-
-		Bead sequencer = new Bead () {
-			public void messageReceived(Bead message)
-			{
-				int tick = ((Clock) message).getInt();
-				for (int i = 0; i < sequence.length; i++) {
-					if (sequence[i][tick % 4]) {
-						noteOff(Integer.toString(i), VELOCITY);
-						noteOn(Integer.toString(i), i, VELOCITY);
-					} else {
-						noteOff(Integer.toString(i), VELOCITY);
-					}
-				}
-			}
-		};
-		clock.addMessageListener(sequencer);
-	}
-
-	@Override
-	void draw() {
-		super.draw();
-		shape.translateToCenterOfRotation(-1);
-		icon.draw(iconStyle);
-		shape.translateToCenterOfRotation(1);
-	}
-
-	int lastX;
-	int lastY;
-	@Override void mousePress(MouseEvent event) {
-		super.mousePress(event);
-		lastX = event.x;
-		lastY = event.y;
-	}
-	@Override void mouseRelease(MouseEvent event) {
-		super.mouseRelease(event);
-		if (lastX != event.x || lastY != event.y)
-			return;
-		getWorld().addMorph(new SequencerMorph(this).setPosition(position));
-	}
-}
-
 class RemoteInstrumentInputNode extends InstrumentInputNode {
 	static final float BASE_RADIUS = 64;
 	String id;

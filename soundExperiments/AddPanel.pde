@@ -1,6 +1,6 @@
 
 class AddPanelMorph extends Morph {
-	AddPanelMorph(final AudioContext ac) {
+	AddPanelMorph(final AudioContext ac, final Clock clock) {
 		super(new RectangleShape(200, 200), new Style().fillColor(Theme.BACKGROUND_COLOR));
 
 		Style s = new Style().hasStroke(false).fillColor(#cccccc);
@@ -19,7 +19,7 @@ class AddPanelMorph extends Morph {
 				void buttonPressed() { add(new LowpassFilterNode(ac)); }
 			}),
 			new ButtonMorph(new SVGShape(loadShape("icons/sequencer.svg")), s, new ButtonMorphListener() {
-				void buttonPressed() { add(new SequencerInstrumentInputNode(ac)); }
+				void buttonPressed() { add(new SequencerInstrumentInputNode(ac, clock)); }
 			}),
 			new ButtonMorph(new SVGShape(loadShape("icons/drums.svg")), s, new ButtonMorphListener() {
 				void buttonPressed() { add(new DrumsInstrument(ac)); }
@@ -29,6 +29,9 @@ class AddPanelMorph extends Morph {
 			}),
 			new ButtonMorph(new SVGShape(loadShape("icons/violin.svg")), s, new ButtonMorphListener() {
 				void buttonPressed() { add(new ViolinInstrument(ac)); }
+			}),
+			new ButtonMorph(new SVGShape(loadShape("icons/guitar.svg")), s, new ButtonMorphListener() {
+				void buttonPressed() { add(new GuitarInstrument(ac)); }
 			}),
 		};
 

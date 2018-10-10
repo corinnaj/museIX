@@ -76,7 +76,7 @@ public class Communication {
   int noteOn(int frequency, int velocity) {
     int noteId = nextNoteId;
     sendMessage('n', noteId, frequency, velocity);
-    nextNoteId = nextNoteId + 1 % 100;
+    nextNoteId = (nextNoteId + 1) % 100;
     return noteId;
   }
 
