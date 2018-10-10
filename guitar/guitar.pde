@@ -46,12 +46,14 @@ void draw() {
   float CIRCLE_SIZE = height * (1 - BANDS_PERCENTAGE);
   ellipse(width / 2, height * (BANDS_PERCENTAGE + (1 - BANDS_PERCENTAGE) / 2), CIRCLE_SIZE, CIRCLE_SIZE);
 
+  // bands
   stroke(#cccccc);
   for (int i = 1; i <= NUM_BANDS; i++) {
     float y = i * BAND_HEIGHT;
     line(width / 2 - BAND_WIDTH / 2, y, width / 2 + BAND_WIDTH / 2, y);
   }
 
+  // strings
   stroke(#ffffff);
   float start = width / 2 - BAND_WIDTH / 2 + (STRING_DISTANCE / 2);
   for (int i = 0; i < NUM_STRINGS; i++) {
@@ -59,6 +61,7 @@ void draw() {
     line(x, 0, x, height);
   }
 
+  // visualize chords
   noStroke();
   fill(#990000);
   if (activeChord >= 0) {
@@ -68,9 +71,6 @@ void draw() {
         ellipse(start + i * STRING_DISTANCE, (offset + 0.5) * BAND_HEIGHT, STRING_DISTANCE,  STRING_DISTANCE);
     }
   }
-
-  if (message != null)
-    text(message, width / 2, height / 2);
 
   textSize(CHORD_TEXT_SIZE);
   text("Amaj", 0, CHORD_TEXT_SIZE * 2);
@@ -84,6 +84,7 @@ void draw() {
   }
 }
 
+// https://www.wikiwand.com/en/Piano_key_frequencies
 // e2
 int BASE_TONE_TUNING = 20;
 
@@ -96,6 +97,7 @@ int[] STRING_TONE_OFFSET = {
   BASE_TONE_TUNING + 24  // e4
 };
 
+// https://www.thoughtco.com/basic-guitar-chords-1712053
 int[][] CHORDS = {
   {0, 0, 2, 2, 2, 0}, // a major
   {0, 0, 2, 2, 1, 0}, // a minor
@@ -114,7 +116,7 @@ void mousePressed() {
 
   // chords
   if (mouseX < CHORD_TEXT_SIZE * 3) {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < CHORDS.length; i++) {
       if (mouseY < (i * 2 + 2) * CHORD_TEXT_SIZE) {
         if (activeChord >= 0)
           activeChordOff();

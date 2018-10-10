@@ -11,7 +11,7 @@ class ButtonMorph extends Morph {
 		this.listener = listener;
 	}
 
-	@Override void mousePress(MouseEvent event) {
+	@Override void mousePress(MorphMouseEvent event) {
 		listener.buttonPressed();
 	}
 }

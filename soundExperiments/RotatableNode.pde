@@ -88,7 +88,7 @@ abstract class RotatableNode extends AudioNode {
 	}
 
 	@Override
-	void mouseLongPress(MouseEvent event) {
+	void mouseLongPress(MorphMouseEvent event) {
 		super.mouseLongPress(event);
 
 		cancelMoving();
@@ -99,7 +99,7 @@ abstract class RotatableNode extends AudioNode {
 	}
 
 	@Override
-	void mouseMove(MouseEvent event) {
+	void mouseMove(MorphMouseEvent event) {
 		super.mouseMove(event);
 
 		if (!active)
@@ -113,7 +113,7 @@ abstract class RotatableNode extends AudioNode {
 	}
 
 	@Override
-	void mouseRelease(MouseEvent event) {
+	void mouseRelease(MorphMouseEvent event) {
 		super.mouseRelease(event);
 
 		active = false;

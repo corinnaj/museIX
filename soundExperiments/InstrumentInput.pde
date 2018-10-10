@@ -166,11 +166,16 @@ abstract class InstrumentInputNode extends AudioNode {
 		final float length = start.dist(end);
 		rotate(end.sub(start).heading());
 
+		stroke(color(100, 100, 100, 180));
+		strokeWeight(80);
+		line(0, 0, length, 0);
+
 		final float INTERVAL = 1000;
 		final float endTime = (float) ac.getTime();
 		final float startTime = endTime - INTERVAL;
 
 		final float[] minMax = events.getMinMaxFrequencyKey();
+		stroke(#ffffff);
 		strokeWeight(8.0f);
 
 		events.foreach(new CircularForeach() {

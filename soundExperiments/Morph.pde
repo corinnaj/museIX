@@ -3,15 +3,17 @@ enum MouseEventType {
 	RELEASED,
 	PRESSED,
 	LONG_PRESSED,
-	MOVED
+	MOVED,
+	WHEEL_UP,
+	WHEEL_DOWN
 }
 
-class MouseEvent {
+class MorphMouseEvent {
 	int x;
 	int y;
 	MouseEventType type;
 
-	MouseEvent(int x, int y, MouseEventType type) {
+	MorphMouseEvent(int x, int y, MouseEventType type) {
 		this.x = x;
 		this.y = y;
 		this.type = type;
@@ -231,6 +233,27 @@ class Style {
 	Style strokeSize(float f) { _strokeWeight = f; return this; }
 }
 
+class ScrollMorph extends Morph {
+	float scrollOffsetY = 0;
+
+	ScrollMorph(Morph child, Style style) {
+		super(new RectangleShape(child.width(), child.height()), style);
+	}
+
+	@Override void mouseWheelUp(MorphMouseEvent event) {
+	}
+
+	@Override void mouseWheelDown(MorphMouseEvent event) {
+	}
+
+	@Override void drawSubmorphs() {
+		clip(0, 0, ((RectangleShape) shape).width, ((RectangleShape) shape).height);
+		translate(0, -scrollOffsetY);
+		super.drawSubmorphs();
+		noClip();
+	}
+}
+
 class Morph {
 	Shape shape;
 
@@ -253,10 +276,14 @@ class Morph {
 	void fullDraw() {
 		pushMatrix();
 		draw();
+		drawSubmorphs();
+		popMatrix();
+	}
+
+	void drawSubmorphs() {
 		for (Morph m : new ArrayList<Morph>(submorphs)) {
 			m.fullDraw();
 		}
-		popMatrix();
 	}
 
 	void draw() {
@@ -270,7 +297,7 @@ class Morph {
 		shape.draw(style);
 	}
 
-	boolean bubbleEvent(MouseEvent event, float x, float y) {
+	boolean bubbleEvent(MorphMouseEvent event, float x, float y) {
 		if (containsPoint(x, y)) {
 			for (int i = submorphs.size() - 1; i >= 0; i--) {
 				Morph m = submorphs.get(i);
@@ -288,7 +315,7 @@ class Morph {
 		return false;
 	}
 
-	void takeEvent(MouseEvent event) {
+	void takeEvent(MorphMouseEvent event) {
 		switch (event.type) {
 			case PRESSED:
 				mousePress(event);
@@ -305,19 +332,25 @@ class Morph {
 		}
 	}
 
-	void mouseLongPress(MouseEvent event) {
+	void mouseWheelUp(MorphMouseEvent event) {
 	}
 
-	void mousePress(MouseEvent event) {
+	void mouseWheelDown(MorphMouseEvent event) {
 	}
 
-	void mouseMove(MouseEvent event) {
+	void mouseLongPress(MorphMouseEvent event) {
 	}
 
-	void mouseRelease(MouseEvent event) {
+	void mousePress(MorphMouseEvent event) {
 	}
 
-	boolean handlesEvent(MouseEvent event) {
+	void mouseMove(MorphMouseEvent event) {
+	}
+
+	void mouseRelease(MorphMouseEvent event) {
+	}
+
+	boolean handlesEvent(MorphMouseEvent event) {
 		return true;
 	}
 
@@ -414,6 +447,16 @@ class Morph {
 		return position;
 	}
 
+	float width() {
+		float[] bbox = shape.calculateBoundingBox(0, 0);
+		return bbox[2] - bbox[0];
+	}
+
+	float height() {
+		float[] bbox = shape.calculateBoundingBox(0, 0);
+		return bbox[3] - bbox[1];
+	}
+
 	Morph topRight(PVector vector) {
 		float[] bbox = shape.calculateBoundingBox(0, 0);
 		return topLeft(vector.sub(bbox[2], 0));
@@ -485,7 +528,7 @@ class WorldMorph extends Morph {
 		mouseFocusMorph = morph;
 	}
 
-	void startBubbleEvent(MouseEvent event, float x, float y) {
+	void startBubbleEvent(MorphMouseEvent event, float x, float y) {
 		if (mouseFocusMorph != null && mouseFocusMorph.owner == null)
 			mouseFocusMorph = null;
 

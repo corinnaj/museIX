@@ -20,7 +20,7 @@ class SequencerCell extends Morph {
 		updateColor();
 	}
 
-	void mousePress(MouseEvent event) {
+	void mousePress(MorphMouseEvent event) {
 		active = !active;
 		input.steps[row][tick] = active;
 		updateColor();
@@ -229,12 +229,12 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 
 	int lastX;
 	int lastY;
-	@Override void mousePress(MouseEvent event) {
+	@Override void mousePress(MorphMouseEvent event) {
 		super.mousePress(event);
 		lastX = event.x;
 		lastY = event.y;
 	}
-	@Override void mouseRelease(MouseEvent event) {
+	@Override void mouseRelease(MorphMouseEvent event) {
 		super.mouseRelease(event);
 		if (lastX != event.x || lastY != event.y)
 			return;

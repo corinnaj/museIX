@@ -16,25 +16,30 @@ abstract class App {
 
 	void draw() {
 		if (longPressTimeStart != 0 && millis() - longPressTimeStart > LONG_PRESS_DURATION_MS) {
-			world.startBubbleEvent(new MouseEvent(mouseX, mouseY, MouseEventType.LONG_PRESSED), mouseX, mouseY);
+			world.startBubbleEvent(new MorphMouseEvent(mouseX, mouseY, MouseEventType.LONG_PRESSED), mouseX, mouseY);
 		}
 
 		world.fullDraw();
 	}
 
 	void mousePressed() {
-		world.startBubbleEvent(new MouseEvent(mouseX, mouseY, MouseEventType.PRESSED), mouseX, mouseY);
+		world.startBubbleEvent(new MorphMouseEvent(mouseX, mouseY, MouseEventType.PRESSED), mouseX, mouseY);
 		lastMousePress.set(mouseX, mouseY);
 		longPressTimeStart = millis();
 	}
 
 	void mouseMoved() {
 		longPressTimeStart = 0;
-		world.startBubbleEvent(new MouseEvent(mouseX, mouseY, MouseEventType.MOVED), mouseX, mouseY);
+		world.startBubbleEvent(new MorphMouseEvent(mouseX, mouseY, MouseEventType.MOVED), mouseX, mouseY);
 	}
 
 	void mouseReleased() {
-		world.startBubbleEvent(new MouseEvent(mouseX, mouseY, MouseEventType.RELEASED), mouseX, mouseY);
+		world.startBubbleEvent(new MorphMouseEvent(mouseX, mouseY, MouseEventType.RELEASED), mouseX, mouseY);
+	}
+
+	void mouseWheel(int delta) {
+		world.startBubbleEvent(new MorphMouseEvent(mouseX, mouseY,
+					delta < 0 ? MouseEventType.WHEEL_UP : MouseEventType.WHEEL_DOWN), mouseX, mouseY);
 	}
 
 	void onRemoteMessage(String string) {
@@ -73,4 +78,8 @@ void mouseReleased() {
 
 void mouseDragged() {
 	app.mouseMoved();
+}
+
+void mouseWheel(MouseEvent event) {
+	app.mouseWheel(event.getCount());
 }

@@ -40,13 +40,13 @@ class Node extends Morph {
 		line(start.x, start.y, end.x, end.y);
 	}
 
-	@Override void mousePress(MouseEvent event) {
+	@Override void mousePress(MorphMouseEvent event) {
 		dragging = true;
 		lastPosition.set(event.x, event.y);
 		grabMouseFocus();
 	}
 
-	@Override void mouseMove(MouseEvent event) {
+	@Override void mouseMove(MorphMouseEvent event) {
 		if (owner == null) {
 			cancelMoving();
 			return;
@@ -76,7 +76,7 @@ class Node extends Morph {
 		return true;
 	}
 
-	@Override void mouseRelease(MouseEvent event) {
+	@Override void mouseRelease(MorphMouseEvent event) {
 		cancelMoving();
 	}
 

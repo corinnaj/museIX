@@ -22,7 +22,7 @@ class TrashNode extends AudioNode {
 		return null;
 	}
 
-	@Override void mousePress(MouseEvent event) {
+	@Override void mousePress(MorphMouseEvent event) {
 		// dont start dragging
 	}
 }

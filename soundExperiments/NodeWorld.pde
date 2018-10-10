@@ -35,14 +35,14 @@ class NodeWorldMorph extends WorldMorph {
 	}
 
 	@Override
-	void mousePress(MouseEvent event) {
+	void mousePress(MorphMouseEvent event) {
 		super.mousePress(event);
 		dragging = true;
 		lastPosition.set(event.x, event.y);
 	}
 
 	@Override
-	void mouseMove(MouseEvent event) {
+	void mouseMove(MorphMouseEvent event) {
 		if (dragging) {
 			ArrayList<Node> dead = new ArrayList();
 			for (Node node : nodes) {
@@ -62,7 +62,7 @@ class NodeWorldMorph extends WorldMorph {
 	}
 
 	@Override
-	void mouseRelease(MouseEvent event) {
+	void mouseRelease(MorphMouseEvent event) {
 		super.mouseRelease(event);
 		dragging = false;
 	}
