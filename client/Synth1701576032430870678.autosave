@@ -13,7 +13,7 @@ class Synth extends Instrument {
     int transparencyValADSR;
     int piValue = 1;
     float test = 0;
-    boolean mouseDragged = false; 
+    //boolean mo
     // test split on 2 and multiplied by 999.99 will give the amount of adsr duration useDragged = false;
     boolean adsrControllerActivated = false;
     boolean pitchControlLeftActivated = false;
@@ -34,7 +34,7 @@ class Synth extends Instrument {
     static final byte SQR_OSC = 3;
     static final byte TRI_OSC = 4;
     static final byte NOISE_OSC = 5;
-    byte currentOscillatorType = SAW_OSC;
+    byte currentOscillatorType = SINE_OSC;
 
     // MousePressed variables for white keys
     float whiteboxesPosY = 300;
@@ -348,8 +348,7 @@ class Synth extends Instrument {
                 communication.changeControl(1, 1, 0);
                 println("Default is SINE-wave");
             break;	
-        }  
-  }
+    }
 
     void mouseReleased() {
         communication.noteOff(currentNote, 0);
@@ -365,11 +364,11 @@ class Synth extends Instrument {
         // test split on 2 and multiplied by 999.99 will give the amount of adsr duration 
         if(mouseDragged) {
             test += 0.01;
-           //if (
+            if (test
                 // test split on 2 and multiplied by 999.99 will give the amount of adsr duration test >= 2) {
-                //test
+                
                 // test split on 2 and multiplied by 999.99 will give the amount of adsr duration  = 2;
-           //}
+            }
             // test split on 2 and multiplied by 999.99 will give the amount of adsr duration 
         }
         return test;
