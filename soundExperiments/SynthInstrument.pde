@@ -7,7 +7,7 @@ class SynthNote extends Note {
     float baseFrequency;
 
     SynthNote(AudioContext ac, int frequencyKey, int velocityKey) {
-        baseFrequency = frequencyKey;
+        baseFrequency = noteIndexToFrequency(frequencyKey);
 
         envelope = new Envelope(ac, 0.0);
         envelope.addSegment(0.5, velocityKey);

@@ -190,15 +190,23 @@ class Synth extends Instrument {
         //println("mouseX: " + mouseX);
         //println("mouseY: " + mouseY);
 
+        int baseKey = 28; // is C3
+
 //------ Checks if mouse is pressed within keyboardarea ------------------------
         if (mouseX > 35 && mouseX <= 1881 && mouseY > 230 && mouseY <= 975) {
 
 //------Click on BlackPianoKeys-------------------------------------------------
             float blackKeyPosY2 = boxPosY + blackKeyLength;
+            
+            /*myFrequencyList = (155, 185, 207, ...);
+            for (int i = 0; i < 8; i++)
+                if (mouseX > firstKezMousePressedX1(i) && mouseX <= blackKezMousePressedX2(i))
+                    currentFrequency = myFrequencyList[i];*/
+
             // black key one
             if (mouseX > firstBlackBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
                 && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                currentFrequency = 138.6;
+                currentFrequency = baseKey + 1;
             }
             // black key two
             if (mouseX > blackKeyMousePressedX1(1) && mouseX <= blackKeyMousePressedX2(1)
@@ -236,7 +244,7 @@ class Synth extends Instrument {
             // first key (0)
             if (mouseX > firstBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
                 && mouseY > whiteBoxMousePressedPosY && mouseY <= whiteKeyPosY2) {
-                currentFrequency = 130.8;
+                currentFrequency = baseKey;
             }
             // seccond key (1)
             if (mouseX > whiteKeyMousePressedX1(1) && mouseX <= whiteKeyMousePressedX2(1)
