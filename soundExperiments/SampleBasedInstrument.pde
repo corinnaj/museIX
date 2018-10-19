@@ -71,31 +71,3 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 	abstract String[] getSampleNames();
 }
 
-class DrumsInstrument extends SampleBasedInstrument {
-
-	DrumsInstrument(AudioContext ac) {
-		super(ac);
-	}
-
-	@Override String getBasePath() {
-		return "OpenPathMusic44V1/";
-	}
-
-	@Override String getIconName() {
-		return "drums";
-	}
-
-	@Override String[] getSampleNames() {
-		return new String[] {
-			"cowbell-large-closed.wav",
-			"drum-bass-lo-1.wav",
-			"drum-snare-rim.wav",
-			"drum-tom-hi-brush.wav",
-		};
-	}
-
-	@Override void changeControl(int control, int parameter1, int parameter2) {
-		// just an example, actual impl todo
-		println("Change control ", control, parameter1, parameter2);
-	}
-}

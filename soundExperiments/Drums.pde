@@ -1,7 +1,7 @@
 
-class ExtendedDrumsInstrument extends SampleBasedInstrument {
+class DrumsInstrument extends SampleBasedInstrument {
 
-	ExtendedDrumsInstrument(AudioContext ac) {
+	DrumsInstrument(AudioContext ac) {
 		super(ac);
 	}
 

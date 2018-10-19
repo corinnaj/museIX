@@ -23,6 +23,8 @@ class Desktop extends App {
 		final AudioNode drums = (AudioNode) new DrumsInstrument(ac).setPosition(800, 230);
 		final AudioNode echo2 = (AudioNode) new EchoNode(ac).setPosition(1000, 300);
 
+		final AudioNode loop = (AudioNode) new LoopNode(ac, loops[0], metronome).setPosition(1000, 500);
+
 		final AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2);
 
 		// ((NodeWorldMorph) world).addNode(wave);
@@ -31,12 +33,16 @@ class Desktop extends App {
 		((NodeWorldMorph) world).addNode(random);
 		((NodeWorldMorph) world).addNode(sine);
 
+		((NodeWorldMorph) world).addNode(loop);
+
 		((NodeWorldMorph) world).addNode(drumsInput);
 		((NodeWorldMorph) world).addNode(drums);
 		((NodeWorldMorph) world).addNode(echo2);
 
 		((NodeWorldMorph) world).addNode(output);
 		((NodeWorldMorph) world).addNode(metronome);
+
+		loop.connectTo(output);
 
 		random.connectTo(sine);
 		// sine.connectTo(output);
