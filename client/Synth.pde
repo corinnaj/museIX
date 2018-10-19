@@ -1,8 +1,5 @@
 class Synth extends Instrument {
 
-    // values used for base for the weekly challenge! 8-)
-    //int boxPosY = 25;
-    //int boxSideLength = 100;
     float whiteBoxMousePressedPosY = 650;
     float boxPosY = 300;
     float boxSideLength = 182;
@@ -57,7 +54,6 @@ class Synth extends Instrument {
         //draws the base of the synth / piano
         drawWhitePianoKeys();
         drawBlackPianoKeys();
-        //soundSetup();
     }
 
     // this is the designated draw class
@@ -69,7 +65,6 @@ class Synth extends Instrument {
         drawADSRLabels();
         drawWaveControllerLabels();
         drawPitchControllerLabels();
-        mapKeyboardForMousePressedEvents();
     }
 
     void drawPitchControllers() {
@@ -121,15 +116,12 @@ class Synth extends Instrument {
 
         String a = "A";
         text(a, firstLetterPosX, letterPosY);
-
         String d = "D";
         text(d, firstLetterPosX + spacingLetters, letterPosY + 1);
-
         String s = "S";
-        text(s, firstLetterPosX + spacingLetters*2, letterPosY + 1);
-
+        text(s, firstLetterPosX + spacingLetters * 2, letterPosY + 1);
         String r = "R";
-        text(r, firstLetterPosX + spacingLetters*3, letterPosY + 1);
+        text(r, firstLetterPosX + spacingLetters * 3, letterPosY + 1);
     }
 
     void drawADSRControllers() {
@@ -142,6 +134,8 @@ class Synth extends Instrument {
         fill(106, 167, 79);
         ellipse(firstCircPosX + spaceBetweenCircles * 3, circlePosY, circleWidth, circleHeight);
 
+        // Code in the making <- the first controller changes on mouseDragged
+        // but will be further improved on a later point
         fill(0, 100, 100);
         strokeWeight(5);
         stroke(0, 80, 80);
@@ -174,57 +168,6 @@ class Synth extends Instrument {
         }
     }
 
-    void mapKeyboardForMousePressedEvents() {
-        // first white key
-        stroke(121, 111, 120);
-        noFill();
-        rect(firstBoxPosX, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-        // seccond white key
-        stroke(12, 111, 120);
-        rect(firstBoxPosX + whiteBoxSideWidth + 3, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-        // third white key
-        stroke(12, 18, 120);
-        rect(firstBoxPosX + whiteBoxSideWidth * 2 + 6, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-        // fourth white key
-        stroke(120, 18, 120);
-        rect(firstBoxPosX + whiteBoxSideWidth * 3 + 9, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-        // fifth white key
-        stroke(170, 18, 120);
-        rect(firstBoxPosX + whiteBoxSideWidth * 4 + 12, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-        // sixth white key
-        stroke(0, 180, 120);
-        rect(firstBoxPosX + whiteBoxSideWidth * 5 + 15, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-        // seventh white key
-        stroke(0, 1, 120);
-        rect(firstBoxPosX + whiteBoxSideWidth * 6 + 18, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-        // eigth white key
-        stroke(0, 160, 44);
-        rect(firstBoxPosX + whiteBoxSideWidth * 7 + 21, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-        // ninth white key
-        stroke(0, 1, 80);
-        rect(firstBoxPosX + whiteBoxSideWidth * 8 + 24, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-        // tenth white key
-        stroke(0, 1, 180);
-        rect(firstBoxPosX + whiteBoxSideWidth * 9 + 27, whiteBoxMousePressedPosY, whiteBoxSideWidth, whiteKeysLength);
-
-        // first black key
-        stroke(250, 200, 180);
-        rect(firstBlackBoxPosX, boxPosY, boxSideLength / 1.6, blackKeyLength);
-        stroke(0);
-        // seccond black key
-        stroke(250, 150, 100);
-        rect(firstBlackBoxPosX + (boxSideLength * 1) + 3, boxPosY, boxSideLength / 1.6, blackKeyLength);
-        // third black key
-        stroke(200, 150, 100);
-        rect(firstBlackBoxPosX + (boxSideLength * 3) + 9, boxPosY, boxSideLength / 1.6, blackKeyLength);
-        stroke(0);
-
-        // Keyboard area
-        stroke(3);
-        rect(firstBlackBoxPosX + (boxSideLength * 3) + 9, boxPosY, boxSideLength / 1.6, blackKeyLength);
-        stroke(0);
-    }
-
 //--Key positions used in mousedPressed methods---------------------------------
     float blackKeyMousePressedX1(int keyNumber) {
         return firstBlackBoxPosX + (boxSideLength * keyNumber) + (3 * keyNumber);
@@ -244,8 +187,8 @@ class Synth extends Instrument {
     }
 
     void mousePressed() {
-         println("mouseX: " + mouseX);
-         println("mouseY: " + mouseY);
+        //println("mouseX: " + mouseX);
+        //println("mouseY: " + mouseY);
 
 //------ Checks if mouse is pressed within keyboardarea ------------------------
         if (mouseX > 35 && mouseX <= 1881 && mouseY > 230 && mouseY <= 975) {
@@ -280,13 +223,11 @@ class Synth extends Instrument {
             // black key six
             if (mouseX > blackKeyMousePressedX1(7) && mouseX <= blackKeyMousePressedX2(7)
                 && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                println("Black key 6 er trykket på");
                 currentFrequency = 277.2;
             }
             // black key seven
             if (mouseX > blackKeyMousePressedX1(8) && mouseX <= blackKeyMousePressedX2(8)
                 && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                println("Black key 7 er trykket på");
                 currentFrequency = 311.1;
             }
 
@@ -295,69 +236,59 @@ class Synth extends Instrument {
             // first key (0)
             if (mouseX > firstBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
                 && mouseY > whiteBoxMousePressedPosY && mouseY <= whiteKeyPosY2) {
-                println("Første key er trykket på");
                 currentFrequency = 130.8;
             }
             // seccond key (1)
             if (mouseX > whiteKeyMousePressedX1(1) && mouseX <= whiteKeyMousePressedX2(1)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                println("Andre key er trykket på");
                 currentFrequency = 146.6;
             }
             // third key (2)
             if (mouseX > whiteKeyMousePressedX1(2) && mouseX <= whiteKeyMousePressedX2(2)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                println("Tredje key er trykket på");
                 currentFrequency = 164.8;
             }
             // fourth key (3)
             if (mouseX > whiteKeyMousePressedX1(3) && mouseX <= whiteKeyMousePressedX2(3)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                println("Fjerde key er trykket på");
                 currentFrequency = 174.6;
 
             }
             // fifth key (4)
             if (mouseX > whiteKeyMousePressedX1(4) && mouseX <= whiteKeyMousePressedX2(4)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                println("Femte key er trykket på");
                 currentFrequency = 196.0;
             }
             // sixth key (5)
             if (mouseX > whiteKeyMousePressedX1(5) && mouseX <= whiteKeyMousePressedX2(5)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                println("Sjette key er trykket på");
                 currentFrequency = 220.00;
             }
             //  seventh key (6)
             if (mouseX > whiteKeyMousePressedX1(6) && mouseX <= whiteKeyMousePressedX2(6)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                println("Sjuende key er trykket på");
                 currentFrequency = 247.0;
             }
             //  eight key (7)
             if (mouseX > whiteKeyMousePressedX1(7) && mouseX <= whiteKeyMousePressedX2(7)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                println("Åttende key er trykket på");
                 currentFrequency = 261.6;
             }
             // ninth key (8)
             if (mouseX > whiteKeyMousePressedX1(8) && mouseX <= whiteKeyMousePressedX2(8)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                println("Niende key er trykket på");
+
                 currentFrequency = 293.7;
             }
             // tenth key (9)
             if (mouseX > whiteKeyMousePressedX1(9) && mouseX <= whiteKeyMousePressedX2(9)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                println("Tiende key er trykket på");
                 currentFrequency = 329.6;
             }
             currentNote = communication.noteOn((int) currentFrequency, 2);
         } else {
             communication.noteOff(currentNote, 0);
             }
-
 
 //------ ADSR controllers -----------------------------------------------------
         if (dist(mouseX, mouseY, firstCircPosX, circlePosY) < circleRadius) {
@@ -376,7 +307,6 @@ class Synth extends Instrument {
         if (mouseX > 665 && mouseX <= 665 + 190 && mouseY > 80 && mouseY <= 80 + 160) {
             changeOscillatorLabel();
             drawWaveControllerLabels();
-            println("kjører");
         }
     }
 
@@ -385,10 +315,6 @@ class Synth extends Instrument {
         return currentOscillatorType++;
     }
 
-    //void changeOscillatorType() {
-    //    communication.changeControl()
-    //}
-
     void mouseReleased() {
         communication.noteOff(currentNote, 0);
     }
@@ -396,9 +322,9 @@ class Synth extends Instrument {
     void mouseDragged() {
         mouseDragged = true;
         adsrArcController();
-        //println(mouseDragged);
     }
 
+    // method in the making <- testing arc function on mouseDragged
     float adsrArcController() {
         if(mouseDragged) {
             test += 0.01;
@@ -406,20 +332,7 @@ class Synth extends Instrument {
                 test = 2;
             }
         }
-        //println(test);
         return test;
     }
 
-    // Buffer getBuffer() {
-    //     if (bufferType == SINE_OSC) { SINE; }
-    //     if (bufferType == SAW_OSC) { SAW; }
-    //     if (bufferType == SQR_OSC) { SQUARE; }
-    //     if (bufferType == TRI_OSC) { TRIANGLE; }
-    //     if (bufferType == NOISE_OSC) { NOISE; }
-    //     else return SINE;
-    // }
-
-    // void setBuffer(byte bufferType) {
-    //     this.bufferType = bufferType;
-    // }
 }

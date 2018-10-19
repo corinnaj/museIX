@@ -15,7 +15,7 @@ class SynthNote extends Note {
 
         gain = new Gain(ac, 1, envelope);
         frequency = new Glide(ac, baseFrequency);
-        wavePlayer = new WavePlayer(ac, frequency, Buffer.SINE);
+        wavePlayer = new WavePlayer(ac, frequency, Buffer.SQUARE);
 
         gain.addInput(wavePlayer);
     }
@@ -32,7 +32,6 @@ class SynthNote extends Note {
 	@Override void stop(int velocityKey, UGen disconnectFrom) {
 		float velocity = velocityKey;
 		envelope.addSegment(0.0, velocity, new KillTrigger(gain));
-		// TODO remove connection to parent by using a KillAndDisconnectTrigger(parent, gain)
 	}
 }
 
