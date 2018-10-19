@@ -26,10 +26,12 @@ int[] STRING_TONE_OFFSET = {
 };
 
 int[][] CHORDS = {
-  {0, 0, 2, 2, 2, 0}, // a major
+  {0, 0, 0, 2, 3, 2}, // d major
   {0, 0, 2, 2, 1, 0}, // a minor
-  {0, 2, 2, 1, 0, 0}, // e major
   {0, 2, 2, 0, 0, 0}, // e minor
+  {0, 3, 2, 0, 1, 0}, // c major
+  {1, 3, 3, 2, 1, 1}, // f major
+  {3, 2, 0, 0, 0, 3}, // g major
 };
 
 class Guitar extends Instrument {
@@ -39,10 +41,12 @@ class Guitar extends Instrument {
     drawGuitar();
     textAlign(LEFT, BASELINE);
     textSize(CHORD_TEXT_SIZE);
-    text("Amaj", 0, CHORD_TEXT_SIZE * 2);
+    text("Dmaj", 0, CHORD_TEXT_SIZE * 2);
     text("Amin", 0, CHORD_TEXT_SIZE * 4);
-    text("Emaj", 0, CHORD_TEXT_SIZE * 6);
-    text("Emin", 0, CHORD_TEXT_SIZE * 8);
+    text("Emin", 0, CHORD_TEXT_SIZE * 6);
+    text("Cmaj", 0, CHORD_TEXT_SIZE * 8);
+    text("Fmaj", 0, CHORD_TEXT_SIZE * 10);
+    text("Gmaj", 0, CHORD_TEXT_SIZE * 12);
 
     if (activeChord >= 0 && millis() - activeChordStartTime > CHORD_DURATION) {
       activeChordOff();
