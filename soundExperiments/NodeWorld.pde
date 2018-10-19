@@ -107,7 +107,7 @@ class BeatWavesShape extends WorldShape {
 
 		noFill();
 		stroke(color(150, maxOpacity - scale * maxOpacity));
-		strokeWeight(map(scale, 0, 1, 80.0, 1.0));
+		strokeWeight(max(0, map(scale, 0, 1, 80.0, 1.0)));
 		ellipse(width / 2, height / 2, diameter, diameter);
 	}
 }

@@ -473,7 +473,12 @@ class Morph {
 
 	Morph rightCenter(PVector vector) {
 		float[] bbox = shape.calculateBoundingBox(position.x, position.y);
-		return setPosition(vector.x - bbox[2], vector.y / 2 - (bbox[3] - bbox[1] / 2));
+		return setPosition(vector.x - bbox[2], vector.y / 2 - (bbox[3] - bbox[1]) / 2);
+	}
+
+	Morph center(PVector vector) {
+		float[] bbox = shape.calculateBoundingBox(0, 0);
+		return setPosition(vector.x - (bbox[2] - bbox[0]) / 2, vector.y - (bbox[3] - bbox[1]) / 2);
 	}
 
 	Morph resizeToSubmorphs() {
