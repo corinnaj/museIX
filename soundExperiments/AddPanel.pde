@@ -33,6 +33,9 @@ class AddPanelMorph extends Morph {
 			new ButtonMorph(new SVGShape(loadShape("icons/guitar.svg")), s, new ButtonMorphListener() {
 				void buttonPressed() { add(new GuitarInstrument(ac)); }
 			}),
+      new ButtonMorph(new SVGShape(loadShape("icons/synth.svg")), s, new ButtonMorphListener() {
+        void buttonPressed() { add(new SynthInstrument(ac)); }
+      }),
 		};
 
 		for (int i = 0; i < buttons.length; i++) {
