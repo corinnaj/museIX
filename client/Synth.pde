@@ -26,6 +26,7 @@ class Synth extends Instrument {
     int circlePosY = 160;
     int firstCircPosX = 1200;
     int spaceBetweenCircles = circleWidth + 15;
+    int currentADSRParameter = 0;
 
     // wave controller variables
     String waveLabel = "SIN";
@@ -179,28 +180,52 @@ class Synth extends Instrument {
         return firstBlackBoxPosX + (boxSideLength * keyNumber) + (3 * keyNumber) + (boxSideLength / 1.6);
     }
 
-    // only works from seccond key, indexing from 0, 1, 2, 3
     float whiteKeyMousePressedX1(int keyNumber) {
-        return firstBoxPosX + (whiteBoxSideWidth * keyNumber) + (keyNumber * 3);
+        float value = 0;
+        if (keyNumber > 0) {
+            value = firstBoxPosX + (whiteBoxSideWidth * keyNumber) + (keyNumber * 3);
+        } else {
+            value = firstBlackBoxPosX; 
+        }
+        return value;
     }
 
     float whiteKeyMousePressedX2(int keyNumber) {
-        return firstBoxPosX + (whiteBoxSideWidth * keyNumber) + (keyNumber * 3) + whiteBoxSideWidth;
+        float value = 0; 
+        if (keyNumber > 0) {
+            value = firstBoxPosX + (whiteBoxSideWidth * keyNumber) + (keyNumber * 3) + whiteBoxSideWidth;
+        } else {
+            value = firstBoxPosX + whiteBoxSideWidth;
+        }
+        return value;
     }
 
     void mousePressed() {
-        //println("mouseX: " + mouseX);
-        //println("mouseY: " + mouseY);
-
+        float whiteKeyPosY2 = whiteboxesPosY + whiteKeysLength;
+        float blackKeyPosY2 = boxPosY + blackKeyLength;
+        
+        int[] myFrequencyListBlackKeys = { 155.6, 185.0, 207.6, 233.0, 277.2, 311.1 };
+        int[] myFrequencyListWhiteKeys = { 130.8, 146.6, 164.8, 174.6, 196.0, 220.00, 247.0, 261.6, 293.7, 329.6 };
+        int[] adsrParameterList = { 2, 3, 4, 5 };
+        // Alternatively
+        // This is from C3 to E4
+        int[] myWhiteKeyList = { 28, 30, 32, 33, 35, 37, 39, 40, 42, 44 };
         int baseKey = 28; // is C3
 
 //------ Checks if mouse is pressed within keyboardarea ------------------------
         if (mouseX > 35 && mouseX <= 1881 && mouseY > 230 && mouseY <= 975) {
 
 //------Click on BlackPianoKeys-------------------------------------------------
-            float blackKeyPosY2 = boxPosY + blackKeyLength;
             
-            /*myFrequencyList = (155, 185, 207, ...);
+            // gotta do something smart for this one... because of the jump of the black keys
+            for (int i = 0; i < 8; i++) {
+                if (mouseX > whiteKeyMousePressedX1(i) && mouseX <= firstBoxPosX + whiteBoxSideWidth
+                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
+                    currentFrequency = myFrequencyListBlackKeys[i];
+                }
+            }
+                        
+            /*
             for (int i = 0; i < 8; i++)
                 if (mouseX > firstKezMousePressedX1(i) && mouseX <= blackKezMousePressedX2(i))
                     currentFrequency = myFrequencyList[i];*/
@@ -208,7 +233,7 @@ class Synth extends Instrument {
             // black key one
             if (mouseX > firstBlackBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
                 && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                currentFrequency = baseKey + 1;
+                currentFrequency = baseKey;
             }
             // black key two
             if (mouseX > blackKeyMousePressedX1(1) && mouseX <= blackKeyMousePressedX2(1)
@@ -241,84 +266,45 @@ class Synth extends Instrument {
                 currentFrequency = 311.1;
             }
 
-//------CLICK ON WHITE PIANO KEYS --------------------------------------
-            float whiteKeyPosY2 = whiteboxesPosY + whiteKeysLength;
-            // first key (0)
-            if (mouseX > firstBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
-                && mouseY > whiteBoxMousePressedPosY && mouseY <= whiteKeyPosY2) {
-                //currentFrequency = baseKey;
-                currentFrequency = 130.8;
-            }
-            // seccond key (1)
-            if (mouseX > whiteKeyMousePressedX1(1) && mouseX <= whiteKeyMousePressedX2(1)
+//----------CLICK ON WHITE PIANO KEYS --------------------------------------
+            for (int i = 0; i < 8; i++) {
+                if (mouseX > whiteKeyMousePressedX1(i) && mouseX <= whiteKeyMousePressedX2(i)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 146.6;
+                    currentFrequency = myFrequencyListBlackKeys[i];
+                }
             }
-            // third key (2)
-            if (mouseX > whiteKeyMousePressedX1(2) && mouseX <= whiteKeyMousePressedX2(2)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 164.8;
-            }
-            // fourth key (3)
-            if (mouseX > whiteKeyMousePressedX1(3) && mouseX <= whiteKeyMousePressedX2(3)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 174.6;
-
-            }
-            // fifth key (4)
-            if (mouseX > whiteKeyMousePressedX1(4) && mouseX <= whiteKeyMousePressedX2(4)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 196.0;
-            }
-            // sixth key (5)
-            if (mouseX > whiteKeyMousePressedX1(5) && mouseX <= whiteKeyMousePressedX2(5)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 220.00;
-            }
-            //  seventh key (6)
-            if (mouseX > whiteKeyMousePressedX1(6) && mouseX <= whiteKeyMousePressedX2(6)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 247.0;
-            }
-            //  eight key (7)
-            if (mouseX > whiteKeyMousePressedX1(7) && mouseX <= whiteKeyMousePressedX2(7)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 261.6;
-            }
-            // ninth key (8)
-            if (mouseX > whiteKeyMousePressedX1(8) && mouseX <= whiteKeyMousePressedX2(8)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-
-                currentFrequency = 293.7;
-            }
-            // tenth key (9)
-            if (mouseX > whiteKeyMousePressedX1(9) && mouseX <= whiteKeyMousePressedX2(9)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 329.6;
-            }
+           
+            println(currentFrequency);
             currentNote = communication.noteOn((int) currentFrequency, 2);
-        } else {
+        } 
+        // HAVE TO CHECK IF THIS IS THE CORRECT WAY OF SETTING NOTEOFF! <- TOMORROW / LATER TODAY
+        else {
             communication.noteOff(currentNote, 0);
             }
 
 //------ ADSR controllers -----------------------------------------------------
-        if (dist(mouseX, mouseY, firstCircPosX, circlePosY) < circleRadius) {
-            println("A activated");
+        for (int i = 0; i < 4; i++) {
+            if (dist(mouseX, mouseY, adsrControllersValue(i), circlePosY) < circleRadius) {
+                currentADSRParameter = adsrParameterList[i];
+            }
         }
-        if (dist(mouseX, mouseY, firstCircPosX + spaceBetweenCircles, circlePosY) < circleRadius) {
-            println("D activated");
-        }
-        if (dist(mouseX, mouseY, firstCircPosX + spaceBetweenCircles * 2, circlePosY) < circleRadius) {
-            println("S activated");
-        }
-        if (dist(mouseX, mouseY, firstCircPosX + spaceBetweenCircles * 3, circlePosY) < circleRadius) {
-            println("R activated");
-        }
+        
 //------ Wave controller -----------------------------------------------------
         if (mouseX > 665 && mouseX <= 665 + 190 && mouseY > 80 && mouseY <= 80 + 160) {
             changeOscillatorLabel();
             drawWaveControllerLabels();
         }
+
+    }
+
+    int adsrControllersValue(int arrayNumber) {
+        int value = 0;
+        if (arrayNumber > 0) {
+            value = firstCircPosX + spaceBetweenCircles * arrayNumber;
+        } else {
+            value = firstCircPosX;
+        }
+        return value;
     }
 
     byte changeOscillatorLabel() {
@@ -349,7 +335,7 @@ class Synth extends Instrument {
                 println("Default is SINE-wave");
             break;	
         }  
-  }
+    }
 
     void mouseReleased() {
         communication.noteOff(currentNote, 0);
@@ -362,18 +348,12 @@ class Synth extends Instrument {
 
     // method in the making <- testing arc function on mouseDragged
     float adsrArcController() {
-        // test split on 2 and multiplied by 999.99 will give the amount of adsr duration 
+        
         if(mouseDragged) {
-            test += 0.01;
-           //if (
-                // test split on 2 and multiplied by 999.99 will give the amount of adsr duration test >= 2) {
-                //test
-                // test split on 2 and multiplied by 999.99 will give the amount of adsr duration  = 2;
-           //}
-            // test split on 2 and multiplied by 999.99 will give the amount of adsr duration 
+            test += 0.01;        
         }
         return test;
     }
     // test split on 2 and multiplied by 999.99 will give the amount of adsr duration 
-
+    
 }
