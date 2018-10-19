@@ -19,7 +19,6 @@ void setup() {
   orientation(PORTRAIT);
   textAlign(CENTER, CENTER);
   textSize(36);
-
   instruments.put("violin", new Violin());
   instruments.put("guitar", new Guitar());
 
@@ -31,14 +30,13 @@ KetaiSensor sensor;
 float accelerometerX, accelerometerY, accelerometerZ;
 
 void draw() {
-  /*if (accelerometerX < 1 && accelerometerX > -1.5 &&
+  if (accelerometerX < 1 && accelerometerX > -1.5 &&
       accelerometerY < 2 && accelerometerY > -0.5 &&
       accelerometerZ > 9 && accelerometerZ < 10.5) {
     instrument = instruments.get("violin");
   } else {
     instrument = instruments.get("guitar");
-  }*/
-  instrument = instruments.get("violin");
+  }
   instrument.display();
 }
 
