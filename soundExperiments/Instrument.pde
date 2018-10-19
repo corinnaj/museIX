@@ -28,6 +28,13 @@ abstract class InstrumentNode extends AudioNode implements InstrumentInputListen
 	}
 
 	@Override void removeInput(AudioNode node) {
+		// too conservative, but would otherwise require having a list per
+		// input
+		for (Map.Entry<String,Note> entry : notes.entrySet()) {
+			entry.getValue().stop(0);
+		}
+		notes.clear();
+
 		((InstrumentInputNode) node).removeListener(this);
 	}
 
