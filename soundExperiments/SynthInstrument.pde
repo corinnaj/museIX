@@ -28,7 +28,7 @@ class SynthNote extends Note {
 		frequency.setValue(baseFrequency + delta);
 	}
 
-	@Override void stop(int velocityKey, UGen disconnectFrom) {
+	@Override void stop(int velocityKey) {
 		float velocity = velocityKey;
 		envelope.addSegment(0.0, velocity, new KillTrigger(gain));
 	}
@@ -47,4 +47,3 @@ class SynthInstrument extends InstrumentNode {
         return new SynthNote(ac, frequencyKey, velocityKey);
     }
 }
-
