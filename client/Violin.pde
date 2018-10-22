@@ -1,4 +1,8 @@
 class Violin extends Instrument {
+  Violin(int index) {
+    super(index);
+  }
+
   static final float eFrequency = 659.0;
   static final float aFrequency = 440.0;
   static final float dFrequency = 293.7;
