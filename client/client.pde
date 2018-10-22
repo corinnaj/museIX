@@ -47,7 +47,6 @@ void draw() {
   } else {
     instrument = new NoInstrument(-1);
   }
-  
   if (previousInstrument != instrument) {
     previousInstrument = instrument;
     instrument.activate();
