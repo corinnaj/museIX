@@ -11,8 +11,7 @@ class Synth extends Instrument {
     int whiteKeyLength = 640;
     int colorCode = 50;
     int colorCodeIncrease = 45;
-    int transparencyValPCL = 0;
-    int transparencyValPCR = 0;
+    int transparencyValPC = 125;
     int transparencyValADSR;
     int piValue = 1;
     
@@ -84,9 +83,9 @@ class Synth extends Instrument {
 
         strokeWeight(2);
         stroke(0);
-        fill(135, transparencyValPCL);
+        fill(135, transparencyValPC);
         rect(boxXPos, boxYPos, boxWidth, boxHeight);
-        fill(135, transparencyValPCR);
+        fill(135, transparencyValPC);
         rect(boxXPos + 200, boxYPos, boxWidth, boxHeight);
     }
 
@@ -102,7 +101,7 @@ class Synth extends Instrument {
     void drawWaveController() {
         stroke(0);
         strokeWeight(2);
-        fill(135, 50);
+        fill(135, transparencyValPC);
         rect(665, 80, 190, 160);
     }
 

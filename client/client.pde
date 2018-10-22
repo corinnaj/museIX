@@ -33,15 +33,15 @@ float accelerometerX, accelerometerY, accelerometerZ;
 Instrument previousInstrument = null;
 
 void draw() {
-  if (accelerometerX < 2.5 && accelerometerX > -2.5 &&
-      accelerometerY < 2.5 && accelerometerY > -2.5 &&
+  if (accelerometerX < 3.5 && accelerometerX > -3.5 &&
+      accelerometerY < 3.5 && accelerometerY > -3.5 &&
       accelerometerZ > 8 && accelerometerZ < 11.5) {
     instrument = instruments.get("violin");
   } else if (accelerometerX > 0 &&
-             accelerometerZ > -2 && accelerometerZ < 8) {
+             accelerometerZ > -4 && accelerometerZ < 8) {
     instrument = instruments.get("synth");
-  } else if (accelerometerX > -9 && accelerometerX < -5 &&
-      accelerometerY < 4 && accelerometerY > -4 &&
+  } else if (accelerometerX > -10 && accelerometerX < -5 &&
+      accelerometerY < 5 && accelerometerY > -4 &&
       accelerometerZ > 2 && accelerometerZ < 8) {
     instrument = instruments.get("guitar");
   } else {
