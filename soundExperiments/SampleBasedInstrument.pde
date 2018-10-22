@@ -33,7 +33,28 @@ class SampleBasedNote extends Note {
 	}
 }
 
+Map<String,Sample> sampleCache = new HashMap<String,Sample>();
+
+Sample loadSampleFile(String file) {
+	if (sampleCache.containsKey(file)) {
+		return sampleCache.get(file);
+	}
+
+	try {
+		Sample sample = new Sample(sketchPath("") + file);
+		sampleCache.put(file, sample);
+		return sample;
+	} catch(Exception e) {
+		println("Exception while attempting to load sample!");
+		e.printStackTrace();
+		exit();
+		return null;
+	}
+}
+
+
 abstract class SampleBasedInstrument extends InstrumentNode {
+
 	private Sample[] samples;
 
 	SampleBasedInstrument(AudioContext ac) {
@@ -45,7 +66,7 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 			for (int i = 0; i < sampleNames.length; i++) {
 				samples[i] = sampleNames[i] == null
 					? null
-					: new Sample(sketchPath("") + getBasePath() + sampleNames[i]);
+					: loadSampleFile(getBasePath() + sampleNames[i]);
 			}
 		} catch(Exception e) {
 			println("Exception while attempting to load sample!");
