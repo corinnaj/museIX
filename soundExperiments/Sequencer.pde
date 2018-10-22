@@ -156,7 +156,7 @@ class SequencerInstrumentInputNode extends InstrumentInputNode {
 	Style iconStyle;
 
 	static final int VELOCITY = 200;
-	static final int TICKS_PER_BEAT = 4;
+	static final int TICKS_PER_BEAT = Metronome.TICKS_PER_BEAT;
 	static final int N_TRACKS = 8;
 
 	int measures = 2;

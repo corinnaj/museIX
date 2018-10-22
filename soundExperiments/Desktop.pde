@@ -23,7 +23,7 @@ class Desktop extends App {
 		final AudioNode drums = (AudioNode) new DrumsInstrument(ac).setPosition(800, 230);
 		final AudioNode echo2 = (AudioNode) new EchoNode(ac).setPosition(1000, 300);
 
-		final AudioNode loop = (AudioNode) new LoopNode(ac, loops[0], metronome).setPosition(1000, 500);
+		final AudioNode loop = (AudioNode) new LoopNode(ac, loops[1], metronome).setPosition(1000, 500);
 
 		final AudioNode output = (AudioNode) new OutputNode(ac).setPosition(width / 2, height / 2);
 
