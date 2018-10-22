@@ -547,9 +547,11 @@ class WorldMorph extends Morph {
 	@Override void fullDraw() {
 		super.fullDraw();
 
-		for (Callback c : postFrameCallbacks)
-			c.run();
+		final ArrayList<Callback> oldCallbacks = new ArrayList<Callback>(postFrameCallbacks);
 		postFrameCallbacks.clear();
+
+		for (Callback c : oldCallbacks)
+			c.run();
 	}
 }
 

@@ -22,7 +22,7 @@ void setup() {
   instruments.put("violin", new Violin(0));
   instruments.put("guitar", new Guitar(1));
   instruments.put("synth", new Synth(2));
-
+  
   instrument = new NoInstrument(-1);
   sensor.start();
 }
@@ -33,13 +33,20 @@ float accelerometerX, accelerometerY, accelerometerZ;
 Instrument previousInstrument = null;
 
 void draw() {
-  //if (accelerometerX < 1 && accelerometerX > -1.5 &&
-  //    accelerometerY < 2 && accelerometerY > -0.5 &&
-  //    accelerometerZ > 9 && accelerometerZ < 10.5) {
-  //  instrument = instruments.get("violin");
-  //instrument = instruments.get("synth");
-  instrument = instruments.get("synth");
-
+  if (accelerometerX < 2.5 && accelerometerX > -2.5 &&
+      accelerometerY < 2.5 && accelerometerY > -2.5 &&
+      accelerometerZ > 8 && accelerometerZ < 11.5) {
+    instrument = instruments.get("violin");
+  } else if (accelerometerX > 0 &&
+             accelerometerZ > -2 && accelerometerZ < 8) {
+    instrument = instruments.get("synth");
+  } else if (accelerometerX > -9 && accelerometerX < -5 &&
+      accelerometerY < 3 && accelerometerY > -3 &&
+      accelerometerZ > 2 && accelerometerZ < 6) {
+    instrument = instruments.get("guitar");
+  } else {
+    instrument = new NoInstrument(-1);
+  }
   if (previousInstrument != instrument) {
     previousInstrument = instrument;
     instrument.activate();
