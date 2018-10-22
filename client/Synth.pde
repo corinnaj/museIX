@@ -1,4 +1,7 @@
 class Synth extends Instrument {
+    Synth(int index) {
+        super(index);
+    }
 
     float whiteBoxMousePressedPosY = 650;
     float boxPosY = 300;
@@ -12,13 +15,7 @@ class Synth extends Instrument {
     int transparencyValPCR = 0;
     int transparencyValADSR;
     int piValue = 1;
-    float test = 0;
-    boolean mouseDragged = false; 
-    // test split on 2 and multiplied by 999.99 will give the amount of adsr duration useDragged = false;
-    boolean adsrControllerActivated = false;
-    boolean pitchControlLeftActivated = false;
-    boolean pitchControlRightActivated  = false;
-
+    
     // ADSR controllers variables
     int circleHeight = 170;
     int circleWidth = 170;
@@ -26,6 +23,16 @@ class Synth extends Instrument {
     int circlePosY = 160;
     int firstCircPosX = 1200;
     int spaceBetweenCircles = circleWidth + 15;
+    
+    int currentADSRParameter = -1;
+    float[] adsr = { 1, 1, 1, 1 };
+    
+    //pitchState 
+    static final byte LIST_C2_E3 = 1;
+    static final byte LIST_C3_E4 = 2;
+    static final byte LIST_C4_E5 = 3;
+    static final byte LIST_C5_E6 = 4;
+    byte currentPitchList = LIST_C3_E4;
 
     // wave controller variables
     String waveLabel = "SIN";
@@ -33,8 +40,7 @@ class Synth extends Instrument {
     static final byte SAW_OSC = 2;
     static final byte SQR_OSC = 3;
     static final byte TRI_OSC = 4;
-    static final byte NOISE_OSC = 5;
-    byte currentOscillatorType = SAW_OSC;
+    byte currentOscillatorType = SINE_OSC;
 
     // MousePressed variables for white keys
     float whiteboxesPosY = 300;
@@ -52,7 +58,7 @@ class Synth extends Instrument {
     void startup() {
         orientation(LANDSCAPE);
         textSize(100);
-        //draws the base of the synth / piano
+        //draws the base of the synth
         drawWhitePianoKeys();
         drawBlackPianoKeys();
     }
@@ -66,6 +72,7 @@ class Synth extends Instrument {
         drawADSRLabels();
         drawWaveControllerLabels();
         drawPitchControllerLabels();
+        adsrArcController();
     }
 
     void drawPitchControllers() {
@@ -83,8 +90,8 @@ class Synth extends Instrument {
     }
 
     void drawPitchControllerLabels() {
-        int labelXPos = 235; //210
-        int labelYPos = 160; //140
+        int labelXPos = 235;
+        int labelYPos = 160;
         String left = "<";
         String right = ">";
         text(left, labelXPos, labelYPos);
@@ -103,7 +110,6 @@ class Synth extends Instrument {
         if (currentOscillatorType == SINE_OSC) { waveLabel = "SIN"; }
         if (currentOscillatorType == TRI_OSC) { waveLabel = "TRI"; }
         if (currentOscillatorType == SAW_OSC) { waveLabel = "SAW"; }
-        if (currentOscillatorType == NOISE_OSC) { waveLabel = "NOI"; }
         textSize(80);
         text(waveLabel, 754, 160);
         textSize(100);
@@ -126,23 +132,21 @@ class Synth extends Instrument {
     }
 
     void drawADSRControllers() {
-        fill(0, 155, 155);
-        ellipse(firstCircPosX, circlePosY, circleWidth, circleHeight);
-        fill(103, 78, 167);
-        ellipse(firstCircPosX + spaceBetweenCircles, circlePosY, circleWidth, circleHeight);
-        fill(60, 120, 216);
-        ellipse(firstCircPosX + spaceBetweenCircles * 2, circlePosY, circleWidth, circleHeight);
-        fill(106, 167, 79);
-        ellipse(firstCircPosX + spaceBetweenCircles * 3, circlePosY, circleWidth, circleHeight);
+        color[] fillColors = {color(0, 155, 155), color(103, 78, 167), color(60, 120, 216), color(106, 167, 79)};
+        color[] strokeColors = {color(0, 80, 80), color(103, 3, 92), color(60, 46, 141), color(106, 92, 4)};
+        color[] colors = {color(0, 100, 100), color(103, 23, 112), color(60, 65, 161), color(106, 112, 20)};
+        color[] activeColors = {color(0, 185, 185), color(103,108, 197), color(70, 150, 246), color(106, 197, 109)};
+        for (int i = 0; i < 4; i++) {
+            fill(colors[i]);
+            ellipse(firstCircPosX + spaceBetweenCircles * i, circlePosY, circleWidth, circleHeight);
 
-        // Code in the making <- the first controller changes on mouseDragged
-        // but will be further improved on a later point
-        fill(0, 100, 100);
-        strokeWeight(5);
-        stroke(0, 80, 80);
-        arc(firstCircPosX, circlePosY, circleWidth, circleHeight, 0, PI * test);
+            fill(currentADSRParameter == i ? activeColors[i] : fillColors[i]);
+            strokeWeight(5);
+            stroke(strokeColors[i]);
+            arc(firstCircPosX + spaceBetweenCircles * i, circlePosY, circleWidth, circleHeight, -PI/2, PI * adsr[i] - PI/2);
+        }
+        
     }
-    // test split on 2 and multiplied by 999 will give the amount of adsr duration 
 
     void drawBlackPianoKeys() {
         int keysCounter = 0;
@@ -163,6 +167,11 @@ class Synth extends Instrument {
     }
 
     void drawWhitePianoKeys() {
+         float firstWhiteBoxPosX = 25;
+         float boxSideLength = 182;
+         int whiteKeyLength = 640;
+         float boxPosY = 300;
+
         while (firstWhiteBoxPosX + boxSideLength < width) {
             fill(255);
             rect(firstWhiteBoxPosX, boxPosY, boxSideLength, whiteKeyLength);
@@ -171,209 +180,160 @@ class Synth extends Instrument {
     }
 
 //--Key positions used in mousedPressed methods---------------------------------
-    float blackKeyMousePressedX1(int keyNumber) {
-        return firstBlackBoxPosX + (boxSideLength * keyNumber) + (3 * keyNumber);
+    float blackKeyMousePressedX(int keyNumber) {
+        float boxSideLength = 182;
+        float firstBlackBoxPosX = 207 - ((boxSideLength / 1.6)/2);
+
+        if (keyNumber > 5)
+            keyNumber += 2;
+        else if (keyNumber > 2)
+            keyNumber += 1;
+        
+        return firstBlackBoxPosX + keyNumber * boxSideLength;
     }
 
-    float blackKeyMousePressedX2(int keyNumber) {
-        return firstBlackBoxPosX + (boxSideLength * keyNumber) + (3 * keyNumber) + (boxSideLength / 1.6);
-    }
-
-    // only works from seccond key, indexing from 0, 1, 2, 3
-    float whiteKeyMousePressedX1(int keyNumber) {
-        return firstBoxPosX + (whiteBoxSideWidth * keyNumber) + (keyNumber * 3);
-    }
-
-    float whiteKeyMousePressedX2(int keyNumber) {
-        return firstBoxPosX + (whiteBoxSideWidth * keyNumber) + (keyNumber * 3) + whiteBoxSideWidth;
+    float whiteKeyMousePressedX(int keyNumber) {
+        float firstBoxPosX = 25;
+        float whiteBoxSideWidth = 182;
+        
+        return firstBoxPosX + (whiteBoxSideWidth * keyNumber);
     }
 
     void mousePressed() {
-        //println("mouseX: " + mouseX);
-        //println("mouseY: " + mouseY);
+        float whiteKeyPosY2 = whiteboxesPosY + whiteKeysLength;
+        float blackKeyPosY2 = boxPosY + blackKeyLength;
 
-        int baseKey = 28; // is C3
+        lastMouseY = mouseY;
+        
+        int base = currentPitchList * 12;
+        int[] whiteKeysIndices = {0, 2, 4, 5, 7, 9, 11, 12, 14, 16};
+        int[] blackKeysIndices = {1, 3, 6, 8, 10, 13, 15};
 
 //------ Checks if mouse is pressed within keyboardarea ------------------------
         if (mouseX > 35 && mouseX <= 1881 && mouseY > 230 && mouseY <= 975) {
 
 //------Click on BlackPianoKeys-------------------------------------------------
-            float blackKeyPosY2 = boxPosY + blackKeyLength;
-            
-            /*myFrequencyList = (155, 185, 207, ...);
-            for (int i = 0; i < 8; i++)
-                if (mouseX > firstKezMousePressedX1(i) && mouseX <= blackKezMousePressedX2(i))
-                    currentFrequency = myFrequencyList[i];*/
-
-            // black key one
-            if (mouseX > firstBlackBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
+            for (int i = 0; i < 7; i++) {
+                if (mouseX > blackKeyMousePressedX(i) && mouseX <= blackKeyMousePressedX(i + 1)
                 && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                currentFrequency = baseKey + 1;
-            }
-            // black key two
-            if (mouseX > blackKeyMousePressedX1(1) && mouseX <= blackKeyMousePressedX2(1)
-                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                currentFrequency = 155.6;
-            }
-            // black key three
-            if (mouseX > blackKeyMousePressedX1(3) && mouseX <= blackKeyMousePressedX2(3)
-                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                currentFrequency = 185.0;
-            }
-            // black key fire
-            if (mouseX > blackKeyMousePressedX1(4) && mouseX <= blackKeyMousePressedX2(4)
-                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                currentFrequency = 207.6;
-            }
-            // black key fem
-            if (mouseX > blackKeyMousePressedX1(5) && mouseX <= blackKeyMousePressedX2(5)
-                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                currentFrequency = 233.0;
-            }
-            // black key six
-            if (mouseX > blackKeyMousePressedX1(7) && mouseX <= blackKeyMousePressedX2(7)
-                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                currentFrequency = 277.2;
-            }
-            // black key seven
-            if (mouseX > blackKeyMousePressedX1(8) && mouseX <= blackKeyMousePressedX2(8)
-                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                currentFrequency = 311.1;
+                    currentFrequency = base + blackKeysIndices[i];
+                }
             }
 
-//------CLICK ON WHITE PIANO KEYS --------------------------------------
-            float whiteKeyPosY2 = whiteboxesPosY + whiteKeysLength;
-            // first key (0)
-            if (mouseX > firstBoxPosX && mouseX <= firstBoxPosX + whiteBoxSideWidth
-                && mouseY > whiteBoxMousePressedPosY && mouseY <= whiteKeyPosY2) {
-                //currentFrequency = baseKey;
-                currentFrequency = 130.8;
-            }
-            // seccond key (1)
-            if (mouseX > whiteKeyMousePressedX1(1) && mouseX <= whiteKeyMousePressedX2(1)
+//----------CLICK ON WHITE PIANO KEYS --------------------------------------
+            for (int i = 0; i < 10; i++) {
+                if (mouseX > whiteKeyMousePressedX(i) && mouseX <= whiteKeyMousePressedX(i + 1)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 146.6;
+                    currentFrequency = base + whiteKeysIndices[i];
+                }
             }
-            // third key (2)
-            if (mouseX > whiteKeyMousePressedX1(2) && mouseX <= whiteKeyMousePressedX2(2)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 164.8;
-            }
-            // fourth key (3)
-            if (mouseX > whiteKeyMousePressedX1(3) && mouseX <= whiteKeyMousePressedX2(3)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 174.6;
-
-            }
-            // fifth key (4)
-            if (mouseX > whiteKeyMousePressedX1(4) && mouseX <= whiteKeyMousePressedX2(4)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 196.0;
-            }
-            // sixth key (5)
-            if (mouseX > whiteKeyMousePressedX1(5) && mouseX <= whiteKeyMousePressedX2(5)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 220.00;
-            }
-            //  seventh key (6)
-            if (mouseX > whiteKeyMousePressedX1(6) && mouseX <= whiteKeyMousePressedX2(6)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 247.0;
-            }
-            //  eight key (7)
-            if (mouseX > whiteKeyMousePressedX1(7) && mouseX <= whiteKeyMousePressedX2(7)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 261.6;
-            }
-            // ninth key (8)
-            if (mouseX > whiteKeyMousePressedX1(8) && mouseX <= whiteKeyMousePressedX2(8)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-
-                currentFrequency = 293.7;
-            }
-            // tenth key (9)
-            if (mouseX > whiteKeyMousePressedX1(9) && mouseX <= whiteKeyMousePressedX2(9)
-                && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                currentFrequency = 329.6;
-            }
+           
             currentNote = communication.noteOn((int) currentFrequency, 2);
-        } else {
-            communication.noteOff(currentNote, 0);
-            }
+        } 
 
 //------ ADSR controllers -----------------------------------------------------
-        if (dist(mouseX, mouseY, firstCircPosX, circlePosY) < circleRadius) {
-            println("A activated");
+        for (int i = 0; i < 4; i++) {
+            if (dist(mouseX, mouseY, adsrControllersValue(i), circlePosY) < circleRadius) {
+                if (currentADSRParameter == i)
+                    currentADSRParameter = -1;
+                else
+                    currentADSRParameter = i;
+            }
         }
-        if (dist(mouseX, mouseY, firstCircPosX + spaceBetweenCircles, circlePosY) < circleRadius) {
-            println("D activated");
-        }
-        if (dist(mouseX, mouseY, firstCircPosX + spaceBetweenCircles * 2, circlePosY) < circleRadius) {
-            println("S activated");
-        }
-        if (dist(mouseX, mouseY, firstCircPosX + spaceBetweenCircles * 3, circlePosY) < circleRadius) {
-            println("R activated");
-        }
+        
 //------ Wave controller -----------------------------------------------------
         if (mouseX > 665 && mouseX <= 665 + 190 && mouseY > 80 && mouseY <= 80 + 160) {
             changeOscillatorLabel();
+            changeOscillatorType();
             drawWaveControllerLabels();
+        }
+
+//------ Pitch controller -----------------------------------------------------
+        // Left pitch controller
+        if (mouseX > 150 && mouseX <= 335 && mouseY > 80 && mouseY <= 80 + 160) {
+            decreasePitchListsValue();
+        }
+
+        if (mouseX > 350 && mouseX <= 535 && mouseY > 80 && mouseY <= 80 + 160) {
+            increasePitchListsValue();
         }
     }
 
+    int adsrControllersValue(int arrayNumber) {
+        int value = 0;
+        if (arrayNumber > 0) {
+            value = firstCircPosX + spaceBetweenCircles * arrayNumber;
+        } else {
+            value = firstCircPosX;
+        }
+        return value;
+    }
+
+    byte increasePitchListsValue() {
+        if (currentPitchList == 5) { currentPitchList = LIST_C5_E6; }
+        if (currentPitchList == 0) { currentPitchList = LIST_C2_E3; }
+        else { currentPitchList++; }
+        return currentPitchList;
+    }
+
+    byte decreasePitchListsValue() {
+        if (currentPitchList == 5) { currentPitchList = LIST_C5_E6; }
+        if (currentPitchList == 0) { currentPitchList = LIST_C2_E3; }
+        else { currentPitchList--; }
+        return currentPitchList;
+    }
+
     byte changeOscillatorLabel() {
-        if (currentOscillatorType > 5) { currentOscillatorType = SINE_OSC; }
-        changeOscillatorType();
+        if (currentOscillatorType > TRI_OSC) { currentOscillatorType = 0; }
         return currentOscillatorType++;
     }
 
     void changeOscillatorType() {
         switch (currentOscillatorType) {
             case SINE_OSC: communication.changeControl(1, 1, 0);
-                    println("Changes to SINE");
                     break;
             case SQR_OSC: communication.changeControl(1, 2, 0);
-                    println("Changes to SQR");
                     break;
             case SAW_OSC: communication.changeControl(1, 3, 0);
-                    println("Changes to SAW");
                     break;
             case TRI_OSC: communication.changeControl(1, 4, 0);
-                    println("Changes to TRI");
-                    break;
-            case NOISE_OSC: communication.changeControl(1, 5, 0);
-                    println("Changes to NOISE");
-                    break;
-            default:
-                communication.changeControl(1, 1, 0);
-                println("Default is SINE-wave");
-            break;	
+                    break;	
         }  
-  }
+    }
 
     void mouseReleased() {
         communication.noteOff(currentNote, 0);
     }
 
+    float lastMouseY = 0;
     void mouseDragged() {
-        mouseDragged = true;
-        adsrArcController();
+        communication.changePitch(currentNote, (int) ((lastMouseY - mouseY) * 1));
+        lastMouseY = mouseY;
     }
 
-    // method in the making <- testing arc function on mouseDragged
-    float adsrArcController() {
-        // test split on 2 and multiplied by 999.99 will give the amount of adsr duration 
-        if(mouseDragged) {
-            test += 0.01;
-           //if (
-                // test split on 2 and multiplied by 999.99 will give the amount of adsr duration test >= 2) {
-                //test
-                // test split on 2 and multiplied by 999.99 will give the amount of adsr duration  = 2;
-           //}
-            // test split on 2 and multiplied by 999.99 will give the amount of adsr duration 
+    void adsrArcController() {
+        if (currentADSRParameter < 0)
+            return;
+
+        final float deadZone = 1;
+        if (abs(accelerometerY) < deadZone)
+            return;
+
+        float increment = 0.008 * abs(accelerometerY);
+
+        if (0 < accelerometerY) {
+            adsr[currentADSRParameter] += increment; 
+            if (adsr[currentADSRParameter] > 2) {
+                adsr[currentADSRParameter] = 2;
+            }
         }
-        return test;
+        if (0 > accelerometerY) {
+            adsr[currentADSRParameter] -= increment;
+            if (adsr[currentADSRParameter] < 0) {
+                adsr[currentADSRParameter] = 0;
+            }
+        }
+        communication.changeControl(currentADSRParameter + 2, (int) constrain(map(adsr[currentADSRParameter], 0, 2, 0, 999), 0, 999), 0);
     }
-    // test split on 2 and multiplied by 999.99 will give the amount of adsr duration 
-
+    
 }

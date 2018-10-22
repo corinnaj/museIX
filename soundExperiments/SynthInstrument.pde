@@ -69,13 +69,13 @@ class SynthInstrument extends InstrumentNode {
 		    case 1:
 			config.waveType = Buffer.SINE;
 			break;
-		    case 3:
+		    case 2:
 			config.waveType = Buffer.SQUARE;
 			break;
-		    case 4:
+		    case 3:
 			config.waveType = Buffer.SAW;
 			break;
-		    case 5:
+		    case 4:
 			config.waveType = Buffer.TRIANGLE;
 			break;
 		}

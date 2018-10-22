@@ -1,4 +1,15 @@
 abstract class Instrument {
+  int index;
+
+  Instrument(int index) {
+    this.index = index;
+  }
+
+  void activate() {
+    if (index >= 0)
+      communication.requestInstrument(index);
+  }
+
   abstract void display();
   abstract void mousePressed();
   abstract void mouseReleased();
@@ -6,6 +17,13 @@ abstract class Instrument {
 }
 
 class NoInstrument extends Instrument {
+  NoInstrument(int index) {
+    super(index);
+  }
+
+  @Override
+  void activate() {}
+
   void display() {
     fill(255);
     background(78, 93, 75);
