@@ -12,8 +12,7 @@ class Synth extends Instrument {
     int transparencyValPCR = 0;
     int transparencyValADSR;
     int piValue = 1;
-    float attackParameter = 0;
- 
+    float test = 0;
     boolean mouseDragged = false; 
     // test split on 2 and multiplied by 999.99 will give the amount of adsr duration useDragged = false;
     boolean adsrControllerActivated = false;
@@ -28,13 +27,6 @@ class Synth extends Instrument {
     int firstCircPosX = 1200;
     int spaceBetweenCircles = circleWidth + 15;
     int currentADSRParameter = 0;
-
-    //pitchState 
-    static final byte LIST_C2_E3 = 1;
-    static final byte LIST_C3_E4 = 2;
-    static final byte LIST_C4_E5 = 3;
-    static final byte LIST_C5_E6 = 4;
-    byte currentPitchList = LIST_C3_E4;
 
     // wave controller variables
     String waveLabel = "SIN";
@@ -150,8 +142,7 @@ class Synth extends Instrument {
         fill(0, 100, 100);
         strokeWeight(5);
         stroke(0, 80, 80);
-        arc(firstCircPosX, circlePosY, circleWidth, circleHeight, 0, PI * attackParameter);
-        //println("Test 1 : " + attackParameter);
+        arc(firstCircPosX, circlePosY, circleWidth, circleHeight, 0, PI * test);
     }
     // test split on 2 and multiplied by 999 will give the amount of adsr duration 
 
@@ -189,29 +180,27 @@ class Synth extends Instrument {
 //--Key positions used in mousedPressed methods---------------------------------
     float blackKeyMousePressedX1(int keyNumber) {
         float value = 0;
-        float boxSideLength = 182;
         float firstBlackBoxPosX = 207 - ((boxSideLength / 1.6)/2);
 
-        if (keyNumber > 2 && keyNumber < 5) { keyNumber = keyNumber + 1; }
-        if (keyNumber > 6 && keyNumber < 8) { keyNumber = keyNumber + 2; } 
+        if (keyNumber > 2 && keyNumber < 6) { keyNumber = keyNumber + 1; }
+        if (keyNumber > 5 && keyNumber < 8) { keyNumber = keyNumber + 2; } 
         
         value = firstBlackBoxPosX + (boxSideLength * keyNumber) + (3 * keyNumber);
         
-        println("blackposx1" + value);
+        println(value);
         return value;
     }
 
     float blackKeyMousePressedX2(int keyNumber) {
         float value = 0;
-        float boxSideLength = 182;
         float firstBlackBoxPosX = 207 - ((boxSideLength / 1.6)/2);
         
-        if (keyNumber > 2 || keyNumber < 5) { keyNumber = keyNumber + 1; }
-        if (keyNumber > 6 || keyNumber < 8) { keyNumber = keyNumber + 2; }
+        if (keyNumber > 2 && keyNumber < 6) { keyNumber = keyNumber + 1; }
+        if (keyNumber > 5 && keyNumber < 8) { keyNumber = keyNumber + 2; }
             
         value = firstBlackBoxPosX + (boxSideLength * keyNumber) + (3 * keyNumber) + (boxSideLength / 1.6);
             
-        println("blackpos2 " + value);
+        println(value);
         return value;
     }
 
@@ -247,23 +236,13 @@ class Synth extends Instrument {
         float whiteKeyPosY2 = whiteboxesPosY + whiteKeysLength;
         float blackKeyPosY2 = boxPosY + blackKeyLength;
         
-        // float[] myFrequencyListBlackKeys = { 155.6, 185.0, 207.6, 233.0, 277.2, 311.1 };
-        // float[] myFrequencyListWhiteKeys = { 130.8, 146.6, 164.8, 174.6, 196.0, 220.00, 247.0, 261.6, 293.7, 329.6 };
-        
+        float[] myFrequencyListBlackKeys = { 155.6, 185.0, 207.6, 233.0, 277.2, 311.1 };
+        float[] myFrequencyListWhiteKeys = { 130.8, 146.6, 164.8, 174.6, 196.0, 220.00, 247.0, 261.6, 293.7, 329.6 };
         int[] adsrParameterList = { 2, 3, 4, 5 };
-       
-        // C2 to E3
-        int[] whiteKeyList1 = { 16, 18, 20, 21, 23, 25, 27, 28, 30, 32 };
-        int[] blackKeyList1 = { 17, 19, 22, 24, 26, 29, 31 };
-        // C3 to E4
-        int[] whiteKeyList2 = { 28, 30, 32, 33, 35, 37, 39, 40, 42, 44 };
-        int[] blackKeyList2 = { 29, 31, 34, 36, 38, 41, 43 };
-        // C4 to E5
-        int[] whiteKeyList3 = { 40, 42, 44, 45, 47, 49, 51, 52, 54, 56 };
-        int[] blackKeyList3 = { 41, 43, 46, 48, 50, 53, 55 };
-        //  C5 to E6
-        int[] whiteKeyList4 = { 52, 54, 56, 57, 59, 61, 63, 64, 66, 68 };
-        int[] blackKeyList4 = { 53, 55, 58, 60, 62, 65, 67 };
+        // Alternatively
+        // This is from C3 to E4
+        int[] myWhiteKeyList = { 28, 30, 32, 33, 35, 37, 39, 40, 42, 44 };
+        int baseKey = 28; // is C3
 
 //------ Checks if mouse is pressed within keyboardarea ------------------------
         if (mouseX > 35 && mouseX <= 1881 && mouseY > 230 && mouseY <= 975) {
@@ -272,21 +251,15 @@ class Synth extends Instrument {
             for (int i = 0; i < 8; i++) {
                 if (mouseX > blackKeyMousePressedX1(i) && mouseX <= blackKeyMousePressedX2(i)
                 && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
-                    if (currentPitchList == LIST_C2_E3) { currentFrequency = blackKeyList1[i]; }
-                    if (currentPitchList == LIST_C3_E4) { currentFrequency = blackKeyList2[i]; }
-                    if (currentPitchList == LIST_C4_E5) { currentFrequency = blackKeyList3[i]; }
-                    if (currentPitchList == LIST_C5_E6) { currentFrequency = blackKeyList4[i]; }     
+                    currentFrequency = myFrequencyListBlackKeys[i];
                 }
             }
 
 //----------CLICK ON WHITE PIANO KEYS --------------------------------------
-            for (int i = 0; i < 11; i++) {
+            for (int i = 0; i < 10; i++) {
                 if (mouseX > whiteKeyMousePressedX1(i) && mouseX <= whiteKeyMousePressedX2(i)
                 && mouseY > whiteBoxMousePressedPosY && mouseY <=  whiteKeyPosY2) {
-                    if (currentPitchList == LIST_C2_E3) { currentFrequency = whiteKeyList1[i]; }
-                    if (currentPitchList == LIST_C3_E4) { currentFrequency = whiteKeyList2[i]; }
-                    if (currentPitchList == LIST_C4_E5) { currentFrequency = whiteKeyList3[i]; }
-                    if (currentPitchList == LIST_C5_E6) { currentFrequency = whiteKeyList4[i]; }                    
+                    currentFrequency = myFrequencyListWhiteKeys[i];
                 }
             }
            
@@ -302,7 +275,6 @@ class Synth extends Instrument {
         for (int i = 0; i < 4; i++) {
             if (dist(mouseX, mouseY, adsrControllersValue(i), circlePosY) < circleRadius) {
                 currentADSRParameter = adsrParameterList[i];
-                //changeADSRcontroller(currentADSRParameter);
 
                 //Alt 1: Include the motion-change here.....
                 // Write a function that is being activated when mouse is pressed in the 
@@ -320,17 +292,6 @@ class Synth extends Instrument {
             drawWaveControllerLabels();
         }
 
-//------ Pitch controller -----------------------------------------------------
-        // Left pitch controller
-        if (mouseX > 150 && mouseX <= 335 && mouseY > 80 && mouseY <= 80 + 160) {
-            decreasePitchListsValue();
-            println(currentPitchList);
-        }
-
-        if (mouseX > 350 && mouseX <= 535 && mouseY > 80 && mouseY <= 80 + 160) {
-            increasePitchListsValue();
-            println(currentPitchList);
-        }
     }
 
     int adsrControllersValue(int arrayNumber) {
@@ -343,23 +304,8 @@ class Synth extends Instrument {
         return value;
     }
 
-    byte increasePitchListsValue() {
-        if (currentPitchList == 5) { currentPitchList = LIST_C5_E6; }
-        if (currentPitchList == 0) { currentPitchList = LIST_C2_E3; }
-        else { currentPitchList++; }
-        return currentPitchList;
-    }
-
-    byte decreasePitchListsValue() {
-        if (currentPitchList == 5) { currentPitchList = LIST_C5_E6; }
-        if (currentPitchList == 0) { currentPitchList = LIST_C2_E3; }
-        else { currentPitchList--; }
-        return currentPitchList;
-    }
-
     byte changeOscillatorLabel() {
         if (currentOscillatorType > NOISE_OSC) { currentOscillatorType = 0; }
-        println("decrese:" + currentPitchList);
         return currentOscillatorType++;
     }
 
@@ -383,6 +329,8 @@ class Synth extends Instrument {
         }  
     }
 
+
+
     void mouseReleased() {
         communication.noteOff(currentNote, 0);
     }
@@ -392,19 +340,13 @@ class Synth extends Instrument {
         adsrArcController();
     }
 
-    void changeADSRcontroller(byte adsrControllToChange) {
-        
-        println(accelerometerY);    // <- TRY TO IMPLEMENT THIS SHITT! 
-        //communication.changeControl(adsrControllToChange, )
-    }
-
     // method in the making <- testing arc function on mouseDragged
     float adsrArcController() {
-
+        
         if(mouseDragged) {
-            attackParameter += 0.01;        
+            test += 0.01;        
         }
-        return attackParameter;
+        return test;
     }
     // test split on 2 and multiplied by 999.99 will give the amount of adsr duration 
     
