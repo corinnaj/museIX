@@ -4,8 +4,8 @@ class SampleBasedNote extends Note {
 	Envelope envelope;
 	Gain gain;
 
-	SampleBasedNote(AudioContext ac, Sample sample, UGen output) {
-		envelope = new Envelope(ac, 1.0);
+	SampleBasedNote(AudioContext ac, Sample sample, UGen output, float volume) {
+		envelope = new Envelope(ac, volume);
 		// FIXME I assume we dont need this here?
 		// envelope.addSegment(0.5, map(velocityKey, 0, 999, 100, 1000));
 
@@ -79,10 +79,14 @@ abstract class SampleBasedInstrument extends InstrumentNode {
 		return 0;
 	}
 
+	float baseVolume() {
+		return 1.0;
+	}
+
 	@Override Note createNote(AudioContext ac, int frequencyKey, int velocityKey) {
 		int index = frequencyKey - baseNoteIndex();
 		if (index >= 0 && index < samples.length && samples[index] != null) {
-			return new SampleBasedNote(ac, samples[index], output);
+			return new SampleBasedNote(ac, samples[index], output, baseVolume());
 		} else {
 			return null;
 		}

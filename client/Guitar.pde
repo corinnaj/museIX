@@ -84,8 +84,8 @@ class Guitar extends Instrument {
             activeChordOff();
           activeChord = right ? i + 3 : i;
           activeChordStartTime = millis();
-          for (int c = 0; c < CHORDS[i].length; c++) {
-            activeChordNoteIds[c] = communication.noteOn(STRING_TONE_OFFSET[c] + CHORDS[i][c], 100);
+          for (int c = 0; c < CHORDS[activeChord].length; c++) {
+            activeChordNoteIds[c] = communication.noteOn(STRING_TONE_OFFSET[c] + CHORDS[activeChord][c], 100);
           }
           return;
         }

@@ -102,6 +102,8 @@ class BeatWavesShape extends WorldShape {
 		int maxOpacity = 80;
 		float beatLength = clock.getIntervalEnvelope().getValue() / 1000.0 * clock.getTicksPerBeat();
 		float progress = (float) (clock.getSubTickNow() - lastTick);
+		if (progress == 0)
+			return;
 		float scale = map(progress, 0, beatLength, 0, 1);
 		float diameter = Math.max(width, height) * (float) Math.sqrt(2) * scale;
 

@@ -58,11 +58,18 @@ class Desktop extends App {
 		ac.start();
 
 		communication.setListener(new CommunicationListener() {
-				@Override void instrumentRemoved(String id) {
+				@Override void instrumentRemoved(final String id) {
 					for (Morph morph : world.submorphs) {
 						if (morph instanceof RemoteInstrumentInputNode &&
 								((RemoteInstrumentInputNode) morph).id == id) {
-							morph.delete();
+
+							final Morph deleting = morph;
+							world.addPostFrameCallback(new Callback() {
+								@Override public void run() {
+									deleting.delete();
+								}
+							});
+
 						}
 					}
 				}

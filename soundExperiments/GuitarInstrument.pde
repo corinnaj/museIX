@@ -8,6 +8,10 @@ class GuitarInstrument extends SampleBasedInstrument {
 		return "guitar/";
 	}
 
+	@Override float baseVolume() {
+		return 1.5;
+	}
+
 	@Override int baseNoteIndex() {
 		return 20;
 	}
