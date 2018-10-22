@@ -52,7 +52,7 @@ class Synth extends Instrument {
 
     // soundSetup
     float currentFrequency = 0.0;
-    int currentNote = 0;
+    int currentNote = -1;
 
     void startup() {
         orientation(LANDSCAPE);
@@ -228,6 +228,8 @@ class Synth extends Instrument {
                 }
             }
            
+            if (currentNote != -1)
+                communication.noteOff(currentNote, 0);
             currentNote = communication.noteOn((int) currentFrequency, 2);
         } 
 
@@ -303,11 +305,13 @@ class Synth extends Instrument {
 
     void mouseReleased() {
         communication.noteOff(currentNote, 0);
+        currentNote = -1;
     }
 
     float lastMouseY = 0;
     void mouseDragged() {
-        communication.changePitch(currentNote, (int) ((lastMouseY - mouseY) * 1));
+        if (currentNote != -1)
+            communication.changePitch(currentNote, (int) ((lastMouseY - mouseY) * 1));
         lastMouseY = mouseY;
     }
 
