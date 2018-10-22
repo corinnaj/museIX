@@ -27,12 +27,15 @@ int[] STRING_TONE_OFFSET = {
 
 int[][] CHORDS = {
   {0, 0, 0, 2, 3, 2}, // d major
-  {0, 0, 2, 2, 1, 0}, // a minor
   {0, 3, 2, 0, 1, 0}, // c major
-  {0, 2, 2, 0, 0, 0}, // e minor
   {1, 3, 3, 2, 1, 1}, // f major
+  {0, 0, 2, 2, 1, 0}, // a minor
   {3, 2, 0, 0, 0, 3}, // g major
+  {0, 2, 2, 0, 0, 0}, // e minor
 };
+
+PImage img = loadImage("images.jpg");
+PImage img2 =loadImage("imaggges.jpg");
 
 class Guitar extends Instrument {
   Guitar(int index) {
@@ -72,12 +75,14 @@ class Guitar extends Instrument {
     float start = width / 2 - BAND_WIDTH / 2;
 
     // chords
-    if (mouseX < CHORD_TEXT_SIZE * 3) {
-      for (int i = 0; i < CHORDS.length; i++) {
-        if (mouseY < (i * 2 + 2) * CHORD_TEXT_SIZE) {
+    if (mouseX < CHORD_TEXT_SIZE * 3 || mouseX > width - CHORD_TEXT_SIZE * 3) {
+      boolean right = mouseX > width - CHORD_TEXT_SIZE * 3;
+
+      for (int i = 0; i < 3; i++) {
+        if (mouseY < (i * 4 + 2) * CHORD_TEXT_SIZE) {
           if (activeChord >= 0)
             activeChordOff();
-          activeChord = i;
+          activeChord = right ? i + 3 : i;
           activeChordStartTime = millis();
           for (int c = 0; c < CHORDS[i].length; c++) {
             activeChordNoteIds[c] = communication.noteOn(STRING_TONE_OFFSET[c] + CHORDS[i][c], 100);
@@ -114,7 +119,6 @@ class Guitar extends Instrument {
     noStroke();
     // body
     fill(#BA763A);
-    PImage img = loadImage("images.jpg");
     image(img, 0, 0);
     float BASE_SIZE = width  * 2;
     ellipse(width / 2, height + 50, BASE_SIZE, BASE_SIZE * 3.0/4.0);
@@ -123,7 +127,6 @@ class Guitar extends Instrument {
     // head
     fill(#8A6B50);
     clip(width / 2 - BAND_WIDTH / 2, 0, BAND_WIDTH, height - (1 - BANDS_PERCENTAGE) / 2.0 * height);
-    PImage img2=loadImage("imaggges.jpg");
     image(img2, 0, 0);
     noClip();
     
