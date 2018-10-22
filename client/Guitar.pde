@@ -34,10 +34,11 @@ int[][] CHORDS = {
   {0, 2, 2, 0, 0, 0}, // e minor
 };
 
-PImage img = loadImage("images.jpg");
-PImage img2 =loadImage("imaggges.jpg");
 
 class Guitar extends Instrument {
+  PImage img = loadImage("images.jpg");
+PImage img2 =loadImage("imaggges.jpg");
+
   Guitar(int index) {
     super(index);
   }

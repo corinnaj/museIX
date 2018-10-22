@@ -38,7 +38,7 @@ void draw() {
   //    accelerometerZ > 9 && accelerometerZ < 10.5) {
   //  instrument = instruments.get("violin");
   //instrument = instruments.get("synth");
-  instrument = instruments.get("synth");
+  instrument = instruments.get("guitar");
 
   if (previousInstrument != instrument) {
     previousInstrument = instrument;
