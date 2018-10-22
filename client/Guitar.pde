@@ -37,7 +37,7 @@ int[][] CHORDS = {
 
 class Guitar extends Instrument {
   PImage img = loadImage("images.jpg");
-PImage img2 =loadImage("imaggges.jpg");
+  PImage img2 =loadImage("imaggges.jpg");
 
   Guitar(int index) {
     super(index);
@@ -45,6 +45,7 @@ PImage img2 =loadImage("imaggges.jpg");
 
   void display() {
     orientation(PORTRAIT);
+    imageMode(CORNER);
     drawGuitar();
     textAlign(LEFT, BASELINE);
     textSize(CHORD_TEXT_SIZE);

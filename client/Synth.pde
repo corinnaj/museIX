@@ -58,6 +58,7 @@ class Synth extends Instrument {
     void startup() {
         orientation(LANDSCAPE);
         textSize(100);
+        background(255);
         //draws the base of the synth
         drawWhitePianoKeys();
         drawBlackPianoKeys();
@@ -66,7 +67,6 @@ class Synth extends Instrument {
     // this is the designated draw class
     void display() {
         startup();
-        background(255);
         drawPitchControllers();
         drawWaveController();
         drawADSRControllers();
