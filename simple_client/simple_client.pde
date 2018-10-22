@@ -27,7 +27,7 @@ void mousePressed() {
     return;
   }
   currentBaseFrequencyKey = mouseY;
-  currentNote = communication.noteOn((int) map(mouseY, 0, height, 0, 999), 200);
+  currentNote = communication.noteOn((int) map(mouseY, 0, height, 0, 80), 200);
 }
 
 void mouseReleased() {
