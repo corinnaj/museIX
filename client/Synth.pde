@@ -1,4 +1,7 @@
 class Synth extends Instrument {
+    Synth(int index) {
+        super(index);
+    }
 
     float whiteBoxMousePressedPosY = 650;
     float boxPosY = 300;

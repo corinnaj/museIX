@@ -42,7 +42,7 @@ class Desktop extends App {
 		((NodeWorldMorph) world).addNode(output);
 		((NodeWorldMorph) world).addNode(metronome);
 
-		loop.connectTo(output);
+		// loop.connectTo(output);
 
 		random.connectTo(sine);
 		// sine.connectTo(output);
@@ -72,7 +72,7 @@ class Desktop extends App {
 					instrumentInput.setPosition(600, 400);
 					((NodeWorldMorph) world).addNode(instrumentInput);
 
-					InstrumentNode instrument = new SynthInstrument(ac);
+					InstrumentNode instrument = creators[0].create(ac);
 					instrument.setPosition(800, 400);
 					((NodeWorldMorph) world).addNode(instrument);
 

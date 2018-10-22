@@ -87,6 +87,20 @@ class CircularBuffer {
 	}
 }
 
+interface InstrumentCreator {
+	public InstrumentNode create(AudioContext ac);
+}
+InstrumentCreator[] creators = {
+	new InstrumentCreator() {@Override public InstrumentNode create(AudioContext ac) {
+		return new ViolinInstrument(ac);}},
+	new InstrumentCreator() {@Override public InstrumentNode create(AudioContext ac) {
+		return new GuitarInstrument(ac);}},
+	new InstrumentCreator() {@Override public InstrumentNode create(AudioContext ac) {
+		return new SynthInstrument(ac);}},
+	new InstrumentCreator() {@Override public InstrumentNode create(AudioContext ac) {
+		return new DrumsInstrument(ac);}}
+};
+
 abstract class InstrumentInputNode extends AudioNode {
 	ArrayList<InstrumentInputListener> listeners = new ArrayList<InstrumentInputListener>();
 
@@ -139,6 +153,49 @@ abstract class InstrumentInputNode extends AudioNode {
 		for (InstrumentInputListener l : listeners) {
 			l.changeControl(intCommand, parameter1, parameter2);
 		}
+	}
+
+	void maybeAdaptInstrument(final int index) {
+		getWorld().addPostFrameCallback(new Callback() {
+			@Override
+			public void run() {
+				if (index >= creators.length) {
+					println("Non existent instrument requested, ignoring");
+					return;
+				}
+
+				// check if we are currently connected to an instrument we can replace
+				for (InstrumentInputListener l : listeners) {
+					if (l instanceof InstrumentNode) {
+						InstrumentNode oldInstrument = (InstrumentNode) l;
+						InstrumentNode newInstrument = creators[index].create(ac);
+						newInstrument.topLeft(oldInstrument.topLeft());
+						for (Node n : oldInstrument.connected) {
+							newInstrument.connectTo(n);
+						}
+						oldInstrument.delete();
+						((NodeWorldMorph) getWorld()).addNode(newInstrument);
+						InstrumentInputNode.this.connectTo(newInstrument);
+						break;
+					}
+				}
+			}
+		});
+	}
+
+	@Override Morph delete() {
+		// delete the default instrument if it's still connected
+		if (listeners.size() == 1 && listeners.get(0) instanceof InstrumentNode) {
+			final InstrumentNode instrument = (InstrumentNode) listeners.get(0);
+			getWorld().addPostFrameCallback(new Callback() {
+				@Override public void run() {
+					instrument.delete();
+				}
+			});
+		}
+
+		listeners.clear();
+		return super.delete();
 	}
 
 	@Override boolean acceptsIncomingConnection(Node node) {
@@ -225,6 +282,10 @@ class RemoteInstrumentInputNode extends InstrumentInputNode {
 
 			public void control(String command, int parameter1, int parameter2) {
 				RemoteInstrumentInputNode.this.changeControl(command, parameter1, parameter2);
+			}
+
+			public void requestInstrument(int index)  {
+				RemoteInstrumentInputNode.this.maybeAdaptInstrument(index);
 			}
 		};
 	}

@@ -25,7 +25,7 @@ public class Communication {
   Communication(CommunicationListener listener) {
     this.listener = listener;
 
-		WebSocketClient client = new WebSocketClient();
+    WebSocketClient client = new WebSocketClient();
     try {
       client.start();
     } catch (Exception e) {
@@ -33,8 +33,8 @@ public class Communication {
       e.printStackTrace();
     }
 
-    // final String url = "ws://127.0.0.1:8037/museIX";
     final String url = "ws://127.0.0.1:8037/museIX";
+    // final String url = "ws://192.168.43.184:8037/museIX";
     ClientUpgradeRequest request = new ClientUpgradeRequest();
     try {
       client.connect(this, new URI(url), request);
@@ -57,11 +57,11 @@ public class Communication {
     listener.onMessage(message);
   }
 
-	@OnWebSocketConnect public void onConnect(Session session) {
+  @OnWebSocketConnect public void onConnect(Session session) {
     println("Connection established!");
     this.session = session;
     latch.countDown();
-	}
+  }
 
   @OnWebSocketError public void onError(Throwable cause) {
     println("----------- Websocket Error: -----------");
@@ -76,12 +76,8 @@ public class Communication {
   int noteOn(int frequency, int velocity) {
     int noteId = nextNoteId;
     sendMessage('n', noteId, frequency, velocity);
-    nextNoteId = nextNoteId + 1 % 100;
+    nextNoteId = (nextNoteId + 1) % 100;
     return noteId;
-  }
-
-  void changeControl(int command, int parameter1, int parameter2) {
-    sendMessage('c', command, parameter1, parameter2);
   }
 
   void noteOff(int note, int velocity) {
@@ -92,28 +88,36 @@ public class Communication {
     sendMessage('p', note, change);
   }
 
+  void changeControl(int command, int parameter1, int parameter2) {
+    sendMessage('c', command, parameter1, parameter2);
+  }
+
+  // refer to InstrumentInput.pde `creators`
+  void requestInstrument(int index) {
+    sendMessage('i', 0, index);
+  }
+
   String getId() {
     return id;
   }
 
   private void sendMessage(char command, int noteId, int parameter, int parameter2) {
-    String msg = String.format("%s%c%02d%04d%04d",
-        id,
-        command,
-        Math.min(noteId, 99),
-        Math.min(parameter, 9999),
-        Math.min(parameter2, 9999));
+    String msg = String.format("%s%c%02d%04d%04d", id, command, noteId, parameter, parameter2);
+    if (msg.length() != 13) {
+      println("Invalid length, skpping", msg, id, Integer.toString(noteId), Integer.toString(parameter), Integer.toString(parameter2));
+      return;
+    }
     assert(msg.length() == 13);
-
-    println(msg);
     sendMessage(msg);
   }
-
   private void sendMessage(char command, int noteId, int parameter) {
-    String msg = String.format("%s%c%02d%04d", id, command, Math.min(noteId, 99), Math.min(parameter, 9999));
+    String msg = String.format("%s%c%02d%04d", id, command, noteId, parameter);
+    if (msg.length() != 9) {
+      println("Invalid length, skpping", msg, id, Integer.toString(noteId), Integer.toString(parameter));
+      return;
+    }
+          
     assert(msg.length() == 9);
-
-    println(msg);
     sendMessage(msg);
   }
 
