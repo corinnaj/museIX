@@ -3,7 +3,7 @@ class Metronome extends RotatableNode {
 	static final float MIN_MS = 100;
 	static final float MAX_MS = 3000;
 	static final float DEFAULT = 600;
-	static final int TICKS_PER_BEAT = 16;
+	static final int TICKS_PER_BEAT = 4;
 
 	Clock clock;
 
