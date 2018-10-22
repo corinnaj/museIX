@@ -42,7 +42,7 @@ class Desktop extends App {
 		((NodeWorldMorph) world).addNode(output);
 		((NodeWorldMorph) world).addNode(metronome);
 
-		loop.connectTo(output);
+		// loop.connectTo(output);
 
 		random.connectTo(sine);
 		// sine.connectTo(output);

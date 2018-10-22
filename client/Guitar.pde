@@ -35,6 +35,10 @@ int[][] CHORDS = {
 };
 
 class Guitar extends Instrument {
+  Guitar(int index) {
+    super(index);
+  }
+
   void display() {
     orientation(PORTRAIT);
     background(255);

@@ -25,7 +25,7 @@ public class Communication {
   Communication(CommunicationListener listener) {
     this.listener = listener;
 
-		WebSocketClient client = new WebSocketClient();
+    WebSocketClient client = new WebSocketClient();
     try {
       client.start();
     } catch (Exception e) {
@@ -33,8 +33,8 @@ public class Communication {
       e.printStackTrace();
     }
 
-    // final String url = "ws://127.0.0.1:8037/museIX";
-    final String url = "ws://192.168.43.184:8037/museIX";
+    final String url = "ws://127.0.0.1:8037/museIX";
+    // final String url = "ws://192.168.43.184:8037/museIX";
     ClientUpgradeRequest request = new ClientUpgradeRequest();
     try {
       client.connect(this, new URI(url), request);
@@ -57,11 +57,11 @@ public class Communication {
     listener.onMessage(message);
   }
 
-	@OnWebSocketConnect public void onConnect(Session session) {
+  @OnWebSocketConnect public void onConnect(Session session) {
     println("Connection established!");
     this.session = session;
     latch.countDown();
-	}
+  }
 
   @OnWebSocketError public void onError(Throwable cause) {
     println("----------- Websocket Error: -----------");
@@ -90,6 +90,11 @@ public class Communication {
 
   void changeControl(int command, int parameter1, int parameter2) {
     sendMessage('c', command, parameter1, parameter2);
+  }
+
+  // refer to InstrumentInput.pde `creators`
+  void requestInstrument(int index) {
+    sendMessage('i', 0, index);
   }
 
   String getId() {

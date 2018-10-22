@@ -18,10 +18,12 @@ void draw() {
   text(message != null ? message : "This is a phone.", 100, 100);
 }
 
+int i = 0;
 void mousePressed() {
   // test for control messages
   if (mouseButton == RIGHT) {
-    communication.changeControl(3, 4, 5);
+    // communication.changeControl(3, 4, 5);
+    communication.requestInstrument(i++);
     return;
   }
   currentBaseFrequencyKey = mouseY;

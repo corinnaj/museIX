@@ -22,6 +22,7 @@ interface InstrumentListener {
   public void noteOff(String id, int velocityKey);
   public void changePitch(String id, int frequencyKey);
   public void control(String command, int parameter1, int parameter2);
+  public void requestInstrument(int index);
 }
 
 @WebSocket
@@ -67,6 +68,8 @@ class Communication {
 	case 'f':
 	  listener.noteOff(noteId, parameter);
 	  break;
+	case 'i':
+	  listener.requestInstrument(parameter);
       }
     }
 
