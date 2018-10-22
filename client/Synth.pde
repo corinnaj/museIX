@@ -66,6 +66,7 @@ class Synth extends Instrument {
     // this is the designated draw class
     void display() {
         startup();
+        background(255);
         drawPitchControllers();
         drawWaveController();
         drawADSRControllers();
