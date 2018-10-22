@@ -41,8 +41,8 @@ void draw() {
              accelerometerZ > -2 && accelerometerZ < 8) {
     instrument = instruments.get("synth");
   } else if (accelerometerX > -9 && accelerometerX < -5 &&
-      accelerometerY < 3 && accelerometerY > -3 &&
-      accelerometerZ > 2 && accelerometerZ < 6) {
+      accelerometerY < 4 && accelerometerY > -4 &&
+      accelerometerZ > 2 && accelerometerZ < 8) {
     instrument = instruments.get("guitar");
   } else {
     instrument = new NoInstrument(-1);
