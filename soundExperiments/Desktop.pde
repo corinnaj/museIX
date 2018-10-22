@@ -72,7 +72,7 @@ class Desktop extends App {
 					instrumentInput.setPosition(600, 400);
 					((NodeWorldMorph) world).addNode(instrumentInput);
 
-					InstrumentNode instrument = new SynthInstrument(ac);
+					InstrumentNode instrument = new GuitarInstrument(ac);
 					instrument.setPosition(800, 400);
 					((NodeWorldMorph) world).addNode(instrument);
 

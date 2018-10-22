@@ -35,10 +35,11 @@ void draw() {
   //    accelerometerY < 2 && accelerometerY > -0.5 &&
   //    accelerometerZ > 9 && accelerometerZ < 10.5) {
   //  instrument = instruments.get("violin");
-  //} else {
-  //  instrument = instruments.get("guitar");
-  //}
-  instrument = instruments.get("synth");
+  //} else 
+  {
+  instrument = instruments.get("guitar");
+  }
+  //instrument = instruments.get("synth");
   instrument.display();
 }
 
