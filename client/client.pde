@@ -22,7 +22,7 @@ void setup() {
   instruments.put("violin", new Violin());
   instruments.put("guitar", new Guitar());
   instruments.put("synth", new Synth());
-
+  
   instrument = new NoInstrument();
   sensor.start();
 }
@@ -31,14 +31,20 @@ KetaiSensor sensor;
 float accelerometerX, accelerometerY, accelerometerZ;
 
 void draw() {
-  //if (accelerometerX < 1 && accelerometerX > -1.5 &&
-  //    accelerometerY < 2 && accelerometerY > -0.5 &&
-  //    accelerometerZ > 9 && accelerometerZ < 10.5) {
-  //  instrument = instruments.get("violin");
-  //} else {
-  //  instrument = instruments.get("guitar");
-  //}
-  instrument = instruments.get("synth");
+  if (accelerometerX < 2.5 && accelerometerX > -2.5 &&
+      accelerometerY < 2.5 && accelerometerY > -2.5 &&
+      accelerometerZ > 8 && accelerometerZ < 11.5) {
+    instrument = instruments.get("violin");
+  } else if (accelerometerX > 0 &&
+             accelerometerZ > 0 && accelerometerZ < 8) {
+    instrument = instruments.get("synth");
+  } else if (accelerometerX > -9 && accelerometerX < -5 &&
+      accelerometerY < 3 && accelerometerY > -3 &&
+      accelerometerZ > 2 && accelerometerZ < 6) {
+    instrument = instruments.get("guitar");
+  } else {
+    instrument = new NoInstrument();
+  }
   instrument.display();
 }
 

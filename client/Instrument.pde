@@ -7,6 +7,7 @@ abstract class Instrument {
 
 class NoInstrument extends Instrument {
   void display() {
+    fill(255);
     background(78, 93, 75);
     text("Accelerometer: \n" +
         "x: " + nfp(accelerometerX, 1, 3) + "\n" +
