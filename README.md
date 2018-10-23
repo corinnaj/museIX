@@ -29,8 +29,4 @@ Disconnect nodes by dragging the mouse over the connecting lines.
 
 ## Development
 ### Libraries  
-We are currently using the `Sound` library for sounds and `Ketai` as the Android hardware interface, both are available from inside processing.
-In addition we use `SoundCipher` for sounds as well, which you can find [here](http://explodingart.com/soundcipher/).
-
-### Tutorials
-[Processing sound tutorial](https://processing.org/tutorials/sound/)
+We are currently using the `Beads` library for sounds and `Ketai` as the Android hardware interface. Both can be installed via the default library installer in the Processing IDE.
