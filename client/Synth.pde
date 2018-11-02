@@ -4,17 +4,11 @@ class Synth extends Instrument {
     }
 
     float whiteBoxMousePressedPosY = 650;
-    float boxPosY = 300;
-    float boxSideLength = 182;
-    float firstBoxPosX = 25;
-    float firstWhiteBoxPosX = 25;
-    int whiteKeyLength = 640;
-    int colorCode = 50;
-    int colorCodeIncrease = 45;
-    int transparencyValPC = 125;
-    int transparencyValADSR;
-    int piValue = 1;
-    
+    float keyPosY = 300;
+    float keyWidth = 182;
+    int whiteKeysLength = 640;
+    int blackKeyLength = 350;
+
     // ADSR controllers variables
     int circleHeight = 170;
     int circleWidth = 170;
@@ -22,11 +16,10 @@ class Synth extends Instrument {
     int circlePosY = 160;
     int firstCircPosX = 1200;
     int spaceBetweenCircles = circleWidth + 15;
-    
     int currentADSRParameter = -1;
     float[] adsr = { 1, 1, 1, 1 };
-    
-    //pitchState 
+
+    //pitchState
     static final byte LIST_C2_E3 = 1;
     static final byte LIST_C3_E4 = 2;
     static final byte LIST_C4_E5 = 3;
@@ -40,15 +33,6 @@ class Synth extends Instrument {
     static final byte SQR_OSC = 3;
     static final byte TRI_OSC = 4;
     byte currentOscillatorType = SINE_OSC;
-
-    // MousePressed variables for white keys
-    float whiteboxesPosY = 300;
-    float whiteBoxSideWidth = 182;
-    int whiteKeysLength = 640;
-
-    // drawing blackKeys
-    int blackKeyLength = 350;
-    float firstBlackBoxPosX = 207 - ((boxSideLength / 1.6)/2);
 
     // soundSetup
     float currentFrequency = 0.0;
@@ -83,9 +67,9 @@ class Synth extends Instrument {
 
         strokeWeight(2);
         stroke(0);
-        fill(135, transparencyValPC);
+        fill(135);
         rect(boxXPos, boxYPos, boxWidth, boxHeight);
-        fill(135, transparencyValPC);
+        fill(135);
         rect(boxXPos + 200, boxYPos, boxWidth, boxHeight);
     }
 
@@ -101,7 +85,7 @@ class Synth extends Instrument {
     void drawWaveController() {
         stroke(0);
         strokeWeight(2);
-        fill(135, transparencyValPC);
+        fill(135);
         rect(665, 80, 190, 160);
     }
 
@@ -145,22 +129,22 @@ class Synth extends Instrument {
             stroke(strokeColors[i]);
             arc(firstCircPosX + spaceBetweenCircles * i, circlePosY, circleWidth, circleHeight, -PI/2, PI * adsr[i] - PI/2);
         }
-        
+
     }
 
     void drawBlackPianoKeys() {
         int keysCounter = 0;
-        float firstBlackBoxPosX = 207 - ((boxSideLength / 1.6)/2);
+        float firstBlackBoxPosX = 207 - ((keyWidth / 1.6)/2);
 
-        while (firstBlackBoxPosX + boxSideLength < width) {
+        while (firstBlackBoxPosX + keyWidth < width) {
             if (keysCounter == 2 || keysCounter == 6) {
-                firstBlackBoxPosX += boxSideLength + 3;
+                firstBlackBoxPosX += keyWidth + 3;
                 keysCounter++;
                 if (keysCounter > 6) { keysCounter = 0; }
             } else {
                 fill(0);
-                rect(firstBlackBoxPosX, boxPosY, boxSideLength / 1.6, blackKeyLength);
-                firstBlackBoxPosX += boxSideLength + 3;
+                rect(firstBlackBoxPosX, keyPosY, keyWidth / 1.6, blackKeyLength);
+                firstBlackBoxPosX += keyWidth + 3;
                 keysCounter++;
             }
         }
@@ -168,43 +152,43 @@ class Synth extends Instrument {
 
     void drawWhitePianoKeys() {
          float firstWhiteBoxPosX = 25;
-         float boxSideLength = 182;
-         int whiteKeyLength = 640;
-         float boxPosY = 300;
+         float keyWidth = 182;
+         int whiteKeysLength = 640;
+         float keyPosY = 300;
 
-        while (firstWhiteBoxPosX + boxSideLength < width) {
+        while (firstWhiteBoxPosX + keyWidth < width) {
             fill(255);
-            rect(firstWhiteBoxPosX, boxPosY, boxSideLength, whiteKeyLength);
-            firstWhiteBoxPosX += boxSideLength + 3;
+            rect(firstWhiteBoxPosX, keyPosY, keyWidth, whiteKeysLength);
+            firstWhiteBoxPosX += keyWidth + 3;
         }
     }
 
 //--Key positions used in mousedPressed methods---------------------------------
     float blackKeyMousePressedX(int keyNumber) {
-        float boxSideLength = 182;
-        float firstBlackBoxPosX = 207 - ((boxSideLength / 1.6)/2);
+        float keyWidth = 182;
+        float firstBlackBoxPosX = 207 - ((keyWidth / 1.6)/2);
 
         if (keyNumber > 5)
             keyNumber += 2;
         else if (keyNumber > 2)
             keyNumber += 1;
-        
-        return firstBlackBoxPosX + keyNumber * boxSideLength;
+
+        return firstBlackBoxPosX + keyNumber * keyWidth;
     }
 
     float whiteKeyMousePressedX(int keyNumber) {
         float firstBoxPosX = 25;
         float whiteBoxSideWidth = 182;
-        
+
         return firstBoxPosX + (whiteBoxSideWidth * keyNumber);
     }
 
     void mousePressed() {
-        float whiteKeyPosY2 = whiteboxesPosY + whiteKeysLength;
-        float blackKeyPosY2 = boxPosY + blackKeyLength;
+        float whiteKeyPosY2 = keyPosY + whiteKeysLength;
+        float blackKeyPosY2 = keyPosY + blackKeyLength;
 
         lastMouseY = mouseY;
-        
+
         int base = currentPitchList * 12;
         int[] whiteKeysIndices = {0, 2, 4, 5, 7, 9, 11, 12, 14, 16};
         int[] blackKeysIndices = {1, 3, 6, 8, 10, 13, 15};
@@ -215,7 +199,7 @@ class Synth extends Instrument {
 //------Click on BlackPianoKeys-------------------------------------------------
             for (int i = 0; i < 7; i++) {
                 if (mouseX > blackKeyMousePressedX(i) && mouseX <= blackKeyMousePressedX(i + 1)
-                && mouseY > boxPosY && mouseY <= blackKeyPosY2) {
+                && mouseY > keyPosY && mouseY <= blackKeyPosY2) {
                     currentFrequency = base + blackKeysIndices[i];
                 }
             }
@@ -227,11 +211,11 @@ class Synth extends Instrument {
                     currentFrequency = base + whiteKeysIndices[i];
                 }
             }
-           
+
             if (currentNote != -1)
                 communication.noteOff(currentNote, 0);
             currentNote = communication.noteOn((int) currentFrequency, 2);
-        } 
+        }
 
 //------ ADSR controllers -----------------------------------------------------
         for (int i = 0; i < 4; i++) {
@@ -242,7 +226,7 @@ class Synth extends Instrument {
                     currentADSRParameter = i;
             }
         }
-        
+
 //------ Wave controller -----------------------------------------------------
         if (mouseX > 665 && mouseX <= 665 + 190 && mouseY > 80 && mouseY <= 80 + 160) {
             changeOscillatorLabel();
@@ -299,8 +283,8 @@ class Synth extends Instrument {
             case SAW_OSC: communication.changeControl(1, 3, 0);
                     break;
             case TRI_OSC: communication.changeControl(1, 4, 0);
-                    break;	
-        }  
+                    break;
+        }
     }
 
     void mouseReleased() {
@@ -326,7 +310,7 @@ class Synth extends Instrument {
         float increment = 0.008 * abs(accelerometerY);
 
         if (0 < accelerometerY) {
-            adsr[currentADSRParameter] += increment; 
+            adsr[currentADSRParameter] += increment;
             if (adsr[currentADSRParameter] > 2) {
                 adsr[currentADSRParameter] = 2;
             }
@@ -339,5 +323,5 @@ class Synth extends Instrument {
         }
         communication.changeControl(currentADSRParameter + 2, (int) constrain(map(adsr[currentADSRParameter], 0, 2, 0, 999), 0, 999), 0);
     }
-    
+
 }

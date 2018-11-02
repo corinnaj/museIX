@@ -34,9 +34,9 @@ public class Communication {
     }
 
     // final String url = "ws://127.0.0.1:8037/museIX";
-    final String url = "ws://10.42.0.1:8037/museIX";
+    //final String url = "ws://10.42.0.1:8037/museIX";
     // final String url = "ws://127.0.0.1:8037/museIX";
-    // final String url = "ws://192.168.43.184:8037/museIX";
+     final String url = "ws://192.168.43.184:8037/museIX";
 
     ClientUpgradeRequest request = new ClientUpgradeRequest();
     try {
